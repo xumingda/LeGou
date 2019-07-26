@@ -697,7 +697,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
 
                 case 0: {
                     Intent intent = new Intent(mContext, GoodsInfoActivity.class);
-                    intent.putExtra("goodsId", Integer.parseInt(getHomeResponse.dataList.get(position).goodsId));
+                    intent.putExtra("goodsId", getHomeResponse.dataList.get(position).goodsId);
                     UIUtils.startActivityNextAnim(intent);
                     break;
                 }
