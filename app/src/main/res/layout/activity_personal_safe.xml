@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#dce7ed">
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        style="@style/tabTitleStyle">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="账户与安全"
+            android:textColor="@color/tab_background"
+            android:textSize="@dimen/sp_15" />
+
+
+        <ImageView
+            android:id="@+id/iv_top_back"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_14"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:src="@mipmap/white_back"
+            android:gravity="center_vertical"
+            android:scaleType="fitCenter" />
+        <View
+            android:id="@+id/view_back"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_below="@id/rl_head"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+       >
+
+        <LinearLayout
+            android:background="@color/tab_background"
+            android:id="@+id/ll_nick"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40">
+            <TextView
+                android:textSize="@dimen/sp_14"
+                android:paddingLeft="@dimen/dp_20"
+                android:textColor="@color/text_black"
+                android:gravity="center_vertical|left"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="用户名"
+                />
+            <TextView
+                android:paddingRight="@dimen/dp_20"
+                android:inputType="number"
+                android:gravity="center_vertical|right"
+                android:id="@+id/et_nick"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:singleLine="true"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:background="@color/tab_background"
+            android:layout_marginTop="@dimen/dp_1"
+            android:id="@+id/ll_update_phone"
+            android:layout_below="@id/ll_nick"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40">
+            <TextView
+                android:textSize="@dimen/sp_14"
+                android:paddingLeft="@dimen/dp_20"
+                android:textColor="@color/text_black"
+                android:gravity="center_vertical|left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="修改手机号码"
+                />
+           <ImageView
+               android:layout_marginRight="@dimen/dp_10"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+               android:src="@mipmap/set_right"
+               android:layout_width="@dimen/dp_15"
+               android:layout_height="@dimen/dp_15" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:background="@color/tab_background"
+            android:layout_marginTop="@dimen/dp_1"
+            android:id="@+id/ll_update_pwd"
+            android:layout_below="@id/ll_update_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40">
+            <TextView
+                android:textSize="@dimen/sp_14"
+                android:paddingLeft="@dimen/dp_20"
+                android:textColor="@color/text_black"
+                android:gravity="center_vertical|left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="修改登录密码"
+                />
+            <ImageView
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/set_right"
+                android:layout_width="@dimen/dp_15"
+                android:layout_height="@dimen/dp_15" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:background="@color/tab_background"
+            android:layout_marginTop="@dimen/dp_1"
+            android:id="@+id/ll_out"
+            android:layout_below="@id/ll_update_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40">
+            <TextView
+                android:textSize="@dimen/sp_14"
+                android:paddingLeft="@dimen/dp_20"
+                android:textColor="@color/text_black"
+                android:gravity="center_vertical|left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="注销账户"
+                />
+            <ImageView
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/set_right"
+                android:layout_width="@dimen/dp_15"
+                android:layout_height="@dimen/dp_15" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>
+        

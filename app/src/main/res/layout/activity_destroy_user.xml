@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#dce7ed"
+    >
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        style="@style/tabTitleStyle">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="账号注销"
+            android:textColor="@color/tab_background"
+            android:textSize="@dimen/sp_15" />
+
+
+        <ImageView
+            android:id="@+id/iv_top_back"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_14"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:src="@mipmap/white_back"
+            android:gravity="center_vertical"
+            android:scaleType="fitCenter" />
+        <View
+            android:id="@+id/view_back"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+
+    <RadioGroup
+        android:layout_below="@id/rl_head"
+        android:id="@+id/rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:paddingLeft="@dimen/dp_10"
+            android:drawablePadding="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/shape_radio_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:paddingHorizontal="10dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/selector_radio"
+            android:text="需要解锁手机"
+            android:textSize="14sp"
+            android:textColor="@color/text_black"/>
+
+
+        <RadioButton
+            android:paddingLeft="@dimen/dp_10"
+            android:drawablePadding="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/shape_radio_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:paddingHorizontal="10dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/selector_radio"
+            android:text="需要解锁邮箱"
+            android:textSize="14sp"
+            android:textColor="@color/text_black"/>
+        <RadioButton
+            android:paddingLeft="@dimen/dp_10"
+            android:drawablePadding="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/shape_radio_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:paddingHorizontal="10dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/selector_radio"
+            android:text="安全/隐身顾虑"
+            android:textSize="14sp"
+            android:textColor="@color/text_black"/>
+        <RadioButton
+            android:paddingLeft="@dimen/dp_10"
+            android:drawablePadding="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/shape_radio_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:paddingHorizontal="10dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/selector_radio"
+            android:text="这是多余账户"
+            android:textSize="14sp"
+            android:textColor="@color/text_black"/>
+        <RadioButton
+            android:paddingLeft="@dimen/dp_10"
+            android:drawablePadding="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/shape_radio_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:paddingHorizontal="10dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/selector_radio"
+            android:text="购物遇到困难"
+            android:textSize="14sp"
+            android:textColor="@color/text_black"/>
+        <RadioButton
+            android:paddingLeft="@dimen/dp_10"
+            android:drawablePadding="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/shape_radio_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:paddingHorizontal="10dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/selector_radio"
+            android:text="无法修改用户名"
+            android:textSize="14sp"
+            android:textColor="@color/text_black"/>
+        <RadioButton
+            android:paddingLeft="@dimen/dp_10"
+            android:drawablePadding="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/shape_radio_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:paddingHorizontal="10dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/selector_radio"
+            android:text="其他"
+            android:textSize="14sp"
+            android:textColor="@color/text_black"/>
+    </RadioGroup>
+    <EditText
+        android:padding="@dimen/dp_10"
+        android:gravity="top|left"
+        android:hint="请输入其他问题"
+        android:layout_marginTop="@dimen/dp_10"
+        android:id="@+id/et"
+        android:layout_below="@id/rg"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_80"
+        android:background="@drawable/shape_radio_bg"
+        />
+    <Button
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_below="@id/et"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_submit"
+        android:layout_width="@dimen/dp_303"
+        android:layout_height="@dimen/dp_40"
+        android:background="@drawable/shape_next"
+        android:text="注销申请"
+        android:textColor="@color/tab_background"
+        android:textSize="@dimen/sp_17" />
+
+
+</RelativeLayout>
+        

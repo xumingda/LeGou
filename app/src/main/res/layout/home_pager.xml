@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:calendarview="http://schemas.android.com/tools"
+    android:id="@+id/rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dce7ed"
+   >
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        style="@style/tabTitleStyle"
+        android:layout_height="@dimen/dp_45"
+        >
+
+        <ImageView
+
+            android:id="@+id/iv_location"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/img_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_location"
+            android:textColor="@color/tab_background"
+            android:drawableRight="@mipmap/more_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="深圳市"
+            />
+
+
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:id="@+id/iv_message"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/img_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_toLeftOf="@id/iv_message"
+            android:layout_toRightOf="@id/iv_location"
+            android:layout_centerInParent="true"
+            android:id="@+id/rl_search"
+            android:layout_margin="@dimen/dp_10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_35"
+            android:background="@drawable/shape_white"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_width="@dimen/dp_12"
+                android:layout_height="@dimen/dp_12"
+                android:src="@mipmap/img_search"
+                android:scaleType="fitXY"
+                />
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:text="搜索"
+                    android:textColor="#BBBDCA"
+                    android:maxLength="10"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/sp_12" />
+
+                <ImageView
+                    android:id="@+id/imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:paddingRight="20dp"
+                    android:src="@mipmap/delete"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_12"
+                android:paddingRight="@dimen/dp_12"
+                android:text="搜索"
+                android:textColor="#505050"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+    </RelativeLayout>
+    <!--<com.xq.LegouShop.weiget.MyScrollview-->
+        <!--android:layout_below="@id/rl_head"-->
+        <!--android:id="@+id/sv"-->
+        <!--android:paddingBottom="@dimen/dp_50"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<RelativeLayout-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+
+            <!--<android.support.v4.view.ViewPager-->
+                <!--android:background="@color/grayColor"-->
+                <!--android:id="@+id/vp"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="@dimen/dp_140" />-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_pager"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="@dimen/dp_50"-->
+                <!--android:layout_marginTop="@dimen/dp_90"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="vertical">-->
+
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="3dip"-->
+                    <!--android:gravity="center">-->
+
+                    <!--<View-->
+                        <!--android:id="@+id/v_dot0"-->
+                        <!--style="@style/dot_style"-->
+                        <!--android:background="@drawable/dot_focused" />-->
+
+                    <!--<View-->
+                        <!--android:id="@+id/v_dot1"-->
+                        <!--style="@style/dot_style" />-->
+
+                    <!--<View-->
+                        <!--android:id="@+id/v_dot2"-->
+                        <!--style="@style/dot_style" />-->
+
+                    <!--<View-->
+                        <!--android:id="@+id/v_dot3"-->
+                        <!--style="@style/dot_style" />-->
+
+                    <!--<View-->
+                        <!--android:id="@+id/v_dot4"-->
+                        <!--style="@style/dot_style" />-->
+                <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_top"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_80"-->
+                <!--android:layout_below="@id/vp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_womenWear"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_womenWear"-->
+                        <!--android:layout_width="@dimen/dp_36"-->
+                        <!--android:layout_height="@dimen/dp_36"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_19"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@mipmap/img_womenwear" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/iv_womenWear"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_5"-->
+                        <!--android:text="女装"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="@dimen/sp_12" />-->
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_manWear"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_manWear"-->
+                        <!--android:layout_width="@dimen/dp_36"-->
+                        <!--android:layout_height="@dimen/dp_36"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_19"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@mipmap/img_manwear" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/iv_manWear"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_5"-->
+                        <!--android:text="男装"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="@dimen/sp_12" />-->
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_cosmetics"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_cosmetics"-->
+                        <!--android:layout_width="@dimen/dp_36"-->
+                        <!--android:layout_height="@dimen/dp_36"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_19"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@mipmap/img_cosmetics" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/iv_cosmetics"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_5"-->
+                        <!--android:text="化妆品"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="@dimen/sp_12" />-->
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_message"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_tea"-->
+                        <!--android:layout_width="@dimen/dp_36"-->
+                        <!--android:layout_height="@dimen/dp_36"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_19"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@mipmap/img_tea" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/iv_tea"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_5"-->
+                        <!--android:text="茶叶"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="@dimen/sp_12" />-->
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_watch"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_watch"-->
+                        <!--android:layout_width="@dimen/dp_36"-->
+                        <!--android:layout_height="@dimen/dp_36"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_19"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@mipmap/img_watch" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/iv_watch"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_5"-->
+                        <!--android:text="手表"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="@dimen/sp_12" />-->
+                <!--</RelativeLayout>-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_top_two"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_80"-->
+                <!--android:layout_below="@id/ll_top"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_womenshoe"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_womenshoe"-->
+                        <!--android:layout_width="@dimen/dp_36"-->
+                        <!--android:layout_height="@dimen/dp_36"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_19"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@mipmap/img_women_shoe" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/iv_womenshoe"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_5"-->
+                        <!--android:text="女鞋"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="@dimen/sp_12" />-->
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_bag"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_bag"-->
+                        <!--android:layout_width="@dimen/dp_36"-->
+                        <!--android:layout_height="@dimen/dp_36"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_19"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@mipmap/img_manwear" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/iv_bag"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_5"-->
+                        <!--android:text="包包"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="@dimen/sp_12" />-->
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_tellphone"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_tellphone"-->
+                        <!--android:layout_width="@dimen/dp_36"-->
+                        <!--android:layout_height="@dimen/dp_36"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_19"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@mipmap/img_tellphone" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/iv_tellphone"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_5"-->
+                        <!--android:text="手机配件"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="@dimen/sp_12" />-->
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_diamond"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_diamond"-->
+                        <!--android:layout_width="@dimen/dp_36"-->
+                        <!--android:layout_height="@dimen/dp_36"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_19"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@mipmap/img_diamond" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/iv_diamond"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_5"-->
+                        <!--android:text="装饰"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="@dimen/sp_12" />-->
+                <!--</RelativeLayout>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_more"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_more"-->
+                        <!--android:layout_width="@dimen/dp_36"-->
+                        <!--android:layout_height="@dimen/dp_36"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_19"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@mipmap/img_more_good" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@id/iv_more"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/dp_5"-->
+                        <!--android:text="更多"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="@dimen/sp_12" />-->
+                <!--</RelativeLayout>-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_three"-->
+                <!--android:layout_below="@id/ll_top_two"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_120"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:scaleType="fitXY"-->
+                    <!--android:src="@mipmap/img_one" />-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="0dp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:scaleType="fitXY"-->
+                        <!--android:src="@mipmap/img_two" />-->
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="0dp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:scaleType="fitXY"-->
+                        <!--android:src="@mipmap/img_three" />-->
+                <!--</LinearLayout>-->
+
+            <!--</LinearLayout>-->
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_four"-->
+                <!--android:layout_below="@id/ll_three"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_60"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:src="@mipmap/img_four" />-->
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/rl_jingxuan"-->
+                <!--android:layout_below="@id/iv_four"-->
+                <!--android:background="@mipmap/img_jingxuan"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_40">-->
+
+                <!--<TextView-->
+                    <!--android:layout_marginRight="@dimen/dp_10"-->
+                    <!--android:textSize="@dimen/sp_15"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:gravity="center"-->
+                    <!--android:drawablePadding="@dimen/dp_10"-->
+                    <!--android:drawableRight="@mipmap/black_more"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:text="更 多"-->
+                    <!--android:textColor="@color/text_black"-->
+                    <!--android:textStyle="bold"-->
+                    <!--/>-->
+            <!--</RelativeLayout>-->
+            <!--<GridView-->
+                <!--android:layout_marginRight="@dimen/dp_5"-->
+                <!--android:layout_marginLeft="@dimen/dp_5"-->
+                <!--android:verticalSpacing="@dimen/dp_5"-->
+                <!--android:horizontalSpacing="@dimen/dp_5"-->
+                <!--android:id="@+id/gv_jingxuan"-->
+                <!--android:layout_below="@id/rl_jingxuan"-->
+                <!--android:numColumns="3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_150"></GridView>-->
+
+            <!--<RelativeLayout-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:id="@+id/rl_pinzhi"-->
+                <!--android:layout_below="@id/gv_jingxuan"-->
+                <!--android:background="@mipmap/img_pinzhi"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_40">-->
+
+                <!--<TextView-->
+                    <!--android:layout_marginRight="@dimen/dp_10"-->
+                    <!--android:textSize="@dimen/sp_15"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:gravity="center"-->
+                    <!--android:drawablePadding="@dimen/dp_10"-->
+                    <!--android:drawableRight="@mipmap/black_more"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:text="更 多"-->
+                    <!--android:textColor="@color/text_black"-->
+                    <!--android:textStyle="bold"-->
+                    <!--/>-->
+            <!--</RelativeLayout>-->
+            <!--<GridView-->
+                <!--android:layout_marginRight="@dimen/dp_5"-->
+                <!--android:layout_marginLeft="@dimen/dp_5"-->
+                <!--android:verticalSpacing="@dimen/dp_5"-->
+                <!--android:horizontalSpacing="@dimen/dp_5"-->
+                <!--android:id="@+id/gv_pinzhi"-->
+                <!--android:layout_below="@id/rl_pinzhi"-->
+                <!--android:numColumns="3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_150"></GridView>-->
+            <!--<RelativeLayout-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:id="@+id/rl_tuijian"-->
+                <!--android:layout_below="@id/gv_pinzhi"-->
+                <!--android:background="@mipmap/img_tuijian"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_40">-->
+
+                <!--<TextView-->
+                    <!--android:layout_marginRight="@dimen/dp_10"-->
+                    <!--android:textSize="@dimen/sp_15"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:gravity="center"-->
+                    <!--android:drawablePadding="@dimen/dp_10"-->
+                    <!--android:drawableRight="@mipmap/black_more"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:text="更 多"-->
+                    <!--android:textColor="@color/text_black"-->
+                    <!--android:textStyle="bold"-->
+                    <!--/>-->
+            <!--</RelativeLayout>-->
+            <!--<GridView-->
+                <!--android:layout_marginRight="@dimen/dp_5"-->
+                <!--android:layout_marginLeft="@dimen/dp_5"-->
+                <!--android:verticalSpacing="@dimen/dp_5"-->
+                <!--android:horizontalSpacing="@dimen/dp_5"-->
+                <!--android:id="@+id/gv_tuijian"-->
+                <!--android:layout_below="@id/rl_tuijian"-->
+                <!--android:numColumns="3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_150"></GridView>-->
+        <!--</RelativeLayout>-->
+    <!--</com.xq.LegouShop.weiget.MyScrollview>-->
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:layout_below="@id/rl_head"
+        android:id="@+id/lv_home"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#dce7ed"
+        android:divider="@null"
+        android:dividerHeight="1dp"
+        android:paddingBottom="59dp" />
+
+</RelativeLayout>

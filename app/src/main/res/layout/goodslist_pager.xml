@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:calendarview="http://schemas.android.com/tools"
+    android:background="#dce7ed"
+    android:id="@+id/rl_main">
+
+    <GridView
+        android:verticalSpacing="@dimen/dp_10"
+        android:id="@+id/gv_goods"
+        android:layout_margin="@dimen/dp_10"
+        android:horizontalSpacing="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="2"
+        ></GridView>
+
+</RelativeLayout>

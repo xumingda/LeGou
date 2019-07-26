@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#dce7ed"
+    >
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        style="@style/tabTitleStyle">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="添加收货地址"
+            android:textColor="@color/tab_background"
+            android:textSize="@dimen/sp_15" />
+        <TextView
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_add_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="完成"
+            android:textColor="@color/tab_background"
+            android:textSize="@dimen/sp_15" />
+
+        <ImageView
+            android:id="@+id/iv_top_back"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_14"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:src="@mipmap/white_back"
+            android:gravity="center_vertical"
+            android:scaleType="fitCenter" />
+        <View
+            android:id="@+id/view_back"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
+        <View
+            android:id="@+id/view_finish"
+            android:layout_alignParentRight="true"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_below="@id/rl_head"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+       >
+
+        <EditText
+
+            android:paddingLeft="@dimen/dp_10"
+            android:hint="收件人"
+            android:layout_marginTop="@dimen/dp_20"
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@color/tab_background"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="@dimen/sp_14" />
+        <EditText
+            android:layout_below="@id/et_name"
+            android:paddingLeft="@dimen/dp_10"
+            android:hint="手机号码"
+            android:inputType="number"
+            android:layout_marginTop="@dimen/dp_1"
+            android:id="@+id/et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@color/tab_background"
+            android:maxLength="11"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="@dimen/sp_14" />
+        <TextView
+            android:paddingRight="@dimen/dp_10"
+            android:drawablePadding="@dimen/dp_10"
+            android:drawableRight="@mipmap/img_update_address_right"
+            android:gravity="center_vertical"
+            android:layout_below="@id/et_phone"
+            android:paddingLeft="@dimen/dp_10"
+            android:text="所在地区"
+            android:inputType="number"
+            android:layout_marginTop="@dimen/dp_1"
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@color/tab_background"
+            android:maxLength="11"
+            android:singleLine="true"
+            android:textColor="@color/text_color_gray"
+            android:textSize="@dimen/sp_14" />
+        <EditText
+            android:layout_below="@id/tv_address"
+            android:paddingLeft="@dimen/dp_10"
+            android:hint="详细地址：如道路，门牌号，小区，楼栋号等"
+            android:layout_marginTop="@dimen/dp_1"
+            android:id="@+id/et_address_info"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@color/tab_background"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="@dimen/sp_14" />
+        <RelativeLayout
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_below="@id/et_address_info"
+            android:id="@+id/ll_code"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@color/tab_background"
+            >
+            <TextView
+                android:layout_marginLeft="@dimen/dp_10"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_14"
+                android:gravity="center"
+                android:id="@+id/tv_code_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="设为默认地址"
+                />
+
+            <Switch
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="关"
+                android:textOff="开"
+                android:switchMinWidth="40dp"
+                android:track="@android:color/transparent"
+                android:background="@drawable/switch_custom_track_selector"
+                android:thumb="@android:color/transparent" />
+            ！
+
+        </RelativeLayout>
+
+
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+        

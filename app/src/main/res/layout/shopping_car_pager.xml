@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:calendarview="http://schemas.android.com/tools"
+    android:background="#dce7ed"
+    android:id="@+id/rl_main">
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        style="@style/tabTitleStyle"
+        android:layout_height="@dimen/dp_40"
+        >
+
+        <ImageView
+            android:id="@+id/iv_location"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/img_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_location"
+            android:textColor="@color/tab_background"
+            android:drawableRight="@mipmap/more_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="深圳市"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="购物车"
+            android:textColor="@color/tab_background"
+            android:textSize="@dimen/sp_15" />
+
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:id="@+id/iv_message"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/img_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <com.xq.LegouShop.weiget.SwipeListView
+        android:layout_marginTop="1dp"
+        android:layout_below="@id/rl_head"
+        android:id="@+id/lv_shopping_goods"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/dp_250"
+        ></com.xq.LegouShop.weiget.SwipeListView>
+    <TextView
+        android:id="@+id/tv_title"
+        android:textSize="@dimen/sp_16"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:textColor="@color/text_black"
+        android:layout_below="@id/lv_shopping_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="推荐"
+        />
+    <GridView
+        android:horizontalSpacing="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:id="@+id/gv_tuijian"
+        android:numColumns="2"
+        android:layout_below="@id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_120"></GridView>
+    <RelativeLayout
+        android:layout_marginBottom="@dimen/dp_50"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="#166db4"
+        >
+        <CheckBox
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/checkb_select"
+            android:checked="false"
+            android:id="@+id/cb_all_good"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_centerVertical="true"
+            android:button="@null"
+            />
+        <TextView
+            android:id="@+id/tv_total_choose"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@id/cb_all_good"
+            app:layout_marginLeftPercent="2%w"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/tab_background"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textSize="17sp"
+            android:text="全选"
+            />
+
+        <Button
+
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/dp_8"
+            android:id="@+id/btn_order"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="fill_parent"
+            android:background="@drawable/shape_pay"
+            android:text="结算"
+            android:textColor="#166db4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:text="4564"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:id="@+id/tv_total_price"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_toLeftOf="@id/btn_order"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/tab_background"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

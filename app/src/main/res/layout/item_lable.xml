@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/text_color_gray"
+    android:paddingLeft="12dip"
+    android:paddingTop="5dip"
+    android:paddingRight="12dip"
+    android:paddingBottom="5dip"
+    android:text="lable"
+    android:gravity="center"
+    android:id="@+id/tv_goodsGroupNameValue"
+    android:textColor="@color/text_black"
+    android:textSize="15sp" />

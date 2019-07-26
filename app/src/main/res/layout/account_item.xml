@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:background="@color/tab_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_85">
+
+
+
+
+        <ImageView
+            android:src="@mipmap/img_account"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textColor="@color/tab_background"
+            android:gravity="center"
+            android:id="@+id/iv_head"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            />
+
+
+
+        <TextView
+            android:textSize="@dimen/sp_14"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_toRightOf="@id/iv_head"
+            android:id="@+id/tv_name"
+            android:gravity="top"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="转账-李先生"
+            android:textColor="@color/text_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_below="@id/tv_name"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_toRightOf="@id/iv_head"
+            android:id="@+id/tv_other"
+            android:gravity="top"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="其他"
+            android:textColor="@color/text_color_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_below="@id/tv_other"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_toRightOf="@id/iv_head"
+            android:id="@+id/tv_time"
+            android:gravity="top"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="2019-06-25 09:23"
+            android:textColor="@color/text_color_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_money"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/dp_16"
+            android:textSize="@dimen/sp_14"
+            android:text="-400.00"
+            android:textColor="@color/text_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+    </RelativeLayout>
+</RelativeLayout>

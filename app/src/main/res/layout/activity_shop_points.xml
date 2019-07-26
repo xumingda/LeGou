@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#dce7ed"
+    >
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        style="@style/tabTitleStyle">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="我的购物积分"
+            android:textColor="@color/tab_background"
+            android:textSize="@dimen/sp_15" />
+
+
+        <ImageView
+            android:id="@+id/iv_top_back"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_14"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:src="@mipmap/white_back"
+            android:gravity="center_vertical"
+            android:scaleType="fitCenter" />
+        <View
+            android:id="@+id/view_back"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_below="@id/rl_head"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_190"
+        android:background="@mipmap/shop_points_bg"
+        >
+        <TextView
+            android:layout_marginTop="@dimen/dp_40"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#6987df"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="可用购物积分"
+            />
+        <TextView
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_30"
+            android:textColor="#6987df"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            />
+        <Button
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_16"
+            android:padding="@dimen/dp_10"
+            android:textColor="@color/tab_background"
+            android:text="拼团领取购物积分"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_order_btn"
+            />
+    </LinearLayout>
+
+   
+
+</RelativeLayout>
+        

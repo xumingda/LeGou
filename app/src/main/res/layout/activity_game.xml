@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wheelSurfView="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#042935">
+
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        style="@style/tabTitleStyle">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="拼团转盘"
+            android:textColor="@color/tab_background"
+            android:textSize="@dimen/sp_15" />
+
+        <ImageView
+            android:id="@+id/iv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:src="@mipmap/img_message" />
+
+        <ImageView
+            android:id="@+id/iv_top_back"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_14"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:gravity="center_vertical"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/white_back" />
+
+        <View
+            android:id="@+id/view_back"
+            android:layout_width="100dp"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_head">
+
+        <com.xq.LegouShop.weiget.wheelsruflibrary.view.WheelSurfView
+            android:id="@+id/wheelSurfView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            wheelSurfView:typenum="-1"
+            android:layout_margin="20dp">
+
+        </com.xq.LegouShop.weiget.wheelsruflibrary.view.WheelSurfView>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_60"
+        android:background="#55686f"
+        android:layout_width="@dimen/dp_180"
+        android:layout_height="@dimen/dp_60">
+        <ImageView
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:background="@color/errorColor"/>
+        <RelativeLayout
+            android:layout_width="@dimen/dp_120"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_20"
+                android:text="张飞 16544"
+                android:textColor="@color/tab_background"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+    <Button
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_60"
+        android:id="@+id/btn_out_game"
+        android:background="@mipmap/img_out_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>
+        

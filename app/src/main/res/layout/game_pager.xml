@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#042935"
+    >
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        style="@style/tabTitleStyle">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="积分拼团大厅"
+            android:textColor="@color/tab_background"
+            android:textSize="@dimen/sp_15" />
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:id="@+id/iv_message"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/img_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_top_back"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_14"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:src="@mipmap/white_back"
+            android:gravity="center_vertical"
+            android:scaleType="fitCenter" />
+        <View
+            android:id="@+id/view_back"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_below="@id/rl_head"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_200"
+                android:layout_marginTop="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_80"
+                android:src="@mipmap/img_200_point"
+                />
+            <ImageView
+                android:id="@+id/iv_500"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:scaleType="fitXY"
+                android:layout_below="@id/iv_200"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_80"
+                android:src="@mipmap/img_500_point"
+                />
+
+            <ImageView
+                android:id="@+id/iv_1000"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:scaleType="fitXY"
+                android:layout_below="@id/iv_500"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_80"
+                android:src="@mipmap/img_1000_point"
+                />
+            <ImageView
+                android:id="@+id/iv_2000"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:scaleType="fitXY"
+                android:layout_below="@id/iv_1000"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_80"
+                android:src="@mipmap/img_2000_point"
+                />
+            <ImageView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/iv_des"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:scaleType="fitXY"
+                android:layout_below="@id/iv_2000"
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="@dimen/dp_40"
+                android:src="@mipmap/img_game_des"
+                />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
+        

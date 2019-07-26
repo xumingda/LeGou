@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.xq.LegouShop">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <application
+        android:name=".base.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <!-- AK鉴权 -->
+        <!-- meta-data需要写在application中 -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="rpE5KpcCjvD64enRsjyuf0Dcv2a0GkdI" />  <!-- http://lbsyun.baidu.com/apiconsole/key -->
+        <meta-data
+            android:name="designwidth"
+            android:value="1080" />
+        <meta-data
+            android:name="designdpi"
+            android:value="480" />
+        <meta-data
+            android:name="fontsize"
+            android:value="1.0" />
+        <meta-data
+            android:name="unit"
+            android:value="dp" />
+        <activity android:name=".activity.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <service android:name=".socket.service.TcpService">
+        </service>
+        <activity android:name=".activity.LogisticsActivity"></activity>
+        <activity android:name=".activity.SearchGoodsActivity"></activity>
+        <activity android:name=".activity.GoodListsActivity"></activity>
+        <activity android:name=".activity.UpdateAddressActivity"></activity>
+        <activity android:name=".activity.RegionSelectActivity"></activity>
+        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.FindPwdActivity"></activity>
+        <activity android:name=".activity.RegisterActivity"></activity>
+        <activity android:name=".activity.OrderManagerActivity"></activity>
+        <activity android:name=".activity.ShoppingPointsActivity"></activity>
+        <activity android:name=".activity.PersonalRewardsActivity"></activity>
+        <activity android:name=".activity.AddressActivity"></activity>
+        <activity android:name=".activity.AddAddressActivity"></activity>
+        <activity android:name=".activity.PersonalInfoActivity"></activity>
+        <activity android:name=".activity.UpdatePersonalInfoActivity"></activity>
+        <activity android:name=".activity.MyCollectionActivity"></activity>
+        <activity android:name=".activity.AccountStatementActivity"></activity>
+        <activity android:name=".activity.RechargeActivity"></activity>
+        <activity android:name=".activity.GoodsInfoActivity"></activity>
+        <activity android:name=".activity.BuyGoodActivity"></activity>
+        <activity android:name=".activity.PersonalSafeActivity"></activity>
+        <activity android:name=".activity.UpdatePhoneActivity"></activity>
+        <activity android:name=".activity.UpdatePwdActivity"></activity>
+        <activity android:name=".activity.DestroyUserActivity"></activity>
+        <activity android:name=".activity.CertificationActivity"></activity>
+        <activity android:name=".activity.GameActivity"></activity>
+        <activity android:name=".activity.GameRoomActivity"></activity>
+    </application>
+
+</manifest>
