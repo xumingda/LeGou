@@ -51,6 +51,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="@color/tab_background"
         android:id="@+id/ll_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_80"
@@ -189,16 +190,17 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="@color/tab_background"
         android:id="@+id/ll_top_two"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_80"
+        android:layout_height="@dimen/dp_85"
         android:layout_below="@id/ll_top"
         android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/rl_womenshoe"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp_80"
             android:layout_weight="1">
 
             <ImageView
@@ -224,7 +226,7 @@
         <RelativeLayout
             android:id="@+id/rl_bag"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp_80"
             android:layout_weight="1">
 
             <ImageView
@@ -250,7 +252,7 @@
         <RelativeLayout
             android:id="@+id/rl_tellphone"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp_80"
             android:layout_weight="1">
 
             <ImageView
@@ -276,7 +278,7 @@
         <RelativeLayout
             android:id="@+id/rl_diamond"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp_80"
             android:layout_weight="1">
 
             <ImageView
@@ -302,7 +304,7 @@
         <RelativeLayout
             android:id="@+id/rl_more"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp_80"
             android:layout_weight="1">
 
             <ImageView
@@ -417,6 +419,7 @@
                 android:scaleType="centerCrop" />
 
             <TextView
+                android:textColor="@color/text_black"
                 android:id="@+id/tv_title_one"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_35"
@@ -426,6 +429,7 @@
                 android:padding="@dimen/dp_5" />
 
             <TextView
+                android:textColor="@color/text_black"
                 android:id="@+id/tv_old_price_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -433,7 +437,6 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="@dimen/dp_5"
-
                 />
 
             <LinearLayout
@@ -458,10 +461,10 @@
                     android:textColor="@color/tab_background" />
 
                 <TextView
+                    android:textColor="@color/text_black"
                     android:id="@+id/tv_num_one"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/dp_5" />
@@ -487,6 +490,7 @@
                 android:scaleType="centerCrop" />
 
             <TextView
+                android:textColor="@color/text_black"
                 android:id="@+id/tv_title_two"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_35"
@@ -496,6 +500,7 @@
                 android:padding="@dimen/dp_5" />
 
             <TextView
+                android:textColor="@color/text_black"
                 android:id="@+id/tv_old_price_two"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -528,6 +533,7 @@
                     android:textColor="@color/tab_background" />
 
                 <TextView
+                    android:textColor="@color/text_black"
                     android:id="@+id/tv_num_two"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -557,6 +563,7 @@
                 android:scaleType="centerCrop" />
 
             <TextView
+                android:textColor="@color/text_black"
                 android:id="@+id/tv_title_three"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_35"
@@ -566,6 +573,7 @@
                 android:padding="@dimen/dp_5" />
 
             <TextView
+                android:textColor="@color/text_black"
                 android:id="@+id/tv_old_price_three"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -601,7 +609,7 @@
                     android:id="@+id/tv_num_three"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:textColor="@color/text_black"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/dp_5" />
@@ -660,6 +668,7 @@
 
             <TextView
                 android:id="@+id/tv_title_four"
+                android:textColor="@color/text_black"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_35"
                 android:layout_below="@+id/iv_pic_four"
@@ -668,6 +677,7 @@
                 android:padding="@dimen/dp_5" />
 
             <TextView
+                android:textColor="@color/text_black"
                 android:id="@+id/tv_old_price_four"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -700,10 +710,11 @@
                     android:textColor="@color/tab_background" />
 
                 <TextView
+                    android:text="1244"
                     android:id="@+id/tv_num_four"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:textColor="@color/text_black"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/dp_5" />
@@ -729,6 +740,7 @@
                 android:scaleType="centerCrop" />
 
             <TextView
+                android:textColor="@color/text_black"
                 android:id="@+id/tv_title_five"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_35"
@@ -738,6 +750,7 @@
                 android:padding="@dimen/dp_5" />
 
             <TextView
+                android:textColor="@color/text_black"
                 android:id="@+id/tv_old_price_five"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -773,7 +786,7 @@
                     android:id="@+id/tv_num_five"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
+                    android:textColor="@color/text_black"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/dp_5" />
@@ -799,6 +812,7 @@
                 android:scaleType="centerCrop" />
 
             <TextView
+                android:textColor="@color/text_black"
                 android:id="@+id/tv_title_six"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_35"
@@ -808,6 +822,7 @@
                 android:padding="@dimen/dp_5" />
 
             <TextView
+                android:textColor="@color/text_black"
                 android:id="@+id/tv_old_price_six"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -840,6 +855,7 @@
                     android:textColor="@color/tab_background" />
 
                 <TextView
+                    android:textColor="@color/text_black"
                     android:id="@+id/tv_num_six"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

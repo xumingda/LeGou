@@ -705,7 +705,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
         final HashMap<String,String> map=new HashMap<>();
         map.put("perDayGoods","1");
         map.put("pageNo","1");
-        map.put("pageSize","999");
+        map.put("pageSize","3");
 
 
 
@@ -717,74 +717,105 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                 LogUtils.e("getGoodsListResponse:" + getGoodsListResponse.toString());
                 if (getGoodsListResponse.code.equals("0")) {
                     List<GoodsBean> goodsBeanList = getGoodsListResponse.dataList;
-                    switch (getGoodsListResponse.dataList.size()){
-                        case 3:{
-                            GoodsBean goodsBean=goodsBeanList.get(0);
-                            String string = "¥" + goodsBean.getOriginalPrice();
-                            SpannableString sp = new SpannableString(string);
-                            sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            homeHeadHolder.tv_old_price_one.setText(sp);
-                            homeHeadHolder.tv_price_one.setText("¥" + goodsBean.getSalePrice());
-                            homeHeadHolder.tv_title_one.setText(goodsBean.getGoodsName());
-                            homeHeadHolder.tv_num_one.setText("销量：" + goodsBean.getSalesVolume());
-                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_one, PictureOption.getSimpleOptions());
+                    if(goodsBeanList.size()>=3){
+                        GoodsBean goodsBean=goodsBeanList.get(0);
+                        String string = "¥" + goodsBean.getOriginalPrice();
+                        SpannableString sp = new SpannableString(string);
+                        sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        homeHeadHolder.tv_old_price_one.setText(sp);
+                        homeHeadHolder.tv_price_one.setText("¥" + goodsBean.getSalePrice());
+                        homeHeadHolder.tv_title_one.setText(goodsBean.getGoodsName());
+                        homeHeadHolder.tv_num_one.setText("销量：" + goodsBean.getSalesVolume());
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_one, PictureOption.getSimpleOptions());
 
-                            GoodsBean goodsBean1=goodsBeanList.get(1);
-                            String string1 = "¥" + goodsBean1.getOriginalPrice();
-                            SpannableString sp1 = new SpannableString(string1);
-                            sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            homeHeadHolder.tv_old_price_two.setText(sp1);
-                            homeHeadHolder.tv_price_two.setText("¥" + goodsBean1.getSalePrice());
-                            homeHeadHolder.tv_title_two.setText(goodsBean1.getGoodsName());
-                            homeHeadHolder.tv_num_two.setText("销量：" + goodsBean1.getSalesVolume());
-                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean1.getPic(), homeHeadHolder.iv_pic_two, PictureOption.getSimpleOptions());
+                        GoodsBean goodsBean1=goodsBeanList.get(1);
+                        String string1 = "¥" + goodsBean1.getOriginalPrice();
+                        SpannableString sp1 = new SpannableString(string1);
+                        sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        homeHeadHolder.tv_old_price_two.setText(sp1);
+                        homeHeadHolder.tv_price_two.setText("¥" + goodsBean1.getSalePrice());
+                        homeHeadHolder.tv_title_two.setText(goodsBean1.getGoodsName());
+                        homeHeadHolder.tv_num_two.setText("销量：" + goodsBean1.getSalesVolume());
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean1.getPic(), homeHeadHolder.iv_pic_two, PictureOption.getSimpleOptions());
 
-                            GoodsBean goodsBean2=goodsBeanList.get(2);
-                            String string2 = "¥" + goodsBean2.getOriginalPrice();
-                            SpannableString sp2 = new SpannableString(string2);
-                            sp2.setSpan(new StrikethroughSpan(), 0, string2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            homeHeadHolder.tv_old_price_three.setText(sp2);
-                            homeHeadHolder.tv_price_three.setText("¥" + goodsBean2.getSalePrice());
-                            homeHeadHolder.tv_title_three.setText(goodsBean2.getGoodsName());
-                            homeHeadHolder.tv_num_three.setText("销量：" + goodsBean2.getSalesVolume());
-                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean2.getPic(), homeHeadHolder.iv_pic_two, PictureOption.getSimpleOptions());
-                            break;
-                        }
-                        case 2:{
-                            GoodsBean goodsBean=goodsBeanList.get(0);
-                            String string = "¥" + goodsBean.getOriginalPrice();
-                            SpannableString sp = new SpannableString(string);
-                            sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            homeHeadHolder.tv_old_price_one.setText(sp);
-                            homeHeadHolder.tv_price_one.setText("¥" + goodsBean.getSalePrice());
-                            homeHeadHolder.tv_title_one.setText(goodsBean.getGoodsName());
-                            homeHeadHolder.tv_num_one.setText("销量：" + goodsBean.getSalesVolume());
-                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_one, PictureOption.getSimpleOptions());
-
-                            GoodsBean goodsBean1=goodsBeanList.get(1);
-                            String string1 = "¥" + goodsBean1.getOriginalPrice();
-                            SpannableString sp1 = new SpannableString(string1);
-                            sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            homeHeadHolder.tv_old_price_two.setText(sp1);
-                            homeHeadHolder.tv_price_two.setText("¥" + goodsBean1.getSalePrice());
-                            homeHeadHolder.tv_title_two.setText(goodsBean1.getGoodsName());
-                            homeHeadHolder.tv_num_two.setText("销量：" + goodsBean1.getSalesVolume());
-                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean1.getPic(), homeHeadHolder.iv_pic_two, PictureOption.getSimpleOptions());
-                            break;
-                        }
-                        case 1:{
-                            GoodsBean goodsBean=goodsBeanList.get(0);
-                            String string = "¥" + goodsBean.getOriginalPrice();
-                            SpannableString sp = new SpannableString(string);
-                            sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            homeHeadHolder.tv_old_price_one.setText(sp);
-                            homeHeadHolder.tv_price_one.setText("¥" + goodsBean.getSalePrice());
-                            homeHeadHolder.tv_title_one.setText(goodsBean.getGoodsName());
-                            homeHeadHolder.tv_num_one.setText("销量：" + goodsBean.getSalesVolume());
-                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_one, PictureOption.getSimpleOptions());
-                            break;
-                        }
+                        GoodsBean goodsBean2=goodsBeanList.get(2);
+                        String string2 = "¥" + goodsBean2.getOriginalPrice();
+                        SpannableString sp2 = new SpannableString(string2);
+                        sp2.setSpan(new StrikethroughSpan(), 0, string2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        homeHeadHolder.tv_old_price_three.setText(sp2);
+                        homeHeadHolder.tv_price_three.setText("¥" + goodsBean2.getSalePrice());
+                        homeHeadHolder.tv_title_three.setText(goodsBean2.getGoodsName());
+                        homeHeadHolder.tv_num_three.setText("销量：" + goodsBean2.getSalesVolume());
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean2.getPic(), homeHeadHolder.iv_pic_three, PictureOption.getSimpleOptions());
                     }
+//                    switch (getGoodsListResponse.dataList.size()){
+//                        case 3:{
+//                            GoodsBean goodsBean=goodsBeanList.get(0);
+//                            String string = "¥" + goodsBean.getOriginalPrice();
+//                            SpannableString sp = new SpannableString(string);
+//                            sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                            homeHeadHolder.tv_old_price_one.setText(sp);
+//                            homeHeadHolder.tv_price_one.setText("¥" + goodsBean.getSalePrice());
+//                            homeHeadHolder.tv_title_one.setText(goodsBean.getGoodsName());
+//                            homeHeadHolder.tv_num_one.setText("销量：" + goodsBean.getSalesVolume());
+//                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_one, PictureOption.getSimpleOptions());
+//
+//                            GoodsBean goodsBean1=goodsBeanList.get(1);
+//                            String string1 = "¥" + goodsBean1.getOriginalPrice();
+//                            SpannableString sp1 = new SpannableString(string1);
+//                            sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                            homeHeadHolder.tv_old_price_two.setText(sp1);
+//                            homeHeadHolder.tv_price_two.setText("¥" + goodsBean1.getSalePrice());
+//                            homeHeadHolder.tv_title_two.setText(goodsBean1.getGoodsName());
+//                            homeHeadHolder.tv_num_two.setText("销量：" + goodsBean1.getSalesVolume());
+//                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean1.getPic(), homeHeadHolder.iv_pic_two, PictureOption.getSimpleOptions());
+//
+//                            GoodsBean goodsBean2=goodsBeanList.get(2);
+//                            String string2 = "¥" + goodsBean2.getOriginalPrice();
+//                            SpannableString sp2 = new SpannableString(string2);
+//                            sp2.setSpan(new StrikethroughSpan(), 0, string2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                            homeHeadHolder.tv_old_price_three.setText(sp2);
+//                            homeHeadHolder.tv_price_three.setText("¥" + goodsBean2.getSalePrice());
+//                            homeHeadHolder.tv_title_three.setText(goodsBean2.getGoodsName());
+//                            homeHeadHolder.tv_num_three.setText("销量：" + goodsBean2.getSalesVolume());
+//                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean2.getPic(), homeHeadHolder.iv_pic_two, PictureOption.getSimpleOptions());
+//                            break;
+//                        }
+//                        case 2:{
+//                            GoodsBean goodsBean=goodsBeanList.get(0);
+//                            String string = "¥" + goodsBean.getOriginalPrice();
+//                            SpannableString sp = new SpannableString(string);
+//                            sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                            homeHeadHolder.tv_old_price_one.setText(sp);
+//                            homeHeadHolder.tv_price_one.setText("¥" + goodsBean.getSalePrice());
+//                            homeHeadHolder.tv_title_one.setText(goodsBean.getGoodsName());
+//                            homeHeadHolder.tv_num_one.setText("销量：" + goodsBean.getSalesVolume());
+//                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_one, PictureOption.getSimpleOptions());
+//
+//                            GoodsBean goodsBean1=goodsBeanList.get(1);
+//                            String string1 = "¥" + goodsBean1.getOriginalPrice();
+//                            SpannableString sp1 = new SpannableString(string1);
+//                            sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                            homeHeadHolder.tv_old_price_two.setText(sp1);
+//                            homeHeadHolder.tv_price_two.setText("¥" + goodsBean1.getSalePrice());
+//                            homeHeadHolder.tv_title_two.setText(goodsBean1.getGoodsName());
+//                            homeHeadHolder.tv_num_two.setText("销量：" + goodsBean1.getSalesVolume());
+//                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean1.getPic(), homeHeadHolder.iv_pic_two, PictureOption.getSimpleOptions());
+//                            break;
+//                        }
+//                        case 1:{
+//                            GoodsBean goodsBean=goodsBeanList.get(0);
+//                            String string = "¥" + goodsBean.getOriginalPrice();
+//                            SpannableString sp = new SpannableString(string);
+//                            sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                            homeHeadHolder.tv_old_price_one.setText(sp);
+//                            homeHeadHolder.tv_price_one.setText("¥" + goodsBean.getSalePrice());
+//                            homeHeadHolder.tv_title_one.setText(goodsBean.getGoodsName());
+//                            homeHeadHolder.tv_num_one.setText("销量：" + goodsBean.getSalesVolume());
+//                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_one, PictureOption.getSimpleOptions());
+//                            break;
+//                        }
+//                    }
                 } else {
                     DialogUtils.showAlertDialog(mContext,
                             getGoodsListResponse.msg);
@@ -813,7 +844,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
         final HashMap<String,String> map=new HashMap<>();
         map.put("qualityLife","1");
         map.put("pageNo","1");
-        map.put("pageSize","999");
+        map.put("pageSize","3");
 
 
 
@@ -825,7 +856,38 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                 LogUtils.e("getGoodsListResponse:" + getGoodsListResponse.toString());
                 if (getGoodsListResponse.code.equals("0")) {
                     if(getGoodsListResponse.dataList.size()>0){
+                        List<GoodsBean> goodsBeanList = getGoodsListResponse.dataList;
+                        if(goodsBeanList.size()>=3){
+                            GoodsBean goodsBean=goodsBeanList.get(0);
+                            String string = "¥" + goodsBean.getOriginalPrice();
+                            SpannableString sp = new SpannableString(string);
+                            sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            homeHeadHolder.tv_old_price_four.setText(sp);
+                            homeHeadHolder.tv_price_four.setText("¥" + goodsBean.getSalePrice());
+                            homeHeadHolder.tv_title_four.setText(goodsBean.getGoodsName());
+                            homeHeadHolder.tv_num_four.setText("销量：" + goodsBean.getSalesVolume());
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_four, PictureOption.getSimpleOptions());
 
+                            GoodsBean goodsBean1=goodsBeanList.get(1);
+                            String string1 = "¥" + goodsBean1.getOriginalPrice();
+                            SpannableString sp1 = new SpannableString(string1);
+                            sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            homeHeadHolder.tv_old_price_five.setText(sp1);
+                            homeHeadHolder.tv_price_five.setText("¥" + goodsBean1.getSalePrice());
+                            homeHeadHolder.tv_title_five.setText(goodsBean1.getGoodsName());
+                            homeHeadHolder.tv_num_five.setText("销量：" + goodsBean1.getSalesVolume());
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean1.getPic(), homeHeadHolder.iv_pic_five, PictureOption.getSimpleOptions());
+
+                            GoodsBean goodsBean2=goodsBeanList.get(2);
+                            String string2 = "¥" + goodsBean2.getOriginalPrice();
+                            SpannableString sp2 = new SpannableString(string2);
+                            sp2.setSpan(new StrikethroughSpan(), 0, string2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            homeHeadHolder.tv_old_price_six.setText(sp2);
+                            homeHeadHolder.tv_price_six.setText("¥" + goodsBean2.getSalePrice());
+                            homeHeadHolder.tv_title_six.setText(goodsBean2.getGoodsName());
+                            homeHeadHolder.tv_num_six.setText("销量：" + goodsBean2.getSalesVolume());
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean2.getPic(), homeHeadHolder.iv_pic_six, PictureOption.getSimpleOptions());
+                        }
                     }
                 } else {
                     DialogUtils.showAlertDialog(mContext,
