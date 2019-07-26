@@ -184,6 +184,10 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                     homeHeadHolder.iv_pic_six = (ImageView) view.findViewById(R.id.iv_pic_six);
                     homeHeadHolder.tv_title_six = (TextView) view.findViewById(R.id.tv_title_six);
                     homeHeadHolder.tv_num_six = (TextView) view.findViewById(R.id.tv_num_six);
+                    homeHeadHolder.iv_home_left = (ImageView) view.findViewById(R.id.iv_home_left);
+                    homeHeadHolder.iv_home_right_top = (ImageView) view.findViewById(R.id.iv_home_right_top);
+                    homeHeadHolder.iv_home_right_bottom = (ImageView) view.findViewById(R.id.iv_home_right_bottom);
+
                     view.setTag(homeHeadHolder);
                     break;
                 case TYPE_TWO:
@@ -326,6 +330,9 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
     public class HomeHeadHolder {
+        ImageView iv_home_left;
+        ImageView iv_home_right_top;
+        ImageView iv_home_right_bottom;
         ViewPager vp;
         LinearLayout ll_pager;
         View v_dot0;
@@ -536,6 +543,9 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                 getHomeResponse = gson.fromJson(json, GetAdListResponse.class);
                 LogUtils.e("getHomeResponse:" + getHomeResponse.toString());
                 if (getHomeResponse.getCode().equals("0")) {
+                    getHomeBanner();
+                    getHomeBannerRightTop();
+                    getHomeBannerRightBottom();
                     getGoodList();
                     getQualityLifeGoodList();
                     if (getHomeResponse.dataList.size() > 0) {
@@ -686,9 +696,9 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                 }
 
                 case 0: {
-                        Intent intent = new Intent(mContext, GoodsInfoActivity.class);
-                        intent.putExtra("goodsId", Integer.parseInt(getHomeResponse.dataList.get(position).goodsId));
-                        UIUtils.startActivityNextAnim(intent);
+                    Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                    intent.putExtra("goodsId", Integer.parseInt(getHomeResponse.dataList.get(position).goodsId));
+                    UIUtils.startActivityNextAnim(intent);
                     break;
                 }
 
@@ -702,11 +712,10 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
     public void getGoodList() {
         GetGoodListProtocol getGoodListProtocol = new GetGoodListProtocol();
         String url = getGoodListProtocol.getApiFun();
-        final HashMap<String,String> map=new HashMap<>();
-        map.put("perDayGoods","1");
-        map.put("pageNo","1");
-        map.put("pageSize","3");
-
+        final HashMap<String, String> map = new HashMap<>();
+        map.put("perDayGoods", "1");
+        map.put("pageNo", "1");
+        map.put("pageSize", "3");
 
 
         MyVolley.uploadNoFile(MyVolley.POST, url, map, new MyVolley.VolleyCallback() {
@@ -717,8 +726,8 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                 LogUtils.e("getGoodsListResponse:" + getGoodsListResponse.toString());
                 if (getGoodsListResponse.code.equals("0")) {
                     List<GoodsBean> goodsBeanList = getGoodsListResponse.dataList;
-                    if(goodsBeanList.size()>=3){
-                        GoodsBean goodsBean=goodsBeanList.get(0);
+                    if (goodsBeanList.size() >= 3) {
+                        GoodsBean goodsBean = goodsBeanList.get(0);
                         String string = "¥" + goodsBean.getOriginalPrice();
                         SpannableString sp = new SpannableString(string);
                         sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -728,7 +737,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                         homeHeadHolder.tv_num_one.setText("销量：" + goodsBean.getSalesVolume());
                         imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_one, PictureOption.getSimpleOptions());
 
-                        GoodsBean goodsBean1=goodsBeanList.get(1);
+                        GoodsBean goodsBean1 = goodsBeanList.get(1);
                         String string1 = "¥" + goodsBean1.getOriginalPrice();
                         SpannableString sp1 = new SpannableString(string1);
                         sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -738,7 +747,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                         homeHeadHolder.tv_num_two.setText("销量：" + goodsBean1.getSalesVolume());
                         imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean1.getPic(), homeHeadHolder.iv_pic_two, PictureOption.getSimpleOptions());
 
-                        GoodsBean goodsBean2=goodsBeanList.get(2);
+                        GoodsBean goodsBean2 = goodsBeanList.get(2);
                         String string2 = "¥" + goodsBean2.getOriginalPrice();
                         SpannableString sp2 = new SpannableString(string2);
                         sp2.setSpan(new StrikethroughSpan(), 0, string2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -837,15 +846,15 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
 
         });
     }
+
     //品质生活
     public void getQualityLifeGoodList() {
         GetGoodListProtocol getGoodListProtocol = new GetGoodListProtocol();
         String url = getGoodListProtocol.getApiFun();
-        final HashMap<String,String> map=new HashMap<>();
-        map.put("qualityLife","1");
-        map.put("pageNo","1");
-        map.put("pageSize","3");
-
+        final HashMap<String, String> map = new HashMap<>();
+        map.put("qualityLife", "1");
+        map.put("pageNo", "1");
+        map.put("pageSize", "3");
 
 
         MyVolley.uploadNoFile(MyVolley.POST, url, map, new MyVolley.VolleyCallback() {
@@ -855,10 +864,10 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                 GetGoodsListResponse getGoodsListResponse = gson.fromJson(json, GetGoodsListResponse.class);
                 LogUtils.e("getGoodsListResponse:" + getGoodsListResponse.toString());
                 if (getGoodsListResponse.code.equals("0")) {
-                    if(getGoodsListResponse.dataList.size()>0){
+                    if (getGoodsListResponse.dataList.size() > 0) {
                         List<GoodsBean> goodsBeanList = getGoodsListResponse.dataList;
-                        if(goodsBeanList.size()>=3){
-                            GoodsBean goodsBean=goodsBeanList.get(0);
+                        if (goodsBeanList.size() >= 3) {
+                            GoodsBean goodsBean = goodsBeanList.get(0);
                             String string = "¥" + goodsBean.getOriginalPrice();
                             SpannableString sp = new SpannableString(string);
                             sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -868,7 +877,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                             homeHeadHolder.tv_num_four.setText("销量：" + goodsBean.getSalesVolume());
                             imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_four, PictureOption.getSimpleOptions());
 
-                            GoodsBean goodsBean1=goodsBeanList.get(1);
+                            GoodsBean goodsBean1 = goodsBeanList.get(1);
                             String string1 = "¥" + goodsBean1.getOriginalPrice();
                             SpannableString sp1 = new SpannableString(string1);
                             sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -878,7 +887,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                             homeHeadHolder.tv_num_five.setText("销量：" + goodsBean1.getSalesVolume());
                             imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean1.getPic(), homeHeadHolder.iv_pic_five, PictureOption.getSimpleOptions());
 
-                            GoodsBean goodsBean2=goodsBeanList.get(2);
+                            GoodsBean goodsBean2 = goodsBeanList.get(2);
                             String string2 = "¥" + goodsBean2.getOriginalPrice();
                             SpannableString sp2 = new SpannableString(string2);
                             sp2.setSpan(new StrikethroughSpan(), 0, string2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -912,5 +921,124 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
 
+    public void getHomeBanner() {
+        GetAdListProtocol getHomeProtocol = new GetAdListProtocol();
+        url = getHomeProtocol.getApiFun();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("position", String.valueOf(4));
 
+        MyVolley.uploadNoFile(MyVolley.POST, url, params, new MyVolley.VolleyCallback() {
+
+            @Override
+            public void dealWithJson(String address, String json) {
+
+                GetAdListResponse getHomeResponse = gson.fromJson(json, GetAdListResponse.class);
+                LogUtils.e("getHomeResponse:" + getHomeResponse.toString());
+                if (getHomeResponse.getCode().equals("0")) {
+                    if (getHomeResponse.dataList.size() > 0) {
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + getHomeResponse.dataList.get(0).pic, homeHeadHolder.iv_home_left, PictureOption.getSimpleOptions());
+                    }
+                } else {
+                    if (getHomeResponse.msg.indexOf("此账号在其他地方登陆") != -1) {
+
+                        DialogUtils.showAlertToLoginDialog(mContext,
+                                getHomeResponse.msg);
+                    } else {
+                        DialogUtils.showAlertDialog(mContext, getHomeResponse.msg);
+                    }
+                }
+
+            }
+
+            @Override
+            public void dealWithError(String address, String error) {
+                DialogUtils.showAlertDialog(mContext, error);
+            }
+
+            @Override
+            public void dealTokenOverdue() {
+
+            }
+        });
+    }
+    public void getHomeBannerRightTop() {
+        GetAdListProtocol getHomeProtocol = new GetAdListProtocol();
+        url = getHomeProtocol.getApiFun();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("position", String.valueOf(5));
+
+        MyVolley.uploadNoFile(MyVolley.POST, url, params, new MyVolley.VolleyCallback() {
+
+            @Override
+            public void dealWithJson(String address, String json) {
+
+                GetAdListResponse getHomeResponse = gson.fromJson(json, GetAdListResponse.class);
+                LogUtils.e("getHomeResponse:" + getHomeResponse.toString());
+                if (getHomeResponse.getCode().equals("0")) {
+                    if (getHomeResponse.dataList.size() > 0) {
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + getHomeResponse.dataList.get(0).pic, homeHeadHolder.iv_home_right_top, PictureOption.getSimpleOptions());
+                    }
+                } else {
+                    if (getHomeResponse.msg.indexOf("此账号在其他地方登陆") != -1) {
+
+                        DialogUtils.showAlertToLoginDialog(mContext,
+                                getHomeResponse.msg);
+                    } else {
+                        DialogUtils.showAlertDialog(mContext, getHomeResponse.msg);
+                    }
+                }
+
+            }
+
+            @Override
+            public void dealWithError(String address, String error) {
+                DialogUtils.showAlertDialog(mContext, error);
+            }
+
+            @Override
+            public void dealTokenOverdue() {
+
+            }
+        });
+    }
+    public void getHomeBannerRightBottom() {
+        GetAdListProtocol getHomeProtocol = new GetAdListProtocol();
+        url = getHomeProtocol.getApiFun();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("position", String.valueOf(6));
+
+        MyVolley.uploadNoFile(MyVolley.POST, url, params, new MyVolley.VolleyCallback() {
+
+            @Override
+            public void dealWithJson(String address, String json) {
+
+                GetAdListResponse getHomeResponse = gson.fromJson(json, GetAdListResponse.class);
+                LogUtils.e("getHomeResponse:" + getHomeResponse.toString());
+                if (getHomeResponse.getCode().equals("0")) {
+                    if (getHomeResponse.dataList.size() > 0) {
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + getHomeResponse.dataList.get(0).pic, homeHeadHolder.iv_home_right_bottom, PictureOption.getSimpleOptions());
+                    }
+                } else {
+                    if (getHomeResponse.msg.indexOf("此账号在其他地方登陆") != -1) {
+
+                        DialogUtils.showAlertToLoginDialog(mContext,
+                                getHomeResponse.msg);
+                    } else {
+                        DialogUtils.showAlertDialog(mContext, getHomeResponse.msg);
+                    }
+                }
+
+            }
+
+            @Override
+            public void dealWithError(String address, String error) {
+                DialogUtils.showAlertDialog(mContext, error);
+            }
+
+            @Override
+            public void dealTokenOverdue() {
+
+            }
+        });
+    }
 }

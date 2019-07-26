@@ -336,11 +336,13 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:src="@mipmap/img_one"
+            android:id="@+id/iv_home_left"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:src="@mipmap/img_one" />
+            android:scaleType="centerCrop"
+             />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -349,18 +351,22 @@
             android:orientation="vertical">
 
             <ImageView
+                android:src="@mipmap/img_two"
+                android:id="@+id/iv_home_right_top"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:scaleType="fitXY"
-                android:src="@mipmap/img_two" />
+                android:scaleType="centerCrop"
+                />
 
             <ImageView
+                android:src="@mipmap/img_three"
+                android:id="@+id/iv_home_right_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:scaleType="fitXY"
-                android:src="@mipmap/img_three" />
+                android:scaleType="centerCrop"
+                />
         </LinearLayout>
 
     </LinearLayout>
