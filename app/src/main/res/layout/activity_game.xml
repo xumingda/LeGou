@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:wheelSurfView="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_main"
     android:layout_width="match_parent"
@@ -20,14 +21,7 @@
             android:textColor="@color/tab_background"
             android:textSize="@dimen/sp_15" />
 
-        <ImageView
-            android:id="@+id/iv_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dp_10"
-            android:src="@mipmap/img_message" />
+
 
         <ImageView
             android:id="@+id/iv_top_back"
@@ -46,60 +40,443 @@
             android:layout_height="match_parent" />
     </RelativeLayout>
 
-
-    <RelativeLayout
+    <ScrollView
+        android:layout_below="@id/rl_head"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/rl_head">
+        android:layout_height="match_parent">
 
-        <com.xq.LegouShop.weiget.wheelsruflibrary.view.WheelSurfView
-            android:id="@+id/wheelSurfView2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            wheelSurfView:typenum="-1"
-            android:layout_margin="20dp">
-
-        </com.xq.LegouShop.weiget.wheelsruflibrary.view.WheelSurfView>
-
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dp_60"
-        android:background="#55686f"
-        android:layout_width="@dimen/dp_180"
-        android:layout_height="@dimen/dp_60">
-        <ImageView
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
-            android:background="@color/errorColor"/>
         <RelativeLayout
-            android:layout_width="@dimen/dp_120"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
-                android:layout_marginTop="@dimen/dp_5"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_20"
-                android:text="张飞 16544"
+                android:id="@+id/tv_mus"
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="@dimen/dp_40"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/tab_background_time"
+                android:gravity="center"
+                android:text="02"
                 android:textColor="@color/tab_background"
-                />
+                android:textSize="@dimen/sp_30" />
 
+            <RelativeLayout
+                android:id="@+id/rl_ruan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_mus"
+                android:layout_marginTop="@dimen/dp_90">
+
+                <com.xq.LegouShop.weiget.wheelsruflibrary.view.WheelSurfView
+                    android:id="@+id/wheelSurfView2"
+                    android:layout_width="@dimen/dp_220"
+                    android:layout_height="@dimen/dp_220"
+                    android:layout_centerHorizontal="true"
+
+                    wheelSurfView:typenum="-1">
+
+                </com.xq.LegouShop.weiget.wheelsruflibrary.view.WheelSurfView>
+
+                <TextView
+                    android:id="@+id/tv_middle_time"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_60"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="30"
+                    android:textColor="@color/tab_background"
+                    android:textSize="@dimen/sp_20"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_centerHorizontal="true"
+                android:id="@+id/rl_cl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_mus">
+
+                <com.xq.LegouShop.weiget.CircleLayout
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:id="@+id/cl"
+                    android:layout_width="@dimen/dp_340"
+                    android:layout_height="@dimen/dp_370"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    app:changeCorner="17"
+                    app:radium="@dimen/dp_150">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_num_nine"
+                            />
+                        <com.xq.LegouShop.weiget.CircleImageView
+                            android:id="@+id/iv_head_nine"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40"
+                            android:src="@mipmap/img_small_round" />
+                        <TextView
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_nickName_nine"
+                            />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_num_ten"
+                            />
+                        <com.xq.LegouShop.weiget.CircleImageView
+                            android:id="@+id/iv_head_ten"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40"
+                            android:src="@mipmap/img_small_round" />
+                        <TextView
+                            android:id="@+id/tv_nickName_ten"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_num_one"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                        <com.xq.LegouShop.weiget.CircleImageView
+                            android:id="@+id/iv_head_one"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40"
+                            android:src="@mipmap/img_small_round" />
+                        <TextView
+                            android:id="@+id/tv_nickName_one"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_num_two"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                        <com.xq.LegouShop.weiget.CircleImageView
+                            android:id="@+id/iv_head_two"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40"
+                            android:src="@mipmap/img_small_round" />
+                        <TextView
+                            android:id="@+id/tv_nickName_two"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_num_three"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                        <com.xq.LegouShop.weiget.CircleImageView
+                            android:id="@+id/iv_head_three"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40"
+                            android:src="@mipmap/img_small_round" />
+                        <TextView
+                            android:id="@+id/tv_nickName_three"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_num_four"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                        <com.xq.LegouShop.weiget.CircleImageView
+                            android:id="@+id/iv_head_four"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40"
+                            android:src="@mipmap/img_small_round" />
+                        <TextView
+                            android:id="@+id/tv_nickName_four"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_num_five"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                        <com.xq.LegouShop.weiget.CircleImageView
+                            android:id="@+id/iv_head_five"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40"
+                            android:src="@mipmap/img_small_round" />
+                        <TextView
+                            android:id="@+id/tv_nickName_five"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_num_six"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                        <com.xq.LegouShop.weiget.CircleImageView
+                            android:id="@+id/iv_head_six"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40"
+                            android:src="@mipmap/img_small_round" />
+                        <TextView
+                            android:id="@+id/tv_nickName_six"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_num_sev"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                        <com.xq.LegouShop.weiget.CircleImageView
+                            android:id="@+id/iv_head_sev"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40"
+                            android:src="@mipmap/img_small_round" />
+                        <TextView
+                            android:id="@+id/tv_nickName_sev"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_num_eig"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                        <com.xq.LegouShop.weiget.CircleImageView
+                            android:id="@+id/iv_head_eig"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40"
+                            android:src="@mipmap/img_small_round" />
+                        <TextView
+                            android:id="@+id/tv_nickName_eig"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_10"
+                            android:textColor="@color/tab_background"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+
+                </com.xq.LegouShop.weiget.CircleLayout>
+            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_marginBottom="@dimen/dp_20"
+                android:layout_width="@dimen/dp_180"
+                android:layout_height="@dimen/dp_60"
+                android:layout_below="@id/rl_cl"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="#55686f"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_head"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_60"
+                    android:scaleType="centerCrop" />
+
+                <RelativeLayout
+                    android:layout_width="@dimen/dp_120"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="@dimen/dp_65"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:textColor="@color/tab_background" />
+
+                    <ImageView
+                        android:layout_below="@id/tv_name"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:id="@+id/iv_pass"
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_15"
+                        android:src="@mipmap/img_game_pass"
+                        android:scaleType="centerCrop"
+                        />
+                    <TextView
+                        android:layout_toRightOf="@id/iv_pass"
+                        android:id="@+id/tv_pass"
+                        android:layout_width="@dimen/dp_35"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_below="@id/tv_name"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/tab_background"
+                        android:textSize="@dimen/sp_17" />
+
+                    <TextView
+                        android:id="@+id/tv_num"
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:gravity="center"
+                        android:text="0号"
+                        android:textColor="@color/tab_background"
+                        android:textSize="@dimen/sp_20" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <Button
+                android:layout_marginBottom="@dimen/dp_20"
+                android:id="@+id/btn_out_game"
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="@dimen/dp_40"
+                android:layout_below="@id/rl_cl"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@mipmap/img_out_game" />
         </RelativeLayout>
-    </LinearLayout>
-    <Button
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dp_10"
-        android:layout_marginBottom="@dimen/dp_60"
-        android:id="@+id/btn_out_game"
-        android:background="@mipmap/img_out_game"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        />
+    </ScrollView>
+
+
 
 </RelativeLayout>
         

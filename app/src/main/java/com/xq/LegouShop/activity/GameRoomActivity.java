@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -35,6 +36,8 @@ import com.xq.LegouShop.adapter.GameRoomAdapter;
 import com.xq.LegouShop.base.BaseActivity;
 import com.xq.LegouShop.base.BaseApplication;
 import com.xq.LegouShop.bean.OrderBean;
+import com.xq.LegouShop.bean.ScoreRoomBean;
+import com.xq.LegouShop.response.GetCategoryListResponse;
 import com.xq.LegouShop.response.PlayRoomResponse;
 import com.xq.LegouShop.response.RoomResponse;
 import com.xq.LegouShop.response.ScoreRoomResponse;
@@ -84,7 +87,9 @@ public class GameRoomActivity extends BaseActivity implements View.OnClickListen
     private PlayRoomResponse playRoomResponse;
     private  GameRoomAdapter gameRoomAdapter;
     private int scoreId;
+    private List<ScoreRoomBean> scoreRoomBeanList;
     private int scoreRoomId;
+    private Button btn_pintuan;
     @Override
     protected View initView() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -113,6 +118,7 @@ public class GameRoomActivity extends BaseActivity implements View.OnClickListen
 
 
     private void initDate() {
+        scoreRoomBeanList=  (ArrayList<ScoreRoomBean>) getIntent().getSerializableExtra("scoreRoomBeanList");
         title=getIntent().getStringExtra("title");
         type=getIntent().getIntExtra("type",0);
         id=getIntent().getIntExtra("id",0);
@@ -120,24 +126,35 @@ public class GameRoomActivity extends BaseActivity implements View.OnClickListen
         view_back=(View)findViewById(R.id.view_back);
         tv_title=(TextView) findViewById(R.id.tv_title);
         gridView=(GridView) findViewById(R.id.gv_room);
-
+        btn_pintuan=(Button) findViewById(R.id.btn_pintuan);
         view_back.setOnClickListener(this);
+        btn_pintuan.setOnClickListener(this);
         tv_title.setText(title);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 LogUtils.e("点击了");
                 //暂时
-//                scoreId=scoreRoomResponse.dataList.get(i).scoreId;
-//                scoreRoomId=scoreRoomResponse.dataList.get(i).id;
-//                goToPlayRoom();
-                Intent intent = new Intent(GameRoomActivity.this, GameActivity.class);
-                UIUtils.startActivityNextAnim(intent);
+                scoreId=scoreRoomBeanList.get(i).scoreId;
+                scoreRoomId=scoreRoomBeanList.get(i).id;
+                goToPlayRoom();
+//                Intent intent = new Intent(GameRoomActivity.this, GameActivity.class);
+//                UIUtils.startActivityNextAnim(intent);
             }
         });
+        if(scoreRoomBeanList!=null&&scoreRoomBeanList.size()>0){
+            if (gameRoomAdapter == null) {
+                gameRoomAdapter = new GameRoomAdapter(GameRoomActivity.this, scoreRoomBeanList, type);
+                gridView.setAdapter(gameRoomAdapter);
+            } else {
+                gameRoomAdapter.setDate(scoreRoomBeanList);
+                gameRoomAdapter.notifyDataSetChanged();
+            }
+        }else{
+            goToGameScore();
+        }
         WebSocketHandler.getDefault().addListener(socketListener);
-        goToGameScore();
-    }
+}
 
     @Override
     protected void onResume() {
@@ -196,26 +213,38 @@ public class GameRoomActivity extends BaseActivity implements View.OnClickListen
             scoreRoomResponse = gson.fromJson(message, ScoreRoomResponse.class);
             LogUtils.e("onSendDataError:有接收到数据："+message);
             if( scoreRoomResponse.action==2) {
-
+                scoreRoomBeanList=scoreRoomResponse.dataList;
                 if (gameRoomAdapter == null) {
-                    gameRoomAdapter = new GameRoomAdapter(GameRoomActivity.this, scoreRoomResponse.dataList, type);
+                    gameRoomAdapter = new GameRoomAdapter(GameRoomActivity.this,scoreRoomBeanList, type);
                     gridView.setAdapter(gameRoomAdapter);
                 } else {
-                    gameRoomAdapter.setDate(scoreRoomResponse.dataList);
+                    gameRoomAdapter.setDate(scoreRoomBeanList);
                     gameRoomAdapter.notifyDataSetChanged();
                 }
             }else if( scoreRoomResponse.action==3){
+                playRoomResponse = gson.fromJson(message, PlayRoomResponse.class);
                 if(message.indexOf("selfData")!=-1){
+                    WebSocketHandler.getDefault().removeListener(socketListener);
+                    finish();
+                    overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
                     Intent intent = new Intent(GameRoomActivity.this, GameActivity.class);
+                    intent.putExtra("playRoomResponse",playRoomResponse);
                     UIUtils.startActivityNextAnim(intent);
                     finish();
-                }else {
-                    playRoomResponse = gson.fromJson(message, PlayRoomResponse.class);
-                    DialogUtils.showAlertDialog(GameRoomActivity.this,
-                            playRoomResponse.msg);
                 }
             }
-
+            else if( scoreRoomResponse.action==1){
+                WebSocketHandler.getDefault().removeListener(socketListener);
+                finish();
+                overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
+            }
+            else{
+//                WebSocketHandler.getDefault().removeListener(socketListener);
+//                finish();
+//                overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
+                DialogUtils.showAlertDialog(GameRoomActivity.this,
+                        scoreRoomResponse.msg);
+            }
         }
 
         @Override
@@ -229,9 +258,17 @@ public class GameRoomActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.btn_pintuan:{
+                fastToPlayRoom();
+                break;
+            }
+            case R.id.tv_ensure:{
+                outGame();
+                break;
+            }
             case R.id.view_back:{
-                finish();
-                overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
+                Dialog dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameRoomActivity.this);
+                dialog.show();
                 break;
             }
         }
@@ -253,6 +290,39 @@ public class GameRoomActivity extends BaseActivity implements View.OnClickListen
         LogUtils.e("jsonObject:"+jsonObject.toString());
         WebSocketHandler.getDefault().send(jsonObject.toString());
     }
+    //快速拼团
+    private void fastToPlayRoom(){
+        SharedPrefrenceUtils.setInt(UIUtils.getContext(),"action",3);
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put("authorization", SharedPrefrenceUtils.getString(this,"token"));
+            jsonObject.put("action", String.valueOf(5));
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LogUtils.e("jsonObject:"+jsonObject.toString());
+        WebSocketHandler.getDefault().send(jsonObject.toString());
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            Dialog dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameRoomActivity.this);
+            dialog.show();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
+    //离开游戏房间
+    private void outGame(){
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put("authorization", SharedPrefrenceUtils.getString(this,"token"));
+            jsonObject.put("action", String.valueOf(1));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        WebSocketHandler.getDefault().send(jsonObject.toString());
+    }
 }

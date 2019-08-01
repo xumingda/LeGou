@@ -93,7 +93,7 @@ public class BaseApplication extends Application {
 //        JPushInterface.init(this);     		// 初始化 JPush
         //初始化websoket,并监听
         initWebSocket();
-        WebSocketHandler.getDefault().addListener(socketListener);
+//        WebSocketHandler.getDefault().addListener(socketListener);
     }
 
     private void initWebSocket() {
@@ -190,9 +190,9 @@ public class BaseApplication extends Application {
 
         @Override
         public void onDisconnect() {
-            if(!TextUtils.isEmpty(SharedPrefrenceUtils.getString(UIUtils.getContext(), "token"))){
-                LoginGame();
-            }
+//            if(!TextUtils.isEmpty(SharedPrefrenceUtils.getString(UIUtils.getContext(), "token"))){
+//                LoginGame();
+//            }
             LogUtils.e("onDisconnect");
         }
 
@@ -207,19 +207,19 @@ public class BaseApplication extends Application {
             LogUtils.e("messa:" + message);
             int action = SharedPrefrenceUtils.getInt(UIUtils.getContext(), "action", 0);
 //            if(action==0){
-//            Gson gson = new Gson();
-//            LoginGameResponse loginGameResponse = gson.fromJson(message, LoginGameResponse.class);
-//            if (loginGameResponse.code.equals("0")) {
-//                if(loginGameResponse.action==10) {
-//                    if (loginGameResponse.data.authorization.equals(SharedPrefrenceUtils.getString(UIUtils.getContext(), "token"))) {
-//                        action = loginGameResponse.data.position;
-//                        SPUtils.saveBean2Sp(UIUtils.getContext(), loginGameResponse.data, "LoginGameBean", "LoginGameBean");
-//                        SharedPrefrenceUtils.setInt(UIUtils.getContext(), "action", action);
-//                    }
-//                }
-//            }else{
+            Gson gson = new Gson();
+            LoginGameResponse loginGameResponse = gson.fromJson(message, LoginGameResponse.class);
+            if (loginGameResponse.code.equals("0")) {
+                if(loginGameResponse.action==10) {
+                    if (loginGameResponse.data.authorization.equals(SharedPrefrenceUtils.getString(UIUtils.getContext(), "token"))) {
+                        action = loginGameResponse.data.position;
+                        SPUtils.saveBean2Sp(UIUtils.getContext(), loginGameResponse.data, "LoginGameBean", "LoginGameBean");
+                        SharedPrefrenceUtils.setInt(UIUtils.getContext(), "action", action);
+                    }
+                }
+            }else{
 //                UIUtils.showToastSafe(loginGameResponse.msg);
-//            }
+            }
 
 //            }
 
@@ -232,13 +232,4 @@ public class BaseApplication extends Application {
         }
     };
 
-    private void LoginGame() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("authorization", SharedPrefrenceUtils.getString(this, "token"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        WebSocketHandler.getDefault().send(jsonObject.toString());
-    }
 }

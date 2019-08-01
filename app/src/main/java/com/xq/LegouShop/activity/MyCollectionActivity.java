@@ -287,29 +287,13 @@ public class MyCollectionActivity extends BaseActivity implements View.OnClickLi
                                     collectionAdapter.setHashMap(selectBeanHashMap);
                                 }
 
-//                                SelectBean selectBean=collectionAdapter.getSelectBean();
-//                                selectBean.id=String.valueOf(groupPosition);
-//                                HashMap<Integer,Boolean> isSelectmap;
-//                                if(selectBean.hashMap==null){
-//                                    isSelectmap=new HashMap<>();
-//                                }else{
-//                                    isSelectmap=selectBean.hashMap;
-//                                }
-//                                if(isSelectmap.get(childPosition)!=null) {
-//                                    if(isSelectmap.get(childPosition)){
-//                                        selectId.remove(getUserCollectionListResponse.getDataList().get(groupPosition).userCollectionList.get(childPosition).userCollectionId);
-//                                    }else{
-//                                        selectId.add(getUserCollectionListResponse.getDataList().get(groupPosition).userCollectionList.get(childPosition).userCollectionId);
-//                                    }
-//                                    isSelectmap.put(childPosition, !isSelectmap.get(childPosition));
-//                                }else{
-//                                    isSelectmap.put(childPosition,true);
-//                                    selectId.add(getUserCollectionListResponse.getDataList().get(groupPosition).userCollectionList.get(childPosition).userCollectionId);
-//                                }
-//                                selectBean.hashMap=isSelectmap;
-//                                collectionAdapter.setSelectBean(selectBean);
-//                                LogUtils.e("groupPosition childPosition:" + childPosition+"    status:"+isSelectmap.get(childPosition));
+                            }else {
+                                //跳到商品详情
+                                Intent intent = new Intent(MyCollectionActivity.this, GoodsInfoActivity.class);
+                                intent.putExtra("goodsId", getUserCollectionListResponse.getDataList().get(groupPosition).userCollectionList.get(childPosition).goodsId);
+                                UIUtils.startActivityNextAnim(intent);
                             }
+
                             return false;
                         }
                     });

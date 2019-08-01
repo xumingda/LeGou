@@ -29,6 +29,10 @@
             android:src="@mipmap/white_back"
             android:gravity="center_vertical"
             android:scaleType="fitCenter" />
+        <View
+            android:id="@+id/view_back"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
     </RelativeLayout>
     <RelativeLayout
         android:background="@color/text_black"

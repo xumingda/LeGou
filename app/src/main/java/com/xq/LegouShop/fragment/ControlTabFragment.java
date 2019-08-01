@@ -78,6 +78,11 @@ public class ControlTabFragment extends BaseFragment implements
     // 底部页面的集合
     private List<TabBasePager> mPagerList;
     private TabHomePager tabHomePager;
+    private TabShopcarPager shopcarPager;
+
+    public TabShopcarPager getShopcarPager() {
+        return shopcarPager;
+    }
 
     /**嗅探闪烁动画*/
     AlphaAnimation snifferflashAnimation = new AlphaAnimation(0.1f, 1.0f);
@@ -105,7 +110,7 @@ public class ControlTabFragment extends BaseFragment implements
                 mLinearLayout);
         TabClassifyPager tabClassifyPager= new TabClassifyPager(mActivity, mDragLayout,
                 mLinearLayout);
-        TabShopcarPager shopcarPager= new TabShopcarPager(mActivity, mDragLayout,
+        shopcarPager= new TabShopcarPager(mActivity, mDragLayout,
                 mLinearLayout);
         mPagerList.add(tabHomePager);
         mPagerList.add(tabClassifyPager);

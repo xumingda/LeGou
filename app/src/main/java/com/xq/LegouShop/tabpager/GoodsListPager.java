@@ -2,6 +2,7 @@ package com.xq.LegouShop.tabpager;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.google.gson.GsonBuilder;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.xq.LegouShop.R;
+import com.xq.LegouShop.activity.GoodsInfoActivity;
 import com.xq.LegouShop.adapter.GoodsAdapter;
 import com.xq.LegouShop.adapter.HomeAdapter;
 import com.xq.LegouShop.adapter.HomeItemAdapter;
@@ -109,13 +111,21 @@ public class GoodsListPager extends ViewTabBasePager {
             public void dealWithJson(String address, String json) {
                 loadingDialog.dismiss();
                 Gson gson = new Gson();
-                GetGoodsListResponse getGoodsListResponse = gson.fromJson(json, GetGoodsListResponse.class);
+                final GetGoodsListResponse getGoodsListResponse = gson.fromJson(json, GetGoodsListResponse.class);
                 LogUtils.e("getGoodsListResponse da:" + getGoodsListResponse.toString());
                 if (getGoodsListResponse.code.equals("0")) {
                     if(getGoodsListResponse.dataList.size()>0){
                         GoodsAdapter adapter = new GoodsAdapter(mContext, getGoodsListResponse.getDataList());
                         gv_goods.setAdapter(adapter);
                     }
+                    gv_goods.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                            intent.putExtra("goodsId", getGoodsListResponse.getDataList().get(i).id);
+                            UIUtils.startActivityNextAnim(intent);
+                        }
+                    });
 
                 } else {
                     DialogUtils.showAlertDialog(mContext,

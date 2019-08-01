@@ -5,6 +5,7 @@ import com.xq.LegouShop.bean.PlayRoomUserBean;
 import com.xq.LegouShop.bean.RoomBean;
 import com.xq.LegouShop.bean.ScoreRoomBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
  * @更新时间:
  * @更新内容: TODO
  */
-public class PlayRoomResponse {
+public class PlayRoomResponse implements Serializable {
 	
 	/** 服务器响应码 */
 	public String code;
@@ -26,7 +27,7 @@ public class PlayRoomResponse {
 	public SelfData selfData;
 	public int action;
 
-	public class SelfData{
+	public class SelfData implements Serializable{
 		/** 用户token */
 		public String userId;//	用户id;
 		public String  nickName	;//用户昵称

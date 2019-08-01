@@ -40,6 +40,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:visibility="invisible"
         android:paddingBottom="@dimen/dp_20"
         android:id="@+id/sv"
         android:layout_width="match_parent"
@@ -244,20 +245,21 @@
             />
         <TextView
             android:paddingLeft="@dimen/dp_50"
+            android:id="@+id/tv_user_name"
             android:textColor="@color/text_black"
             android:textSize="@dimen/sp_16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="姓名：阿萨德"
+
             />
         <TextView
+            android:id="@+id/tv_idcard"
             android:layout_marginTop="@dimen/dp_5"
             android:paddingLeft="@dimen/dp_50"
             android:textColor="@color/text_black"
             android:textSize="@dimen/sp_16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="身份证号：454545***546122"
             />
     </LinearLayout>
     <LinearLayout

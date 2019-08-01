@@ -15,6 +15,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,20 +30,28 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.adapter.GameRoomAdapter;
 import com.xq.LegouShop.base.BaseActivity;
 import com.xq.LegouShop.base.BaseApplication;
+import com.xq.LegouShop.response.LoginGameResponse;
 import com.xq.LegouShop.response.PlayRoomResponse;
 import com.xq.LegouShop.response.ScoreRoomResponse;
 import com.xq.LegouShop.util.DateUtils;
 import com.xq.LegouShop.util.DialogUtils;
 import com.xq.LegouShop.util.LogUtils;
+import com.xq.LegouShop.util.PictureOption;
 import com.xq.LegouShop.util.SharedPrefrenceUtils;
 import com.xq.LegouShop.util.UIUtils;
+import com.xq.LegouShop.weiget.CircleImageLayout;
+import com.xq.LegouShop.weiget.CircleImageView;
+import com.xq.LegouShop.weiget.CircleLayout;
 import com.xq.LegouShop.weiget.PieView;
 import com.xq.LegouShop.weiget.wheelsruflibrary.listener.RotateListener;
 import com.xq.LegouShop.weiget.wheelsruflibrary.view.WheelSurfView;
@@ -49,6 +59,7 @@ import com.zhangke.websocket.SimpleListener;
 import com.zhangke.websocket.SocketListener;
 import com.zhangke.websocket.WebSocketHandler;
 import com.zhangke.websocket.response.ErrorResponse;
+import com.zhangke.websocket.util.LogUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +68,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
@@ -89,8 +101,16 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
     private boolean isRunning=false;
     private Dialog dialog;
     private Button btn_out_game;
-;
+    private ImageView iv_head;
+    private TextView tv_mus,tv_name,tv_num,tv_pass,tv_middle_time,tv_num_one,tv_nick_name_one,tv_num_two,tv_nick_name_two,tv_num_three,tv_nick_name_three,tv_num_four,tv_nick_name_four,tv_num_five,tv_nick_name_five,tv_num_six,tv_nick_name_six,tv_num_sev,tv_nick_name_sev,tv_num_eig,tv_nick_name_eig,tv_num_nine,tv_nick_name_nine,tv_num_ten,tv_nick_name_ten;
+    private CircleImageView iv_head_one,iv_head_two,iv_head_three,iv_head_four,iv_head_five,iv_head_six,iv_head_sev,iv_head_eig,iv_head_nine,iv_head_ten;
+    private WheelSurfView wheelSurfView2;
     private PlayRoomResponse playRoomResponse;
+    private long leftTime;
+    private long middleTime;
+    private ImageLoader imageLoader;
+
+
     @Override
     protected View initView() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -104,14 +124,165 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
         return rootView;
     }
 
+    Handler handlerStop = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    leftTime = 0;
+                    handler.removeCallbacks(update_thread);
+                    break;
+                case 2:{
+                    tv_middle_time.setVisibility(View.INVISIBLE);
+                    break;
+                }
+                case 3:{
+                    handler.removeCallbacks(update_thread);
 
+                    update_thread.run();
+                    break;
+                }
+            }
+            super.handleMessage(msg);
+        }
 
+    };
+
+    Handler handler = new Handler();
+    Runnable update_thread = new Runnable() {
+        @Override
+        public void run() {
+            leftTime--;
+            LogUtils.e("leftTime="+leftTime);
+            if (leftTime > 0) {
+                //倒计时效果展示
+                String formatLongToTimeStr = formatLongToTimeStr(leftTime);
+                LogUtils.e("formatLongToTimeStr:"+formatLongToTimeStr.length()+"  "+formatLongToTimeStr);
+
+                tv_mus.setText(formatLongToTimeStr);
+                //每一秒执行一次
+                handler.postDelayed(this, 1000);
+            } else {//倒计时结束
+                //处理业务流程
+
+                //发送消息，结束倒计时
+                Message message = new Message();
+                message.what = 1;
+                handlerStop.sendMessage(message);
+            }
+        }
+    };
+
+    Runnable update_thread_sec = new Runnable() {
+        @Override
+        public void run() {
+            middleTime--;
+            LogUtils.e("middleTime="+middleTime);
+            if (middleTime > 0) {
+                //倒计时效果展示
+                String formatLongToTimeStr = formatLongToSec(middleTime);
+                LogUtils.e("formatLongToTimeStr:"+formatLongToTimeStr.length()+"  "+formatLongToTimeStr);
+
+                tv_middle_time.setText(formatLongToTimeStr);
+                //每一秒执行一次
+                handler.postDelayed(this, 1000);
+            } else {//倒计时结束
+                //处理业务流程
+
+                //发送消息，结束倒计时
+                Message message = new Message();
+                message.what = 2;
+                handlerStop.sendMessage(message);
+            }
+        }
+    };
+    public String formatLongToTimeStr(Long l) {
+        int hour = 0;
+        int minute = 0;
+        int second = 0;
+        second = l.intValue() ;
+        if (second > 60) {
+            minute = second / 60;   //取整
+            second = second % 60;   //取余
+        }
+        if (minute > 60) {
+            hour = minute / 60;
+            minute = minute % 60;
+        }
+        String strtime;
+        if(second<10){
+            strtime = minute+":0"+second;
+        }else {
+           strtime = minute + ":" + second;
+        }
+        return strtime;
+    }
+
+    public String formatLongToSec(Long l) {
+        int hour = 0;
+        int minute = 0;
+        int second = 0;
+        second = l.intValue() ;
+        if (second > 60) {
+            minute = second / 60;   //取整
+            second = second % 60;   //取余
+        }
+        if (minute > 60) {
+            hour = minute / 60;
+            minute = minute % 60;
+        }
+        String strtime;
+        if(second<10){
+            strtime = "0"+second;
+        }else {
+            strtime = ""+second;
+        }
+        return strtime;
+    }
 
     private void initDate() {
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init((ImageLoaderConfiguration.createDefault(this)));
+        playRoomResponse=(PlayRoomResponse) getIntent().getSerializableExtra("playRoomResponse");
         loadingDialog = DialogUtils.createLoadDialog(GameActivity.this, false);
+        tv_num_one=(TextView)rootView.findViewById(R.id.tv_num_one);
+        tv_nick_name_one =(TextView)rootView.findViewById(R.id.tv_nickName_one);
+        iv_head_one=(CircleImageView) rootView.findViewById(R.id.iv_head_one);
+        tv_num_three=(TextView)rootView.findViewById(R.id.tv_num_three);
+        tv_nick_name_three =(TextView)rootView.findViewById(R.id.tv_nickName_three);
+        iv_head_three=(CircleImageView) rootView.findViewById(R.id.iv_head_three);
+        tv_num_two=(TextView)rootView.findViewById(R.id.tv_num_two);
+        tv_nick_name_two =(TextView)rootView.findViewById(R.id.tv_nickName_two);
+        iv_head_two=(CircleImageView) rootView.findViewById(R.id.iv_head_two);
+        tv_num_four=(TextView)rootView.findViewById(R.id.tv_num_four);
+        tv_nick_name_four =(TextView)rootView.findViewById(R.id.tv_nickName_four);
+        iv_head_four=(CircleImageView) rootView.findViewById(R.id.iv_head_four);
+        tv_num_five=(TextView)rootView.findViewById(R.id.tv_num_five);
+        tv_nick_name_five =(TextView)rootView.findViewById(R.id.tv_nickName_five);
+        iv_head_five=(CircleImageView) rootView.findViewById(R.id.iv_head_five);
+        tv_num_six=(TextView)rootView.findViewById(R.id.tv_num_six);
+        tv_nick_name_six =(TextView)rootView.findViewById(R.id.tv_nickName_six);
+        iv_head_six=(CircleImageView) rootView.findViewById(R.id.iv_head_six);
+        tv_num_sev=(TextView)rootView.findViewById(R.id.tv_num_sev);
+        tv_nick_name_sev =(TextView)rootView.findViewById(R.id.tv_nickName_sev);
+        iv_head_sev=(CircleImageView) rootView.findViewById(R.id.iv_head_sev);
+        tv_num_eig=(TextView)rootView.findViewById(R.id.tv_num_eig);
+        tv_nick_name_eig =(TextView)rootView.findViewById(R.id.tv_nickName_eig);
+        iv_head_eig=(CircleImageView) rootView.findViewById(R.id.iv_head_eig);
+        tv_num_nine=(TextView)rootView.findViewById(R.id.tv_num_nine);
+        tv_nick_name_nine =(TextView)rootView.findViewById(R.id.tv_nickName_nine);
+        iv_head_nine=(CircleImageView) rootView.findViewById(R.id.iv_head_nine);
+        tv_num_ten=(TextView)rootView.findViewById(R.id.tv_num_ten);
+        tv_nick_name_ten =(TextView)rootView.findViewById(R.id.tv_nickName_ten);
+        iv_head_ten=(CircleImageView) rootView.findViewById(R.id.iv_head_ten);
         btn_out_game = (Button) rootView.findViewById(R.id.btn_out_game);
         view_back=(View)findViewById(R.id.view_back);
-//        imageView= findViewById(R.id.image);
+        iv_head=(ImageView)findViewById(R.id.iv_head);
+        tv_num=(TextView)findViewById(R.id.tv_num) ;
+        tv_pass=(TextView)findViewById(R.id.tv_pass) ;
+        tv_name=(TextView)findViewById(R.id.tv_name) ;
+        tv_middle_time=(TextView)findViewById(R.id.tv_middle_time) ;
+        tv_mus= findViewById(R.id.tv_mus);
+
 //        pieView = findViewById(R.id.zpan);
 
         view_back.setOnClickListener(this);
@@ -156,20 +327,20 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
                 , Color.parseColor("#ffdecc") , Color.parseColor("#ffdecc"), Color.parseColor("#fbc6a9")
                 , Color.parseColor("#ffdecc")};
         //文字
-        String[] des = new String[]{"王 者 皮 肤", "1 8 0 积 分", "L O L 皮 肤"
-                , "谢 谢 参 与", "2 8 积 分", "微 信 红 包",
-                "5 Q 币", "2 8 积 分", "微 信 红 包",
-                "5 Q 币"};
+        String[] des = new String[]{"1号", "2号", "3号"
+                , "4号", "5号", "6号",
+                "7号", "8号", "9号",
+                "10号"};
         //图标
         List<Bitmap> mListBitmap = new ArrayList<>();
         for ( int i = 0; i < colors.length; i++ ) {
-            mListBitmap.add(BitmapFactory.decodeResource(getResources(), R.mipmap.iphone));
+            mListBitmap.add(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
         }
         //主动旋转一下图片
         mListBitmap = WheelSurfView.rotateBitmaps(mListBitmap);
 
         //获取第三个视图
-        final WheelSurfView wheelSurfView2 = findViewById(R.id.wheelSurfView2);
+        wheelSurfView2 = findViewById(R.id.wheelSurfView2);
         WheelSurfView.Builder build = new WheelSurfView.Builder()
                 .setmColors(colors)
                 .setmDeses(des)
@@ -177,13 +348,14 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
                 .setmType(1)
                 .setmTypeNum(10)
                 .build();
+
         wheelSurfView2.setConfig(build);
 
         //添加滚动监听
         wheelSurfView2.setRotateListener(new RotateListener() {
             @Override
             public void rotateEnd(int position, String des) {
-                Toast.makeText(GameActivity.this, "结束了 位置：" + position + "   描述：" + des, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(GameActivity.this, "结束了 位置：" + position + "   描述：" + des, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -193,28 +365,131 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void rotateBefore(ImageView goImg) {
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(GameActivity.this);
-                builder.setTitle("温馨提示");
-                builder.setMessage("确定要花费100积分抽奖？");
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //模拟位置
-                        int position = new Random().nextInt(7) + 1;
-                        wheelSurfView2.startRotate(position);
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.show();
+                //点击开奖，去掉
+//                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(GameActivity.this);
+//                builder.setTitle("温馨提示");
+//                builder.setMessage("确定要花费100积分抽奖？");
+//                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        //模拟位置
+//                        int position = new Random().nextInt(7) + 1;
+//                        wheelSurfView2.startRotate(position);
+//                    }
+//                });
+//                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                    }
+//                });
+//                builder.show();
 
             }
         });
+        if(playRoomResponse!=null){
+            LogUtils.e("数据:"+playRoomResponse.data.status+"   "+playRoomResponse.data.leftSecond);
+            if(playRoomResponse.data.status!=0||playRoomResponse.data.status!=4) {
+                leftTime = Long.parseLong(playRoomResponse.data.leftSecond);
+                update_thread.run();
+            }else{
+                leftTime = Long.parseLong(playRoomResponse.data.leftSecond);
+                String formatLongToTimeStr = formatLongToTimeStr(leftTime);
+                LogUtils.e("formatLongToTimeStr:"+formatLongToTimeStr.length()+"  "+formatLongToTimeStr);
+                tv_mus.setText(formatLongToTimeStr);
 
+
+            }
+            for(int i=0;i<playRoomResponse.dataList.size();i++){
+                switch (playRoomResponse.dataList.get(i).num){
+                    case 1:{
+                        tv_nick_name_one.setText(playRoomResponse.dataList.get(i).nickName);
+                        tv_num_one.setText("1号");
+                        if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_one, PictureOption.getSimpleOptions());
+                        }
+                        break;
+                    }
+                    case 2:{
+                        tv_nick_name_two.setText(playRoomResponse.dataList.get(i).nickName);
+                        tv_num_two.setText("2号");
+                        if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_two, PictureOption.getSimpleOptions());
+                        }
+                        break;
+                    }
+                    case 3:{
+                        tv_nick_name_three.setText(playRoomResponse.dataList.get(i).nickName);
+                        tv_num_three.setText("3号");
+                        if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_three, PictureOption.getSimpleOptions());
+                        }
+                        break;
+                    }
+                    case 4:{
+                        tv_nick_name_four.setText(playRoomResponse.dataList.get(i).nickName);
+                        tv_num_four.setText("4号");
+                        if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_four, PictureOption.getSimpleOptions());
+                        }
+                        break;
+                    }
+                    case 5:{
+                        tv_nick_name_five.setText(playRoomResponse.dataList.get(i).nickName);
+                        tv_num_five.setText("5号");
+                        if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_five, PictureOption.getSimpleOptions());
+                        }
+                        break;
+                    }
+                    case 6:{
+                        tv_nick_name_six.setText(playRoomResponse.dataList.get(i).nickName);
+                        tv_num_six.setText("6号");
+                        if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_six, PictureOption.getSimpleOptions());
+                        }
+                        break;
+                    }
+                    case 7:{
+                        tv_nick_name_sev.setText(playRoomResponse.dataList.get(i).nickName);
+                        tv_num_sev.setText("7号");
+                        if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_sev, PictureOption.getSimpleOptions());
+                        }
+                        break;
+                    }
+                    case 8:{
+                        tv_nick_name_eig.setText(playRoomResponse.dataList.get(i).nickName);
+                        tv_num_eig.setText("8号");
+                        if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_eig, PictureOption.getSimpleOptions());
+                        }
+                        break;
+                    }
+                    case 9:{
+                        tv_nick_name_nine.setText(playRoomResponse.dataList.get(i).nickName);
+                        tv_num_nine.setText("9号");
+                        if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_nine, PictureOption.getSimpleOptions());
+                        }
+                        break;
+                    }
+                    case 10:{
+                        tv_nick_name_ten.setText(playRoomResponse.dataList.get(i).nickName);
+                        tv_num_ten.setText("10号");
+                        if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                            imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_ten, PictureOption.getSimpleOptions());
+                        }
+                        break;
+                    }
+                }
+            }
+            tv_pass.setText("X"+playRoomResponse.selfData.passcardNum);
+            tv_name.setText(playRoomResponse.selfData.nickName);
+            tv_num.setText(playRoomResponse.selfData.num+"号");
+            imageLoader.displayImage("http://qiniu.lelegou.pro/"+playRoomResponse.selfData.headurl,iv_head, PictureOption.getSimpleOptions());
+        }
         btn_out_game.setOnClickListener(this);
+
     }
 
     @Override
@@ -232,6 +507,7 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        WebSocketHandler.getDefault().removeListener(socketListener);
     }
     private SocketListener socketListener = new SimpleListener() {
         @Override
@@ -265,15 +541,143 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
 //            if( SharedPrefrenceUtils.getInt(UIUtils.getContext(),"action",0)==4){
                 Gson gson = new Gson();
                 ScoreRoomResponse scoreRoomResponse= gson.fromJson(message, ScoreRoomResponse.class);
-                if(scoreRoomResponse.action==1||scoreRoomResponse.action==2||scoreRoomResponse.action==3){
-                    SharedPrefrenceUtils.setInt(UIUtils.getContext(),"action",0);
+                if(scoreRoomResponse.action==1){
                     WebSocketHandler.getDefault().removeListener(socketListener);
                     finish();
                     overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
+                }else if(scoreRoomResponse.action==2){
+
+                    Intent intent = new Intent(GameActivity.this, GameRoomActivity.class);
+                    intent.putExtra("id", scoreRoomResponse.dataList.get(0).scoreId);
+                    intent.putExtra("scoreRoomBeanList",(Serializable)scoreRoomResponse.dataList);
+                    if (scoreRoomResponse.dataList.get(0).scoreId == 1) {
+                        intent.putExtra("type", 200);
+                        intent.putExtra("title", "200积分专区");
+                    } else if (scoreRoomResponse.dataList.get(0).scoreId == 2) {
+                        intent.putExtra("type", 500);
+                        intent.putExtra("title", "500积分专区");
+                    } else if (scoreRoomResponse.dataList.get(0).scoreId == 3) {
+                        intent.putExtra("type", 1000);
+                        intent.putExtra("title", "1000积分专区");
+                    } else {
+                        intent.putExtra("type", 2000);
+                        intent.putExtra("title", "2000积分专区");
+                    }
+                    UIUtils.startActivityNextAnim(intent);
+                    finish();
                 }
-                else {
-                    DialogUtils.showAlertDialog(GameActivity.this,
-                            scoreRoomResponse.msg);
+                else if(scoreRoomResponse.action==3) {
+                    playRoomResponse = gson.fromJson(message, PlayRoomResponse.class);
+                    if(playRoomResponse.data.status!=0||playRoomResponse.data.status!=4) {
+                        //倒计时复位，重开
+                        leftTime = Long.parseLong(playRoomResponse.data.leftSecond);
+                        Message message1 = new Message();
+                        message1.what = 3;
+                        handlerStop.sendMessage(message1);
+                    }else{
+                        if(!TextUtils.isEmpty(playRoomResponse.data.leftSecond)) {
+                            leftTime = Long.parseLong(playRoomResponse.data.leftSecond);
+                            String formatLongToTimeStr = formatLongToTimeStr(leftTime);
+                            LogUtils.e("formatLongToTimeStr:" + formatLongToTimeStr.length() + "  " + formatLongToTimeStr);
+                            tv_mus.setText(formatLongToTimeStr);
+                        }
+                    }
+                    for(int i=0;i<playRoomResponse.dataList.size();i++){
+                        switch (playRoomResponse.dataList.get(i).num){
+                            case 1:{
+                                tv_nick_name_one.setText(playRoomResponse.dataList.get(i).nickName);
+                                tv_num_one.setText("1号");
+                                if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                                    imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_one, PictureOption.getSimpleOptions());
+                                }
+                                break;
+                            }
+                            case 2:{
+                                tv_nick_name_two.setText(playRoomResponse.dataList.get(i).nickName);
+                                tv_num_two.setText("2号");
+                                if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                                    imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_two, PictureOption.getSimpleOptions());
+                                }
+                                break;
+                            }  case 3:{
+                                tv_nick_name_three.setText(playRoomResponse.dataList.get(i).nickName);
+                                tv_num_three.setText("3号");
+                                if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                                    imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_three, PictureOption.getSimpleOptions());
+                                }
+                                break;
+                            }
+                            case 4:{
+                                tv_nick_name_four.setText(playRoomResponse.dataList.get(i).nickName);
+                                tv_num_four.setText("4号");
+                                if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                                    imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_four, PictureOption.getSimpleOptions());
+                                }
+                                break;
+                            }
+                            case 5:{
+                                tv_nick_name_five.setText(playRoomResponse.dataList.get(i).nickName);
+                                tv_num_five.setText("5号");
+                                if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                                    imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_five, PictureOption.getSimpleOptions());
+                                }
+                                break;
+                            }
+                            case 6:{
+                                tv_nick_name_six.setText(playRoomResponse.dataList.get(i).nickName);
+                                tv_num_six.setText("6号");
+                                if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                                    imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_six, PictureOption.getSimpleOptions());
+                                }
+                                break;
+                            }
+                            case 7:{
+                                tv_nick_name_sev.setText(playRoomResponse.dataList.get(i).nickName);
+                                tv_num_sev.setText("7号");
+                                if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                                    imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_sev, PictureOption.getSimpleOptions());
+                                }
+                                break;
+                            }
+                            case 8:{
+                                tv_nick_name_eig.setText(playRoomResponse.dataList.get(i).nickName);
+                                tv_num_eig.setText("8号");
+                                if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                                    imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_eig, PictureOption.getSimpleOptions());
+                                }
+                                break;
+                            }   case 9:{
+                                tv_nick_name_nine.setText(playRoomResponse.dataList.get(i).nickName);
+                                tv_num_nine.setText("9号");
+                                if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                                    imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_nine, PictureOption.getSimpleOptions());
+                                }
+                                break;
+                            }
+                            case 10:{
+                                tv_nick_name_ten.setText(playRoomResponse.dataList.get(i).nickName);
+                                tv_num_ten.setText("10号");
+                                if(!TextUtils.isEmpty(playRoomResponse.dataList.get(i).headurl)) {
+                                    imageLoader.displayImage("http://qiniu.lelegou.pro/" + playRoomResponse.dataList.get(i).headurl, iv_head_ten, PictureOption.getSimpleOptions());
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    tv_pass.setText("X"+playRoomResponse.selfData.passcardNum);
+                    tv_name.setText(playRoomResponse.selfData.nickName);
+                    tv_num.setText(playRoomResponse.selfData.num+"号");
+                    imageLoader.displayImage("http://qiniu.lelegou.pro/"+playRoomResponse.selfData.headurl,iv_head, PictureOption.getSimpleOptions());
+                }else  if(scoreRoomResponse.action==99) {
+                    tv_mus.setText("开奖中");
+                    tv_middle_time.setVisibility(View.VISIBLE);
+                    middleTime=5;
+                    update_thread_sec.run();
+                    //模拟位置
+                    wheelSurfView2.startRotate(scoreRoomResponse.num);
+                }else  if(scoreRoomResponse.action==77||scoreRoomResponse.action==88) {
+                    //模拟位置
+                    UIUtils.showToastSafe(scoreRoomResponse.msg);
                 }
 
 //            }
@@ -291,6 +695,11 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.view_back:{
+                Dialog dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameActivity.this);
+                dialog.show();
+                break;
+            }
+            case R.id.tv_ensure:{
                 outGame();
                 break;
             }
@@ -303,7 +712,6 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
     }
     //离开游戏房间
     private void outGame(){
-        SharedPrefrenceUtils.setInt(UIUtils.getContext(),"action",4);
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put("authorization", SharedPrefrenceUtils.getString(this,"token"));
@@ -314,15 +722,26 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
         WebSocketHandler.getDefault().send(jsonObject.toString());
     }
 
+//    @Override
+
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//
+//        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+//            outGame();
+//        }
+//
+//        return super.onKeyDown(keyCode, event);
+//
+//    }
+
     @Override
-
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            outGame();
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            Dialog dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameActivity.this);
+            dialog.show();
+            return true;
         }
-
         return super.onKeyDown(keyCode, event);
-
     }
+
 }

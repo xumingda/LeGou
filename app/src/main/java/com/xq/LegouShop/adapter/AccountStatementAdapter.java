@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.bean.OrderBean;
+import com.xq.LegouShop.bean.UserBalanceLogBean;
 
 import java.util.List;
 
@@ -26,18 +27,18 @@ import java.util.List;
 public class AccountStatementAdapter extends BaseAdapter{
 
     private String TAG="ShowAdapter";
-    private List<OrderBean> orderBeanList;
+    private List<UserBalanceLogBean> orderBeanList;
     private Context mContext;
 
     private Gson gson;
-    public AccountStatementAdapter(Context context, List<OrderBean> orderBeanList){
+    public AccountStatementAdapter(Context context, List<UserBalanceLogBean> orderBeanList){
         mContext=context;
         this.orderBeanList=orderBeanList;
 
         gson = new Gson();
     }
 
-    public void setDate(List<OrderBean> orderBeanList){
+    public void setDate(List<UserBalanceLogBean> orderBeanList){
         this.orderBeanList=orderBeanList;
     }
     @Override
@@ -69,15 +70,44 @@ public class AccountStatementAdapter extends BaseAdapter{
         } else {
             vh = (ViewHolder) view.getTag();
         }
-        OrderBean orderBean=orderBeanList.get(pos);
-//        if(orderBean.getPhoneNumber()!=null&&orderBean.getPhoneNumber().length()>10){
-//            vh.tv_phone.setText(orderBean.getPhoneNumber().substring(0,3)+"****"+orderBean.getPhoneNumber().substring(7,11));
-//        }else{
-//            vh.tv_phone.setText(orderBean.getPhoneNumber());
-//        }
-//
-//        vh.tv_price.setText("¥"+orderBean.getNeedMoney());
-//        vh.tv_time.setText(orderBean.getCreateTime());
+        UserBalanceLogBean orderBean=orderBeanList.get(pos);
+        //类型 1充值，2提现，3购物，4退款，5转去购物积分，6转去转换积分，7转换积分转来，8拼团中奖
+        switch (orderBean.getType()){
+            case 1:{
+                vh.tv_name.setText("充值");
+                break;
+            }
+            case 2:{
+                vh.tv_name.setText("提现");
+                break;
+            }
+            case 3:{
+                vh.tv_name.setText("购物");
+                break;
+            }
+            case 4:{
+                vh.tv_name.setText("退款");
+                break;
+            }
+            case 5:{
+                vh.tv_name.setText("转去购物积分");
+                break;
+            }
+            case 6:{
+                vh.tv_name.setText("转去转换积分");
+                break;
+            }
+            case 7:{
+                vh.tv_name.setText("转换积分转来");
+                break;
+            }
+            case 8:{
+                vh.tv_name.setText("拼团中奖");
+                break;
+            }
+        }
+        vh.tv_money.setText(orderBean.getMoney());
+        vh.tv_time.setText(orderBean.getCreateTime());
 
         return view;
     }

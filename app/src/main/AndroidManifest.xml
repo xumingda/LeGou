@@ -8,6 +8,12 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
@@ -15,7 +21,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/SampleTheme.Light">
         <!-- AK鉴权 -->
         <!-- meta-data需要写在application中 -->
         <meta-data
@@ -42,6 +48,8 @@
         </activity>
         <service android:name=".socket.service.TcpService">
         </service>
+        <activity android:name=".activity.HomeGoodsListActivity"></activity>
+        <activity android:name=".activity.ClassifyActivity"></activity>
         <activity android:name=".activity.LogisticsActivity"></activity>
         <activity android:name=".activity.SearchGoodsActivity"></activity>
         <activity android:name=".activity.GoodListsActivity"></activity>
@@ -60,15 +68,19 @@
         <activity android:name=".activity.MyCollectionActivity"></activity>
         <activity android:name=".activity.AccountStatementActivity"></activity>
         <activity android:name=".activity.RechargeActivity"></activity>
-        <activity android:name=".activity.GoodsInfoActivity"></activity>
+        <activity android:name=".activity.GoodsInfoActivity" android:theme="@style/SampleTheme.Light"></activity>
         <activity android:name=".activity.BuyGoodActivity"></activity>
         <activity android:name=".activity.PersonalSafeActivity"></activity>
         <activity android:name=".activity.UpdatePhoneActivity"></activity>
         <activity android:name=".activity.UpdatePwdActivity"></activity>
         <activity android:name=".activity.DestroyUserActivity"></activity>
         <activity android:name=".activity.CertificationActivity"></activity>
-        <activity android:name=".activity.GameActivity"></activity>
-        <activity android:name=".activity.GameRoomActivity"></activity>
+        <activity android:name=".activity.GameActivity"
+            android:theme="@style/SampleTheme.Light"
+            ></activity>
+        <activity android:name=".activity.GameRoomActivity"
+            android:theme="@style/SampleTheme.Light"
+            ></activity>
     </application>
 
 </manifest>

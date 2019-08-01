@@ -328,6 +328,58 @@ public class WheelSurfPanView extends View {
         anim.start();
     }
 
+    /**
+     * 开始转动
+     * pos 位置 1 开始 这里的位置上是按照逆时针递增的 比如当前指的那个选项是第一个  那么他左边的那个是第二个 以此类推
+     */
+    public void startRotate1(final int pos,View view) {
+        //最低圈数是mMinTimes圈
+        int newAngle = ( int ) (360 * mMinTimes + (pos - 1) * mAngle + currAngle - (lastPosition == 0 ? 0 : ((lastPosition - 1) * mAngle)));
+        //计算目前的角度划过的扇形份数
+        int num = ( int ) ((newAngle - currAngle) / mAngle);
+        ObjectAnimator anim = ObjectAnimator.ofFloat(view, "rotation", currAngle, newAngle);
+        currAngle = newAngle;
+        lastPosition = pos;
+        // 动画的持续时间，执行多久？
+        anim.setDuration(num * mVarTime);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                //将动画的过程态回调给调用者
+                if ( rotateListener != null )
+                    rotateListener.rotating(animation);
+            }
+        });
+        final float[] f = {0};
+        anim.setInterpolator(new TimeInterpolator() {
+            @Override
+            public float getInterpolation(float t) {
+                float f1 = ( float ) (Math.cos((t + 1) * Math.PI) / 2.0f) + 0.5f;
+                Log.e("HHHHHHHh", "" + t + "     " + (f[0] - f1));
+                f[0] = ( float ) (Math.cos((t + 1) * Math.PI) / 2.0f) + 0.5f;
+                return f[0];
+            }
+        });
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                //当旋转结束的时候回调给调用者当前所选择的内容
+                if ( rotateListener != null ) {
+                    if ( mType == 1 ) {
+                        //去空格和前后空格后输出
+                        String des = mDeses[(mTypeNum - pos + 1) %
+                                mTypeNum].trim().replaceAll(" ", "");
+                        rotateListener.rotateEnd(pos, des);
+                    } else {
+                        rotateListener.rotateEnd(pos, "");
+                    }
+                }
+            }
+        });
+        // 正式开始启动执行动画
+        anim.start();
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -399,12 +451,12 @@ public class WheelSurfPanView extends View {
 
                     float angle = ( float ) Math.toRadians(startAngle + mAngle / 2);
 
-                    //确定图片在圆弧中 中心点的位置
+                    //确定图片在圆弧中 中心点的位置s
                     float x = ( float ) (width / 2 + (mRadius / 2 + mRadius / 12) * Math.cos(angle));
                     float y = ( float ) (height / 2 + (mRadius / 2 + mRadius / 12) * Math.sin(angle));
                     // 确定绘制图片的位置
                     RectF rect1 = new RectF(x - w / 2, y - h / 2, x + w / 2, y + h / 2);
-                    Log.e("距离:","距离:"+x+"    y:"+y+"   rect1:"+rect1);
+                    Log.e("距离:","距离:"+x+"    y:"+y+"   rect1:"+rect1+"  mTypeNum:"+mTypeNum+"   i:"+i);
                     canvas.drawBitmap(mListBitmap.get(i), null, rect1, null);
 
                     //重置开始角度

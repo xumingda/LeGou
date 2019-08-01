@@ -10,13 +10,15 @@ public class SpecificationsBean implements Serializable {
     public List<AttrBean> attrList;//属性值列表，每个规格组都有多个属性值
 
     public class AttrBean{
+        public boolean selected;
         public String id;//	属性值id,  goodsGroupValueId，这个参数在下一个接口2.1.15中用到，用来查询库存和商品单价
         public String goodsGroupNameValue;//	属性值
 
         @Override
         public String toString() {
             return "AttrBean{" +
-                    "id='" + id + '\'' +
+                    "selected=" + selected +
+                    ", id='" + id + '\'' +
                     ", goodsGroupNameValue='" + goodsGroupNameValue + '\'' +
                     '}';
         }

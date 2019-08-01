@@ -3,7 +3,7 @@ package com.xq.LegouShop.protocol;
 
 import com.google.gson.Gson;
 import com.xq.LegouShop.base.BaseProtocol;
-import com.xq.LegouShop.response.GetAuthenticationInfoResponse;
+
 import com.xq.LegouShop.response.GetUserReceiveAddressListResponse;
 
 public class GetUserReceiveAddressListProtocol extends BaseProtocol<GetUserReceiveAddressListResponse> {

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.xq.LegouShop.support.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#dce7ed">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/dp_140"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="50%w"
         android:background="@color/grayColor" />
 
     <LinearLayout
         android:id="@+id/ll_pager"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/dp_50"
-        android:layout_marginTop="@dimen/dp_90"
+        android:layout_marginTop="@dimen/dp_110"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -50,290 +50,306 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:background="@color/tab_background"
-        android:id="@+id/ll_top"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_80"
+    <GridView
+        android:id="@+id/gv_class"
         android:layout_below="@id/vp"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:id="@+id/rl_womenWear"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/iv_womenWear"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_19"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/img_womenwear" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_womenWear"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="女装"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_12" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_manWear"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/iv_manWear"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_19"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/img_manwear" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_manWear"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="男装"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_12" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_cosmetics"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/iv_cosmetics"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_19"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/img_cosmetics" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_cosmetics"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="化妆品"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_12" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_message"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/iv_tea"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_19"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/img_tea" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_tea"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="茶叶"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_12" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_watch"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/iv_watch"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_19"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/img_watch" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_watch"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="手表"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_12" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
         android:background="@color/tab_background"
-        android:id="@+id/ll_top_two"
+        android:numColumns="5"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_85"
-        android:layout_below="@id/ll_top"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/dp_160"
+        ></GridView>
+    <View
+        android:layout_below="@id/gv_class"
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/tab_background"
+        />
+    <!--<LinearLayout-->
+        <!--android:background="@color/tab_background"-->
+        <!--android:id="@+id/ll_top"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/dp_80"-->
+        <!--android:layout_below="@id/vp"-->
+        <!--android:orientation="horizontal">-->
 
-        <RelativeLayout
-            android:id="@+id/rl_womenshoe"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_80"
-            android:layout_weight="1">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_womenWear"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1">-->
 
-            <ImageView
-                android:id="@+id/iv_womenshoe"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_19"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/img_women_shoe" />
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_womenWear"-->
+                <!--android:layout_width="@dimen/dp_36"-->
+                <!--android:layout_height="@dimen/dp_36"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_19"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@mipmap/img_womenwear" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_womenshoe"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="女鞋"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_12" />
-        </RelativeLayout>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/iv_womenWear"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:text="女装"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="@dimen/sp_12" />-->
+        <!--</RelativeLayout>-->
 
-        <RelativeLayout
-            android:id="@+id/rl_bag"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_80"
-            android:layout_weight="1">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_manWear"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1">-->
 
-            <ImageView
-                android:id="@+id/iv_bag"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_19"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/img_manwear" />
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_manWear"-->
+                <!--android:layout_width="@dimen/dp_36"-->
+                <!--android:layout_height="@dimen/dp_36"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_19"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@mipmap/img_manwear" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_bag"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="包包"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_12" />
-        </RelativeLayout>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/iv_manWear"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:text="男装"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="@dimen/sp_12" />-->
+        <!--</RelativeLayout>-->
 
-        <RelativeLayout
-            android:id="@+id/rl_tellphone"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_80"
-            android:layout_weight="1">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_cosmetics"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1">-->
 
-            <ImageView
-                android:id="@+id/iv_tellphone"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_19"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/img_tellphone" />
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_cosmetics"-->
+                <!--android:layout_width="@dimen/dp_36"-->
+                <!--android:layout_height="@dimen/dp_36"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_19"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@mipmap/img_cosmetics" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_tellphone"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="手机配件"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_12" />
-        </RelativeLayout>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/iv_cosmetics"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:text="化妆品"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="@dimen/sp_12" />-->
+        <!--</RelativeLayout>-->
 
-        <RelativeLayout
-            android:id="@+id/rl_diamond"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_80"
-            android:layout_weight="1">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_message"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1">-->
 
-            <ImageView
-                android:id="@+id/iv_diamond"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_19"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/img_diamond" />
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_tea"-->
+                <!--android:layout_width="@dimen/dp_36"-->
+                <!--android:layout_height="@dimen/dp_36"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_19"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@mipmap/img_tea" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_diamond"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="装饰"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_12" />
-        </RelativeLayout>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/iv_tea"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:text="茶叶"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="@dimen/sp_12" />-->
+        <!--</RelativeLayout>-->
 
-        <RelativeLayout
-            android:id="@+id/rl_more"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_80"
-            android:layout_weight="1">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_watch"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1">-->
 
-            <ImageView
-                android:id="@+id/iv_more"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_19"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/img_more_good" />
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_watch"-->
+                <!--android:layout_width="@dimen/dp_36"-->
+                <!--android:layout_height="@dimen/dp_36"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_19"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@mipmap/img_watch" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_more"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="更多"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_12" />
-        </RelativeLayout>
-    </LinearLayout>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/iv_watch"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:text="手表"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="@dimen/sp_12" />-->
+        <!--</RelativeLayout>-->
+    <!--</LinearLayout>-->
 
-    <LinearLayout
+    <!--<LinearLayout-->
+        <!--android:background="@color/tab_background"-->
+        <!--android:id="@+id/ll_top_two"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/dp_85"-->
+        <!--android:layout_below="@id/ll_top"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_womenshoe"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="@dimen/dp_80"-->
+            <!--android:layout_weight="1">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_womenshoe"-->
+                <!--android:layout_width="@dimen/dp_36"-->
+                <!--android:layout_height="@dimen/dp_36"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_19"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@mipmap/img_women_shoe" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/iv_womenshoe"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:text="女鞋"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="@dimen/sp_12" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_bag"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="@dimen/dp_80"-->
+            <!--android:layout_weight="1">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_bag"-->
+                <!--android:layout_width="@dimen/dp_36"-->
+                <!--android:layout_height="@dimen/dp_36"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_19"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@mipmap/img_manwear" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/iv_bag"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:text="包包"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="@dimen/sp_12" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_tellphone"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="@dimen/dp_80"-->
+            <!--android:layout_weight="1">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_tellphone"-->
+                <!--android:layout_width="@dimen/dp_36"-->
+                <!--android:layout_height="@dimen/dp_36"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_19"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@mipmap/img_tellphone" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/iv_tellphone"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:text="手机配件"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="@dimen/sp_12" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_diamond"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="@dimen/dp_80"-->
+            <!--android:layout_weight="1">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_diamond"-->
+                <!--android:layout_width="@dimen/dp_36"-->
+                <!--android:layout_height="@dimen/dp_36"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_19"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@mipmap/img_diamond" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/iv_diamond"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:text="装饰"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="@dimen/sp_12" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_more"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="@dimen/dp_80"-->
+            <!--android:layout_weight="1">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_more"-->
+                <!--android:layout_width="@dimen/dp_36"-->
+                <!--android:layout_height="@dimen/dp_36"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_19"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:src="@mipmap/img_more_good" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/iv_more"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="@dimen/dp_5"-->
+                <!--android:text="更多"-->
+                <!--android:textColor="@color/text_black"-->
+                <!--android:textSize="@dimen/sp_12" />-->
+        <!--</RelativeLayout>-->
+    <!--</LinearLayout>-->
+
+    <com.xq.LegouShop.support.PercentLinearLayout
         android:id="@+id/ll_three"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_120"
-        android:layout_below="@id/ll_top_two"
-        android:orientation="horizontal">
+        android:layout_below="@id/view"
+        android:orientation="horizontal"
+        android:layout_height="0dp"
+        app:layout_heightPercent="50%w">
 
         <ImageView
             android:src="@mipmap/img_one"
@@ -369,7 +385,7 @@
                 />
         </LinearLayout>
 
-    </LinearLayout>
+    </com.xq.LegouShop.support.PercentLinearLayout>
 
     <ImageView
         android:id="@+id/iv_four"
@@ -412,6 +428,7 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/rl_one"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp_2"
@@ -481,6 +498,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_two"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_2"
@@ -555,7 +573,7 @@
 
         <RelativeLayout
 
-
+            android:id="@+id/rl_three"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -660,6 +678,7 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/rl_four"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp_2"
@@ -731,6 +750,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_five"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_2"
@@ -803,8 +823,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-
-
+            android:id="@+id/rl_six"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -896,4 +915,4 @@
             android:textSize="@dimen/sp_15"
             android:textStyle="bold" />
     </RelativeLayout>
-</RelativeLayout>
+</com.xq.LegouShop.support.PercentRelativeLayout>

@@ -12,23 +12,8 @@
         android:layout_height="@dimen/dp_40"
         >
 
-        <ImageView
-            android:id="@+id/iv_location"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/img_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_location"
-            android:textColor="@color/tab_background"
-            android:drawableRight="@mipmap/more_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="深圳市"
-            />
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,42 +22,10 @@
             android:textColor="@color/tab_background"
             android:textSize="@dimen/sp_15" />
 
-        <ImageView
-            android:layout_alignParentRight="true"
-            android:id="@+id/iv_message"
-            android:layout_marginRight="@dimen/dp_10"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/img_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
     </RelativeLayout>
-    <com.xq.LegouShop.weiget.SwipeListView
-        android:layout_marginTop="1dp"
-        android:layout_below="@id/rl_head"
-        android:id="@+id/lv_shopping_goods"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/dp_250"
-        ></com.xq.LegouShop.weiget.SwipeListView>
-    <TextView
-        android:id="@+id/tv_title"
-        android:textSize="@dimen/sp_16"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:textColor="@color/text_black"
-        android:layout_below="@id/lv_shopping_goods"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="推荐"
-        />
-    <GridView
-        android:horizontalSpacing="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:id="@+id/gv_tuijian"
-        android:numColumns="2"
-        android:layout_below="@id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_120"></GridView>
     <RelativeLayout
+        android:id="@+id/rl_bottom"
         android:layout_marginBottom="@dimen/dp_50"
         android:layout_alignParentBottom="true"
         android:layout_width="fill_parent"
@@ -82,7 +35,7 @@
         <CheckBox
             android:layout_marginLeft="@dimen/dp_10"
             android:background="@drawable/checkb_select"
-            android:checked="false"
+            android:checked="true"
             android:id="@+id/cb_all_good"
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_20"
@@ -103,6 +56,11 @@
             android:text="全选"
             />
 
+        <View
+            android:id="@+id/view_cb"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="match_parent"
+            />
         <Button
 
             android:layout_alignParentRight="true"
@@ -116,7 +74,6 @@
             android:textSize="14sp" />
 
         <TextView
-            android:text="4564"
             android:ellipsize="end"
             android:singleLine="true"
             android:id="@+id/tv_total_price"
@@ -125,7 +82,6 @@
             android:layout_toLeftOf="@id/btn_order"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-
             android:textSize="17sp"
             android:gravity="center"
             android:textStyle="bold"
@@ -133,5 +89,35 @@
             />
 
     </RelativeLayout>
+    <com.xq.LegouShop.weiget.SwipeListView
+        android:layout_above="@id/rl_bottom"
+        android:layout_marginTop="1dp"
+        android:layout_below="@id/rl_head"
+        android:id="@+id/lv_shopping_goods"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        ></com.xq.LegouShop.weiget.SwipeListView>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_title"
+        android:textSize="@dimen/sp_16"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:textColor="@color/text_black"
+        android:layout_below="@id/lv_shopping_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="推荐"
+        />
+    <GridView
+        android:visibility="gone"
+        android:horizontalSpacing="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:id="@+id/gv_tuijian"
+        android:numColumns="2"
+        android:layout_below="@id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_120"></GridView>
+
 
 </RelativeLayout>

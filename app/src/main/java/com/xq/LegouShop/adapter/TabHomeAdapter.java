@@ -21,9 +21,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -37,13 +40,19 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.xq.LegouShop.R;
+import com.xq.LegouShop.activity.ClassifyActivity;
 import com.xq.LegouShop.activity.GoodsInfoActivity;
+import com.xq.LegouShop.activity.HomeGoodsListActivity;
 import com.xq.LegouShop.activity.LogisticsActivity;
+import com.xq.LegouShop.activity.MyCollectionActivity;
 import com.xq.LegouShop.base.MyVolley;
+import com.xq.LegouShop.bean.CategoryBean;
 import com.xq.LegouShop.bean.GoodsBean;
 import com.xq.LegouShop.protocol.GetAdListProtocol;
+import com.xq.LegouShop.protocol.GetCategoryListProtocol;
 import com.xq.LegouShop.protocol.GetGoodListProtocol;
 import com.xq.LegouShop.response.GetAdListResponse;
+import com.xq.LegouShop.response.GetCategoryListResponse;
 import com.xq.LegouShop.response.GetGoodsListResponse;
 import com.xq.LegouShop.util.DialogUtils;
 import com.xq.LegouShop.util.LogUtils;
@@ -94,6 +103,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
     boolean isopen = false;
     private Gson gson;
     private GetAdListResponse getHomeResponse;
+    private GetCategoryListResponse getCategoryListResponse;
 
     public TabHomeAdapter(Context context, List<GoodsBean> goodsBeanList, Dialog loadingDialog) {
         mContext = context;
@@ -128,7 +138,8 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
 
     ViewHolder vh;
     HomeHeadHolder homeHeadHolder;
-
+    //声明一个boolean，因为addOnGlobalLayoutListener会重复执行，控制它启动后只执行一次
+    private boolean isCompletedDraw = false;
     @Override
     public View getView(int pos, View view, ViewGroup arg2) {
         // TODO Auto-generated method stub
@@ -148,6 +159,12 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                     homeHeadHolder.v_dot3 = (View) view.findViewById(R.id.v_dot3);
                     homeHeadHolder.v_dot4 = (View) view.findViewById(R.id.v_dot4);
                     homeHeadHolder.ll_pager = (LinearLayout) view.findViewById(R.id.ll_pager);
+                    homeHeadHolder.rl_one = (RelativeLayout) view.findViewById(R.id.rl_one);
+                    homeHeadHolder.rl_two= (RelativeLayout) view.findViewById(R.id.rl_two);
+                    homeHeadHolder.rl_three = (RelativeLayout) view.findViewById(R.id.rl_three);
+                    homeHeadHolder.rl_four = (RelativeLayout) view.findViewById(R.id.rl_four);
+                    homeHeadHolder.rl_five= (RelativeLayout) view.findViewById(R.id.rl_five);
+                    homeHeadHolder.rl_six = (RelativeLayout) view.findViewById(R.id.rl_six);
 
                     homeHeadHolder.tv_price_one = (TextView) view.findViewById(R.id.tv_price_one);
                     homeHeadHolder.tv_old_price_one = (TextView) view.findViewById(R.id.tv_old_price_one);
@@ -188,6 +205,12 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                     homeHeadHolder.iv_home_right_top = (ImageView) view.findViewById(R.id.iv_home_right_top);
                     homeHeadHolder.iv_home_right_bottom = (ImageView) view.findViewById(R.id.iv_home_right_bottom);
 
+                    homeHeadHolder.gv_class=(GridView)view.findViewById(R.id.gv_class);
+
+                    homeHeadHolder.rl_jingxuan=(RelativeLayout) view.findViewById(R.id.rl_jingxuan);
+                    homeHeadHolder.rl_pinzhi=(RelativeLayout) view.findViewById(R.id.rl_pinzhi);
+
+
                     view.setTag(homeHeadHolder);
                     break;
                 case TYPE_TWO:
@@ -199,12 +222,19 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                     vh.tv_title = (TextView) view.findViewById(R.id.tv_title);
                     vh.tv_num = (TextView) view.findViewById(R.id.tv_num);
                     vh.rl_rihgt = (RelativeLayout) view.findViewById(R.id.rl_right);
+                    vh.rl_middle = (RelativeLayout) view.findViewById(R.id.rl_middle);
                     vh.rl_left = (RelativeLayout) view.findViewById(R.id.rl_left);
                     vh.tv_price_right = (TextView) view.findViewById(R.id.tv_price_right);
                     vh.tv_old_price_right = (TextView) view.findViewById(R.id.tv_old_price_right);
                     vh.iv_pic_right = (ImageView) view.findViewById(R.id.iv_pic_right);
                     vh.tv_title_right = (TextView) view.findViewById(R.id.tv_title_right);
                     vh.tv_num_right = (TextView) view.findViewById(R.id.tv_num_right);
+
+                    vh.tv_price_middle = (TextView) view.findViewById(R.id.tv_price_middle);
+                    vh.tv_old_price_middle = (TextView) view.findViewById(R.id.tv_old_price_middle);
+                    vh.iv_pic_middle = (ImageView) view.findViewById(R.id.iv_pic_middle);
+                    vh.tv_title_middle = (TextView) view.findViewById(R.id.tv_title_middle);
+                    vh.tv_num_middle = (TextView) view.findViewById(R.id.tv_num_middle);
                     view.setTag(vh);
                     break;
             }
@@ -223,6 +253,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
             case TYPE_ONE:
                 if (!isloaded) {
                     getHome();
+
                 }
 //                homeHeadHolder.tv_search.setOnClickListener(new View.OnClickListener() {
 //                    @Override
@@ -234,49 +265,23 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
 //                        UIUtils.startActivityNextAnim(intent);
 //                    }
 //                });
-//                homeHeadHolder.tv_new.setOnClickListener(this);
-//                homeHeadHolder.tv_classify.setOnClickListener(this);
+                homeHeadHolder.rl_jingxuan.setOnClickListener(this);
+                homeHeadHolder.rl_pinzhi.setOnClickListener(this);
 //                homeHeadHolder.tv_hot.setOnClickListener(this);
                 break;
             case TYPE_TWO:
-//                GoodsBean goodsBean = goodsBeanList.get(pos);
-//                String string = "¥" + goodsBean.getOriginalPrice();
-//                SpannableString sp = new SpannableString(string);
-//                sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                vh.tv_old_price.setText(sp);
-//                vh.tv_price.setText("¥" + goodsBean.getSalePrice());
-//                vh.tv_title.setText(goodsBean.getGoodsName());
-//                vh.tv_num.setText("销量：" + goodsBean.getSalesVolume());
-//                imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), vh.iv_pic, PictureOption.getSimpleOptions());
 
-                if (goodsBeanList.size() % 2 == 0) {
-
+                if (goodsBeanList.size() % 3 == 0) {
+                    vh.rl_middle.setVisibility(View.VISIBLE);
                     vh.rl_rihgt.setVisibility(View.VISIBLE);
-                    ClickListener clickListener1 = new ClickListener(pos * 2 + 0);
-                    ClickListener clickListener = new ClickListener(pos * 2 + 1);
-                    vh.rl_rihgt.setOnClickListener(clickListener);
+                    ClickListener clickListener1 = new ClickListener(pos * 3 + 0);
+                    ClickListener clickListener = new ClickListener(pos * 3 + 1);
+                    ClickListener clickListener2 = new ClickListener(pos * 3 + 2);
+                    vh.rl_rihgt.setOnClickListener(clickListener2);
                     vh.rl_left.setOnClickListener(clickListener1);
-                    imageLoader.displayImage(goodsBeanList.get(pos * 2 + 0).getPic(), vh.iv_pic, PictureOption.getSimpleOptions());
-                    imageLoader.displayImage(goodsBeanList.get(pos * 2 + 1).getPic(), vh.iv_pic_right, PictureOption.getSimpleOptions());
-
-                } else {
-                    if (pos * 2 == goodsBeanList.size() - 1) {
-                        vh.rl_rihgt.setVisibility(View.INVISIBLE);
-                        ClickListener clickListener = new ClickListener(pos * 2 + 0);
-                        vh.rl_left.setOnClickListener(clickListener);
-                        imageLoader.displayImage(goodsBeanList.get(pos * 2 + 0).getPic(), vh.iv_pic, PictureOption.getSimpleOptions());
-                    } else {
-
-                        ClickListener clickListener = new ClickListener(pos * 2 + 1);
-                        ClickListener clickListener1 = new ClickListener(pos * 2 + 0);
-                        vh.rl_rihgt.setOnClickListener(clickListener);
-                        vh.rl_left.setOnClickListener(clickListener1);
-                        imageLoader.displayImage(goodsBeanList.get(pos * 2 + 0).getPic(), vh.iv_pic, PictureOption.getSimpleOptions());
-                        imageLoader.displayImage(goodsBeanList.get(pos * 2 + 1).getPic(), vh.iv_pic_right, PictureOption.getSimpleOptions());
-                    }
-                }
-                GoodsBean goodsBeanLeft = goodsBeanList.get(pos * 2 + 0);
-                if (goodsBeanLeft != null) {
+                    vh.rl_middle.setOnClickListener(clickListener);
+                    //第一
+                    GoodsBean goodsBeanLeft = goodsBeanList.get(pos * 3 + 0);
                     String string = "¥" + goodsBeanLeft.getOriginalPrice();
                     SpannableString sp = new SpannableString(string);
                     sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -285,18 +290,124 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                     vh.tv_title.setText(goodsBeanLeft.getGoodsName());
                     vh.tv_num.setText("销量：" + goodsBeanLeft.getSalesVolume());
                     imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBeanLeft.getPic(), vh.iv_pic, PictureOption.getSimpleOptions());
-                }
-                if (pos * 2 + 1 < goodsBeanList.size()) {
-                    GoodsBean goodsBeanRight = goodsBeanList.get(pos * 2 + 1);
-                    String string = "¥" + goodsBeanRight.getOriginalPrice();
-                    SpannableString sp = new SpannableString(string);
-                    sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    vh.tv_old_price_right.setText(sp);
+
+                    //第2
+                    GoodsBean goodsBeanMiddle = goodsBeanList.get(pos * 3 + 1);
+                    String string1 = "¥" + goodsBeanMiddle.getOriginalPrice();
+                    SpannableString sp1 = new SpannableString(string1);
+                    sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    vh.tv_old_price_middle.setText(sp1);
+                    vh.tv_price_middle.setText("¥" + goodsBeanMiddle.getSalePrice());
+                    vh.tv_title_middle.setText(goodsBeanMiddle.getGoodsName());
+                    vh.tv_num_middle.setText("销量：" + goodsBeanMiddle.getSalesVolume());
+                    imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBeanMiddle.getPic(), vh.iv_pic_middle, PictureOption.getSimpleOptions());
+
+                    //第三
+                    GoodsBean goodsBeanRight = goodsBeanList.get(pos * 3 + 2);
+                    String string2 = "¥" + goodsBeanRight.getOriginalPrice();
+                    SpannableString sp2 = new SpannableString(string2);
+                    sp2.setSpan(new StrikethroughSpan(), 0, string2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    vh.tv_old_price_right.setText(sp2);
                     vh.tv_price_right.setText("¥" + goodsBeanRight.getSalePrice());
                     vh.tv_title_right.setText(goodsBeanRight.getGoodsName());
                     vh.tv_num_right.setText("销量：" + goodsBeanRight.getSalesVolume());
                     imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBeanRight.getPic(), vh.iv_pic_right, PictureOption.getSimpleOptions());
+                } else {
+                    if (pos * 3 == goodsBeanList.size() - 1) {
+                        LogUtils.e("pos最后:" + pos + "  goodsBeanList.size():" + goodsBeanList.size());
+                        vh.rl_middle.setVisibility(View.INVISIBLE);
+                        vh.rl_rihgt.setVisibility(View.INVISIBLE);
+                        ClickListener clickListener = new ClickListener(pos * 3 + 0);
+                        vh.rl_left.setOnClickListener(clickListener);
+                        //第一
+                        GoodsBean goodsBeanLeft = goodsBeanList.get(pos * 3 + 0);
+                        String string = "¥" + goodsBeanLeft.getOriginalPrice();
+                        SpannableString sp = new SpannableString(string);
+                        sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh.tv_old_price.setText(sp);
+                        vh.tv_price.setText("¥" + goodsBeanLeft.getSalePrice());
+                        vh.tv_title.setText(goodsBeanLeft.getGoodsName());
+                        vh.tv_num.setText("销量：" + goodsBeanLeft.getSalesVolume());
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBeanLeft.getPic(), vh.iv_pic, PictureOption.getSimpleOptions());
+
+
+                    } else if (pos * 3 == goodsBeanList.size() - 2) {
+                        LogUtils.e("pos最后22:" + pos + "  goodsBeanList.size():" + goodsBeanList.size());
+                        vh.rl_middle.setVisibility(View.VISIBLE);
+                        vh.rl_rihgt.setVisibility(View.INVISIBLE);
+                        ClickListener clickListener1 = new ClickListener(pos * 3 + 1);
+                        vh.rl_left.setOnClickListener(clickListener1);
+                        ClickListener clickListener = new ClickListener(pos * 3 + 0);
+                        vh.rl_left.setOnClickListener(clickListener);
+                        //第一
+                        GoodsBean goodsBeanLeft = goodsBeanList.get(pos * 3 + 0);
+                        String string = "¥" + goodsBeanLeft.getOriginalPrice();
+                        SpannableString sp = new SpannableString(string);
+                        sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh.tv_old_price.setText(sp);
+                        vh.tv_price.setText("¥" + goodsBeanLeft.getSalePrice());
+                        vh.tv_title.setText(goodsBeanLeft.getGoodsName());
+                        vh.tv_num.setText("销量：" + goodsBeanLeft.getSalesVolume());
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBeanLeft.getPic(), vh.iv_pic, PictureOption.getSimpleOptions());
+
+                        //第2
+                        GoodsBean goodsBeanMiddle = goodsBeanList.get(pos * 3 + 1);
+                        String string1 = "¥" + goodsBeanMiddle.getOriginalPrice();
+                        SpannableString sp1 = new SpannableString(string1);
+                        sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh.tv_old_price_middle.setText(sp1);
+                        vh.tv_price_middle.setText("¥" + goodsBeanMiddle.getSalePrice());
+                        vh.tv_title_middle.setText(goodsBeanMiddle.getGoodsName());
+                        vh.tv_num_middle.setText("销量：" + goodsBeanMiddle.getSalesVolume());
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBeanMiddle.getPic(), vh.iv_pic_middle, PictureOption.getSimpleOptions());
+
+                    } else {
+                        LogUtils.e("pos:" + pos + "  goodsBeanList.size():" + goodsBeanList.size());
+                        vh.rl_middle.setVisibility(View.VISIBLE);
+                        vh.rl_rihgt.setVisibility(View.VISIBLE);
+                        ClickListener clickListener = new ClickListener(pos * 3 + 0);
+                        ClickListener clickListener1 = new ClickListener(pos * 3 + 1);
+                        ClickListener clickListener2 = new ClickListener(pos * 3 + 2);
+                        vh.rl_rihgt.setOnClickListener(clickListener2);
+                        vh.rl_middle.setOnClickListener(clickListener1);
+                        vh.rl_left.setOnClickListener(clickListener);
+
+                        //第一
+                        GoodsBean goodsBeanLeft = goodsBeanList.get(pos * 3 + 0);
+                        String string = "¥" + goodsBeanLeft.getOriginalPrice();
+                        SpannableString sp = new SpannableString(string);
+                        sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh.tv_old_price.setText(sp);
+                        vh.tv_price.setText("¥" + goodsBeanLeft.getSalePrice());
+                        vh.tv_title.setText(goodsBeanLeft.getGoodsName());
+                        vh.tv_num.setText("销量：" + goodsBeanLeft.getSalesVolume());
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBeanLeft.getPic(), vh.iv_pic, PictureOption.getSimpleOptions());
+
+                        //第2
+                        GoodsBean goodsBeanMiddle = goodsBeanList.get(pos * 3 + 1);
+                        String string1 = "¥" + goodsBeanMiddle.getOriginalPrice();
+                        SpannableString sp1 = new SpannableString(string1);
+                        sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh.tv_old_price_middle.setText(sp1);
+                        vh.tv_price_middle.setText("¥" + goodsBeanMiddle.getSalePrice());
+                        vh.tv_title_middle.setText(goodsBeanMiddle.getGoodsName());
+                        vh.tv_num_middle.setText("销量：" + goodsBeanMiddle.getSalesVolume());
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBeanMiddle.getPic(), vh.iv_pic_middle, PictureOption.getSimpleOptions());
+
+                        //第三
+                        GoodsBean goodsBeanRight = goodsBeanList.get(pos * 3 + 2);
+                        String string2 = "¥" + goodsBeanRight.getOriginalPrice();
+                        SpannableString sp2 = new SpannableString(string2);
+                        sp2.setSpan(new StrikethroughSpan(), 0, string2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        vh.tv_old_price_right.setText(sp2);
+                        vh.tv_price_right.setText("¥" + goodsBeanRight.getSalePrice());
+                        vh.tv_title_right.setText(goodsBeanRight.getGoodsName());
+                        vh.tv_num_right.setText("销量：" + goodsBeanRight.getSalesVolume());
+                        imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBeanRight.getPic(), vh.iv_pic_right, PictureOption.getSimpleOptions());
+                    }
+
                 }
+
                 break;
         }
         return view;
@@ -319,17 +430,28 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-//        //渐变色
-//        Shader shader = new LinearGradient(0, 0, 0, 60, Color.rgb(255, 72, 106
-//        ), Color.rgb(254, 211, 70), Shader.TileMode.CLAMP);
-//        Shader shader1 = new LinearGradient(0, 0, 0, 0, Color.BLACK, Color.BLACK, Shader.TileMode.CLAMP);
-        switch (v.getId()) {
 
+        switch (v.getId()) {
+            case R.id.rl_jingxuan:{
+                Intent intent=new Intent(mContext, HomeGoodsListActivity.class);
+                intent.putExtra("type",0);
+                intent.putExtra("title","每日精选");
+                UIUtils.startActivityNextAnim(intent);
+                break;
+            }
+            case R.id.rl_pinzhi:{
+                Intent intent=new Intent(mContext, HomeGoodsListActivity.class);
+                intent.putExtra("type",1);
+                intent.putExtra("title","品质生活");
+                UIUtils.startActivityNextAnim(intent);
+                break;
+            }
 
         }
     }
 
     public class HomeHeadHolder {
+        GridView gv_class;
         ImageView iv_home_left;
         ImageView iv_home_right_top;
         ImageView iv_home_right_bottom;
@@ -375,12 +497,27 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
         TextView tv_price_six;
         TextView tv_num_six;
         TextView tv_old_price_six;
+
+        RelativeLayout rl_jingxuan;
+        RelativeLayout rl_pinzhi;
+
+        RelativeLayout rl_one;
+        RelativeLayout rl_two;
+        RelativeLayout rl_three;
+        RelativeLayout rl_five;
+        RelativeLayout rl_four;
+        RelativeLayout rl_six;
     }
 
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return goodsBeanList.size() / 2 + goodsBeanList.size() % 2;
+        if( goodsBeanList.size() % 3!=0){
+            return goodsBeanList.size() / 3 + 1;
+        }else{
+            return goodsBeanList.size() / 3;
+        }
+
     }
 
 
@@ -397,6 +534,13 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
         ImageView iv_pic_right;
         RelativeLayout rl_rihgt;
         RelativeLayout rl_left;
+
+        TextView tv_title_middle;
+        TextView tv_price_middle;
+        TextView tv_num_middle;
+        TextView tv_old_price_middle;
+        ImageView iv_pic_middle;
+        RelativeLayout rl_middle;
     }
 
     /**
@@ -416,7 +560,27 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
 
         @Override
         public void onClick(View v) {
-
+            GoodsBean goodsBean = goodsBeanList.get(position);
+            switch (v.getId()) {
+                case R.id.rl_left: {
+                    Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                    intent.putExtra("goodsId", goodsBean.id);
+                    UIUtils.startActivityNextAnim(intent);
+                    break;
+                }
+                case R.id.rl_middle: {
+                    Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                    intent.putExtra("goodsId", goodsBean.id);
+                    UIUtils.startActivityNextAnim(intent);
+                    break;
+                }
+                case R.id.rl_right: {
+                    Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                    intent.putExtra("goodsId", goodsBean.id);
+                    UIUtils.startActivityNextAnim(intent);
+                    break;
+                }
+            }
         }
     }
 
@@ -547,6 +711,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                     getHomeBannerRightTop();
                     getHomeBannerRightBottom();
                     getGoodList();
+                    getCategoryList();
                     getQualityLifeGoodList();
                     if (getHomeResponse.dataList.size() > 0) {
                         setheadDate(getHomeResponse.dataList);
@@ -727,7 +892,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                 if (getGoodsListResponse.code.equals("0")) {
                     List<GoodsBean> goodsBeanList = getGoodsListResponse.dataList;
                     if (goodsBeanList.size() >= 3) {
-                        GoodsBean goodsBean = goodsBeanList.get(0);
+                        final GoodsBean goodsBean = goodsBeanList.get(0);
                         String string = "¥" + goodsBean.getOriginalPrice();
                         SpannableString sp = new SpannableString(string);
                         sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -737,7 +902,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                         homeHeadHolder.tv_num_one.setText("销量：" + goodsBean.getSalesVolume());
                         imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_one, PictureOption.getSimpleOptions());
 
-                        GoodsBean goodsBean1 = goodsBeanList.get(1);
+                        final GoodsBean goodsBean1 = goodsBeanList.get(1);
                         String string1 = "¥" + goodsBean1.getOriginalPrice();
                         SpannableString sp1 = new SpannableString(string1);
                         sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -747,7 +912,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                         homeHeadHolder.tv_num_two.setText("销量：" + goodsBean1.getSalesVolume());
                         imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean1.getPic(), homeHeadHolder.iv_pic_two, PictureOption.getSimpleOptions());
 
-                        GoodsBean goodsBean2 = goodsBeanList.get(2);
+                        final GoodsBean goodsBean2 = goodsBeanList.get(2);
                         String string2 = "¥" + goodsBean2.getOriginalPrice();
                         SpannableString sp2 = new SpannableString(string2);
                         sp2.setSpan(new StrikethroughSpan(), 0, string2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -756,6 +921,34 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                         homeHeadHolder.tv_title_three.setText(goodsBean2.getGoodsName());
                         homeHeadHolder.tv_num_three.setText("销量：" + goodsBean2.getSalesVolume());
                         imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean2.getPic(), homeHeadHolder.iv_pic_three, PictureOption.getSimpleOptions());
+
+                        homeHeadHolder.rl_one.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //跳到商品详情
+                                Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                                intent.putExtra("goodsId", goodsBean.id);
+                                UIUtils.startActivityNextAnim(intent);
+                            }
+                        });
+                        homeHeadHolder.rl_two.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //跳到商品详情
+                                Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                                intent.putExtra("goodsId", goodsBean1.id);
+                                UIUtils.startActivityNextAnim(intent);
+                            }
+                        });
+                        homeHeadHolder.rl_three.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //跳到商品详情
+                                Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                                intent.putExtra("goodsId", goodsBean2.id);
+                                UIUtils.startActivityNextAnim(intent);
+                            }
+                        });
                     }
 //                    switch (getGoodsListResponse.dataList.size()){
 //                        case 3:{
@@ -867,7 +1060,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                     if (getGoodsListResponse.dataList.size() > 0) {
                         List<GoodsBean> goodsBeanList = getGoodsListResponse.dataList;
                         if (goodsBeanList.size() >= 3) {
-                            GoodsBean goodsBean = goodsBeanList.get(0);
+                            final GoodsBean goodsBean = goodsBeanList.get(0);
                             String string = "¥" + goodsBean.getOriginalPrice();
                             SpannableString sp = new SpannableString(string);
                             sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -877,7 +1070,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                             homeHeadHolder.tv_num_four.setText("销量：" + goodsBean.getSalesVolume());
                             imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean.getPic(), homeHeadHolder.iv_pic_four, PictureOption.getSimpleOptions());
 
-                            GoodsBean goodsBean1 = goodsBeanList.get(1);
+                            final GoodsBean goodsBean1 = goodsBeanList.get(1);
                             String string1 = "¥" + goodsBean1.getOriginalPrice();
                             SpannableString sp1 = new SpannableString(string1);
                             sp1.setSpan(new StrikethroughSpan(), 0, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -887,7 +1080,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                             homeHeadHolder.tv_num_five.setText("销量：" + goodsBean1.getSalesVolume());
                             imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean1.getPic(), homeHeadHolder.iv_pic_five, PictureOption.getSimpleOptions());
 
-                            GoodsBean goodsBean2 = goodsBeanList.get(2);
+                            final GoodsBean goodsBean2 = goodsBeanList.get(2);
                             String string2 = "¥" + goodsBean2.getOriginalPrice();
                             SpannableString sp2 = new SpannableString(string2);
                             sp2.setSpan(new StrikethroughSpan(), 0, string2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -896,6 +1089,34 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
                             homeHeadHolder.tv_title_six.setText(goodsBean2.getGoodsName());
                             homeHeadHolder.tv_num_six.setText("销量：" + goodsBean2.getSalesVolume());
                             imageLoader.displayImage("http://qiniu.lelegou.pro/" + goodsBean2.getPic(), homeHeadHolder.iv_pic_six, PictureOption.getSimpleOptions());
+
+                            homeHeadHolder.rl_four.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    //跳到商品详情
+                                    Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                                    intent.putExtra("goodsId", goodsBean.id);
+                                    UIUtils.startActivityNextAnim(intent);
+                                }
+                            });
+                            homeHeadHolder.rl_five.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    //跳到商品详情
+                                    Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                                    intent.putExtra("goodsId", goodsBean1.id);
+                                    UIUtils.startActivityNextAnim(intent);
+                                }
+                            });
+                            homeHeadHolder.rl_six.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    //跳到商品详情
+                                    Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                                    intent.putExtra("goodsId", goodsBean2.id);
+                                    UIUtils.startActivityNextAnim(intent);
+                                }
+                            });
                         }
                     }
                 } else {
@@ -933,9 +1154,10 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
             public void dealWithJson(String address, String json) {
 
                 GetAdListResponse getHomeResponse = gson.fromJson(json, GetAdListResponse.class);
-                LogUtils.e("getHomeResponse:" + getHomeResponse.toString());
                 if (getHomeResponse.getCode().equals("0")) {
                     if (getHomeResponse.dataList.size() > 0) {
+                        //获取TextVie控件的高度,然后设置给ImageView
+
                         imageLoader.displayImage("http://qiniu.lelegou.pro/" + getHomeResponse.dataList.get(0).pic, homeHeadHolder.iv_home_left, PictureOption.getSimpleOptions());
                     }
                 } else {
@@ -961,6 +1183,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
             }
         });
     }
+
     public void getHomeBannerRightTop() {
         GetAdListProtocol getHomeProtocol = new GetAdListProtocol();
         url = getHomeProtocol.getApiFun();
@@ -973,7 +1196,6 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
             public void dealWithJson(String address, String json) {
 
                 GetAdListResponse getHomeResponse = gson.fromJson(json, GetAdListResponse.class);
-                LogUtils.e("getHomeResponse:" + getHomeResponse.toString());
                 if (getHomeResponse.getCode().equals("0")) {
                     if (getHomeResponse.dataList.size() > 0) {
                         imageLoader.displayImage("http://qiniu.lelegou.pro/" + getHomeResponse.dataList.get(0).pic, homeHeadHolder.iv_home_right_top, PictureOption.getSimpleOptions());
@@ -1001,6 +1223,7 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
             }
         });
     }
+
     public void getHomeBannerRightBottom() {
         GetAdListProtocol getHomeProtocol = new GetAdListProtocol();
         url = getHomeProtocol.getApiFun();
@@ -1013,7 +1236,6 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
             public void dealWithJson(String address, String json) {
 
                 GetAdListResponse getHomeResponse = gson.fromJson(json, GetAdListResponse.class);
-                LogUtils.e("getHomeResponse:" + getHomeResponse.toString());
                 if (getHomeResponse.getCode().equals("0")) {
                     if (getHomeResponse.dataList.size() > 0) {
                         imageLoader.displayImage("http://qiniu.lelegou.pro/" + getHomeResponse.dataList.get(0).pic, homeHeadHolder.iv_home_right_bottom, PictureOption.getSimpleOptions());
@@ -1039,6 +1261,63 @@ public class TabHomeAdapter extends BaseAdapter implements View.OnClickListener 
             public void dealTokenOverdue() {
 
             }
+        });
+    }
+
+    public void getCategoryList() {
+        loadingDialog.show();
+        GetCategoryListProtocol getCategoryListProtocol = new GetCategoryListProtocol();
+        String url = getCategoryListProtocol.getApiFun();
+        final HashMap<String,String> map=new HashMap<>();
+
+        MyVolley.uploadNoFile(MyVolley.POST, url, map, new MyVolley.VolleyCallback() {
+            @Override
+            public void dealWithJson(String address, String json) {
+                loadingDialog.dismiss();
+                Gson gson = new Gson();
+                getCategoryListResponse = gson.fromJson(json, GetCategoryListResponse.class);
+                LogUtils.e("getCategoryListResponse:" + getCategoryListResponse.toString());
+                if (getCategoryListResponse.code.equals("0")) {
+                    List<GetCategoryListResponse.DataList> dataListList=new ArrayList<>();
+                    if(getCategoryListResponse.dataList.size()>10){
+                        for(int i=0;i<10;i++){
+                            dataListList.add(getCategoryListResponse.dataList.get(i));
+                        }
+                    }else{
+                        dataListList.addAll(getCategoryListResponse.dataList);
+                    }
+                    HomeClassifyAdapter homeClassifyAdapter=new HomeClassifyAdapter(mContext,dataListList);
+                    homeHeadHolder.gv_class.setAdapter(homeClassifyAdapter);
+                    homeHeadHolder.gv_class.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            Intent intent=new Intent(mContext, ClassifyActivity.class);
+                            intent.putExtra("selectitem",i);
+                            intent.putExtra("select_parentId",getCategoryListResponse.getDataList().get(i).id);
+                            intent.putExtra("title",getCategoryListResponse.getDataList().get(i).categoryName);
+                            UIUtils.startActivityNextAnim(intent);
+                        }
+                    });
+                } else {
+                    DialogUtils.showAlertDialog(mContext,
+                            getCategoryListResponse.msg);
+                }
+
+
+            }
+
+            @Override
+            public void dealWithError(String address, String error) {
+                loadingDialog.dismiss();
+                DialogUtils.showAlertDialog(mContext, error);
+            }
+
+            @Override
+            public void dealTokenOverdue() {
+
+            }
+
+
         });
     }
 }

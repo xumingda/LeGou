@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.google.gson.Gson;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.bean.OrderBean;
 import com.xq.LegouShop.bean.ScoreRoomBean;
+import com.xq.LegouShop.util.UIUtils;
 
 import java.util.List;
 
@@ -69,6 +71,7 @@ public class GameRoomAdapter extends BaseAdapter{
             vh.tv_people = (TextView) view.findViewById(R.id.tv_people);
             vh.tv_room = (TextView) view.findViewById(R.id.tv_room);
             vh.rl_bg= (RelativeLayout) view.findViewById(R.id.rl_bg);
+            vh.iv_statue= (ImageView) view.findViewById(R.id.iv_statue);
             view.setTag(vh);
         } else {
             vh = (ViewHolder) view.getTag();
@@ -92,6 +95,15 @@ public class GameRoomAdapter extends BaseAdapter{
                 break;
             }
         }
+        if(scoreRoomBean.status==1){
+            vh.iv_statue.setImageDrawable(UIUtils.getDrawable(R.mipmap.img_playing));
+            vh.iv_statue.setVisibility(View.VISIBLE);
+        }else  if(scoreRoomBean.status==3){
+            vh.iv_statue.setImageDrawable(UIUtils.getDrawable(R.mipmap.img_ontime));
+            vh.iv_statue.setVisibility(View.VISIBLE);
+        }else{
+            vh.iv_statue.setVisibility(View.INVISIBLE);
+        }
         vh.tv_room.setText(scoreRoomBean.getRoomName());
         vh.tv_people.setText(scoreRoomBean.getPlayNum()+"/"+scoreRoomBean.getLimitNum());
         return view;
@@ -105,6 +117,7 @@ public class GameRoomAdapter extends BaseAdapter{
 
 
     class ViewHolder {
+        ImageView iv_statue;
         TextView tv_people;
         TextView tv_room;
         RelativeLayout rl_bg;

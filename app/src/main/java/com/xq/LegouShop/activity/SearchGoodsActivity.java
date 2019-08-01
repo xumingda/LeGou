@@ -49,7 +49,7 @@ import java.util.List;
  */
 public class SearchGoodsActivity extends BaseActivity implements View.OnClickListener {
 
-    private TextView tv_top_back;
+    private ImageView tv_top_back;
     private View rootView;
     private String keyword;
     private Dialog loadingDialog;
@@ -57,15 +57,17 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
     private EditText edittext;
     private GridView gv_goods;
     private  GoodsAdapter adapter;
+    private View view_back;
 
     protected View initView() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         rootView = View.inflate(this, R.layout.activity_search_goods, null);
         setContentView(rootView);
-        tv_top_back = (TextView) rootView.findViewById(R.id.tv_top_back);
+        tv_top_back = (ImageView) rootView.findViewById(R.id.iv_top_back);
         tv_search= (TextView) rootView.findViewById(R.id.tv_search);
         edittext= (EditText) rootView.findViewById(R.id.edittext);
         gv_goods= (GridView) rootView.findViewById(R.id.gv_goods);
+        view_back=(View)rootView.findViewById(R.id.view_back);
         initData();
         return null;
     }
@@ -75,9 +77,8 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
         loadingDialog = DialogUtils.createLoadDialog(SearchGoodsActivity.this, true);
         Intent intent = getIntent();
         keyword =  intent.getStringExtra("keyword");
-        tv_top_back.setOnClickListener(this);
         tv_search.setOnClickListener(this);
-
+        view_back.setOnClickListener(this);
     }
 
 
@@ -87,7 +88,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_top_back: {
+            case R.id.view_back: {
                 finish();
                 overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
                 break;
@@ -118,7 +119,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
             public void dealWithJson(String address, String json) {
                 loadingDialog.dismiss();
                 Gson gson = new Gson();
-                GetGoodsListResponse getGoodsListResponse = gson.fromJson(json, GetGoodsListResponse.class);
+                final GetGoodsListResponse getGoodsListResponse = gson.fromJson(json, GetGoodsListResponse.class);
                 LogUtils.e("getGoodsListResponse da:" + getGoodsListResponse.toString());
                 if (getGoodsListResponse.code.equals("0")) {
                     if(getGoodsListResponse.dataList.size()>0){
@@ -129,6 +130,14 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                             adapter.setDate(getGoodsListResponse.getDataList());
                             adapter.notifyDataSetChanged();
                         }
+                        gv_goods.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                Intent intent = new Intent(SearchGoodsActivity.this, GoodsInfoActivity.class);
+                                intent.putExtra("goodsId", getGoodsListResponse.getDataList().get(i).id);
+                                UIUtils.startActivityNextAnim(intent);
+                            }
+                        });
                     }
 
                 } else {

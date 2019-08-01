@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dce7ed"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        style="@style/tabTitleStyle">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="类目"
+            android:textColor="@color/tab_background"
+            android:textSize="@dimen/sp_15" />
+
+
+
+        <ImageView
+            android:id="@+id/iv_top_back"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_14"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:src="@mipmap/white_back"
+            android:gravity="center_vertical"
+            android:scaleType="fitCenter" />
+        <View
+            android:id="@+id/view_back"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_below="@id/rl_head"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/lv_menu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#EDECEC" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@color/tab_background">
+            <RelativeLayout
+                android:id="@+id/rl_banner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_120">
+                <android.support.v4.view.ViewPager
+                    android:background="@color/grayColor"
+                    android:id="@+id/vp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/dp_120" />
+
+                <LinearLayout
+                    android:id="@+id/ll_pager"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_marginTop="@dimen/dp_70"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dip"
+                        android:gravity="center">
+
+                        <View
+                            android:id="@+id/v_dot0"
+                            style="@style/dot_style"
+                            android:background="@drawable/dot_focused" />
+
+                        <View
+                            android:id="@+id/v_dot1"
+                            style="@style/dot_style" />
+
+                        <View
+                            android:id="@+id/v_dot2"
+                            style="@style/dot_style" />
+
+                        <View
+                            android:id="@+id/v_dot3"
+                            style="@style/dot_style" />
+
+                        <View
+                            android:id="@+id/v_dot4"
+                            style="@style/dot_style" />
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_below="@id/rl_banner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:id="@+id/lv_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_titile"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="#DCDBDB"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:text="@string/app_name" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

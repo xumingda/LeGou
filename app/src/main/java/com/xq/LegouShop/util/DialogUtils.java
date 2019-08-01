@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 
 import com.xq.LegouShop.R;
+import com.xq.LegouShop.activity.LoginActivity;
 
 import java.util.Calendar;
 
@@ -88,10 +90,10 @@ public class DialogUtils {
 		tv_roger.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent(UIUtils.getContext(), LoginActivity.class);
-//				intent.putExtra("type",200);
-//				UIUtils.startActivityNextAnim(intent);
-//				alertDialog.cancel();
+				Intent intent = new Intent(UIUtils.getContext(), LoginActivity.class);
+				intent.putExtra("type",200);
+				UIUtils.startActivityNextAnim(intent);
+				alertDialog.cancel();
 			}
 		});
 		return alertDialog; 
@@ -400,6 +402,7 @@ public class DialogUtils {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		View v = inflater.inflate(R.layout.loading_layout, null);// 得到加载view
 		Dialog loadingDialog = new Dialog(context,R.style.loading_dialog);// 创建自定义样式dialog
+		loadingDialog.setCanceledOnTouchOutside(isClickable);
 		loadingDialog.setCancelable(isClickable);// 不可以用“返回键”取消
 		loadingDialog.setContentView(v, new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,

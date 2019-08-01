@@ -138,7 +138,7 @@ public class TabClassifyPager extends TabBasePager implements View.OnClickListen
                 .setPrettyPrinting()
                 .disableHtmlEscaping()
                 .create();
-        loadingDialog = DialogUtils.createLoadDialog(mContext, true);
+        loadingDialog = DialogUtils.createLoadDialog(mContext, false);
         lv_menu = (ListView) view.findViewById(R.id.lv_menu);
         tv_title = (TextView) view.findViewById(R.id.tv_titile);
         lv_home = (ListView) view.findViewById(R.id.lv_home);
@@ -151,7 +151,7 @@ public class TabClassifyPager extends TabBasePager implements View.OnClickListen
         v_dot3 = (View) view.findViewById(R.id.v_dot3);
         v_dot4 = (View) view.findViewById(R.id.v_dot4);
         ll_pager = (LinearLayout) view.findViewById(R.id.ll_pager);
-        adsBeanList=new ArrayList<>();
+
 
         menuAdapter = new MenuAdapter(mContext, menuList);
         lv_menu.setAdapter(menuAdapter);
@@ -198,6 +198,8 @@ public class TabClassifyPager extends TabBasePager implements View.OnClickListen
 //            }
 //        });
         if(!isLoad) {
+            adsBeanList=new ArrayList<>();
+            isLoad=true;
             categoryList=new ArrayList<>();
             parentId=0;
             getCategoryList();

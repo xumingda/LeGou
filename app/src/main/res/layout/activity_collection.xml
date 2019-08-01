@@ -105,6 +105,8 @@
             android:focusableInTouchMode="false"
             />
         <Button
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/cb_checkbox"
             android:id="@+id/btn_check"
@@ -116,6 +118,8 @@
             android:layout_height="@dimen/dp_30" />
 
         <Button
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:id="@+id/btn_delete"

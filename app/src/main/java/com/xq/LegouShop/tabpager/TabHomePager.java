@@ -1,5 +1,7 @@
 package com.xq.LegouShop.tabpager;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,9 +10,20 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -23,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
@@ -34,6 +48,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.activity.GoodsInfoActivity;
+import com.xq.LegouShop.activity.MainActivity;
 import com.xq.LegouShop.activity.SearchGoodsActivity;
 import com.xq.LegouShop.adapter.GoodsAdapter;
 import com.xq.LegouShop.adapter.HomeAdapter;
@@ -54,7 +69,9 @@ import com.xq.LegouShop.util.SharedPrefrenceUtils;
 import com.xq.LegouShop.util.UIUtils;
 import com.xq.LegouShop.weiget.MyLinearLayout;
 import com.xq.LegouShop.weiget.MyScrollview;
+import com.zhangke.websocket.util.LogUtil;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,6 +81,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 /**
  * @作者: 许明达
  * @创建时间: 2016年3月23日上午11:10:20
@@ -72,7 +91,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class TabHomePager extends TabBasePager implements View.OnClickListener ,PullToRefreshBase.OnRefreshListener{
 
-//    private GridView gv_jingxuan,gv_pinzhi,gv_tuijian;
+    private LocationManager locationManager;
+    private String locationProvider;
     RelativeLayout view;
     LayoutInflater mInflater;
     private FrameLayout mDragLayout;
@@ -87,6 +107,7 @@ public class TabHomePager extends TabBasePager implements View.OnClickListener ,
     private List<GoodsBean> recommendGoodsBeanList;
     private LinearLayout rl_search;
     private boolean isRefresh = false;
+    private TextView tv_address;
     /**
      * @param context
      */
@@ -109,6 +130,7 @@ public class TabHomePager extends TabBasePager implements View.OnClickListener ,
         return view;
     }
 
+    @SuppressLint("MissingPermission")
     public void initData() {
 
 
@@ -116,10 +138,10 @@ public class TabHomePager extends TabBasePager implements View.OnClickListener ,
                 .setPrettyPrinting()
                 .disableHtmlEscaping()
                 .create();
-        loadingDialog = DialogUtils.createLoadDialog(mContext, true);
+        loadingDialog = DialogUtils.createLoadDialog(mContext, false);
         rl_search=(LinearLayout) view.findViewById(R.id.rl_search);
         lv_home=(PullToRefreshListView)view.findViewById(R.id.lv_home);
-//        tv_shop_name=(TextView)view.findViewById(R.id.tv_shop_name);
+        tv_address=(TextView)view.findViewById(R.id.tv_address);
 //        tv_todayTurnover=(TextView)view.findViewById(R.id.tv_todayTurnover);
 //        tv_qrPayTurnover=(TextView)view.findViewById(R.id.tv_qrPayTurnover);
 //        tv_todayOrderSucCount=(TextView)view.findViewById(R.id.tv_todayOrderSucCount);
@@ -152,23 +174,68 @@ public class TabHomePager extends TabBasePager implements View.OnClickListener ,
         if (!isopen) {
             getRecommendGoodList();
         }
+
+        locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        List<String> providers = locationManager.getProviders(true);
+        if (providers.contains(LocationManager.GPS_PROVIDER)) {
+            locationProvider = LocationManager.GPS_PROVIDER;
+        } else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+            locationProvider = LocationManager.NETWORK_PROVIDER;
+        } else {
+            return;
+        }
+        locationManager.requestLocationUpdates(locationProvider, 3000, 1, locationListener);
     }
 
+    LocationListener locationListener = new LocationListener() {
 
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle arg2) {
 
+        }
 
+        @Override
+        public void onProviderEnabled(String provider) {
 
+        }
 
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+
+        @Override
+        public void onLocationChanged(Location location) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            String addString = null;
+            List<Address> addList = null;
+            Geocoder ge = new Geocoder(mContext);
+            try {
+                addList = ge.getFromLocation(latitude, longitude, 1);
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+            if (addList != null && addList.size() > 0) {
+                for (int i = 0; i < addList.size(); i++) {
+                    Address ad = addList.get(i);
+                    addString = ad.getLocality();//拿到城市
+                }
+            }
+            String locationStr = "维度：" + location.getLatitude()
+                    + "经度：" + location.getLongitude();
+            tv_address.setText(addString);
+            LogUtils.i("andly"+locationStr + "----" + addString);
+        }
+    };
 
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rl_womenshoe:{
 
-                break;
-            }
             case R.id.rl_search: {
                 Intent intent = new Intent(mContext, SearchGoodsActivity.class);
                 UIUtils.startActivityNextAnim(intent);
@@ -394,14 +461,15 @@ public class TabHomePager extends TabBasePager implements View.OnClickListener ,
                             recommendGoodsBeanList.clear();
                             recommendGoodsBeanList.add(null);
                             recommendGoodsBeanList.add(null);
+                            recommendGoodsBeanList.add(null);
                         }
                         recommendGoodsBeanList.addAll(getGoodsListResponse.getDataList());
+
                         if(tabHomeAdapter==null){
-                            tabHomeAdapter=new TabHomeAdapter(mContext,getGoodsListResponse.dataList,loadingDialog);
+                            tabHomeAdapter=new TabHomeAdapter(mContext,recommendGoodsBeanList,loadingDialog);
                             lv_home.setAdapter(tabHomeAdapter);
                         }else{
                             tabHomeAdapter.setDate(recommendGoodsBeanList);
-                            tabHomeAdapter.notifyDataSetChanged();
                         }
                         lv_home.setMode(PullToRefreshBase.Mode.BOTH);
                     }

@@ -10,9 +10,9 @@
         android:background="@mipmap/login_top_bg"
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_180">
+        android:layout_height="@dimen/dp_160">
         <ImageView
-            android:layout_marginTop="@dimen/dp_50"
+            android:layout_marginTop="@dimen/dp_40"
             android:id="@+id/iv_logo"
             android:layout_centerHorizontal="true"
             android:layout_width="@dimen/dp_67"
@@ -24,7 +24,7 @@
             android:layout_centerHorizontal="true"
             android:textColor="@color/tab_background"
             android:textSize="@dimen/sp_15"
-            android:text="商宝账户登录"
+            android:text="未登录"
             android:id="@+id/tv_name"
             android:layout_below="@id/iv_logo"
             android:layout_marginTop="@dimen/dp_10"
@@ -195,8 +195,8 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/line_two"
             android:id="@+id/loginWeixinButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_40"
             android:layout_marginTop="@dimen/dp_27"
             android:background="@mipmap/btn_weixin"
             />
@@ -204,9 +204,9 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/loginWeixinButton"
             android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_27"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_17"
             android:background="@mipmap/btn_login"
              />
         <View

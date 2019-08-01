@@ -179,58 +179,10 @@ public class GoodListsActivity extends BaseActivity  implements ViewPager.OnPage
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.tv_buy:{
-                Intent intent=new Intent(this,BuyGoodActivity.class);
-                UIUtils.startActivityNextAnim(intent);
-                break;
-            }
 
         }
     }
-//    public void getGoodList() {
-//        loadingDialog.show();
-//        GetGoodListProtocol getGoodListProtocol = new GetGoodListProtocol();
-//        String url = getGoodListProtocol.getApiFun();
-//        final HashMap<String,String> map=new HashMap<>();
-//        map.put("categoryId",categoryId);
-//        map.put("pageNo","1");
-//        map.put("pageSize","999");
-//
-//
-//
-//        MyVolley.uploadNoFile(MyVolley.POST, url, map, new MyVolley.VolleyCallback() {
-//            @Override
-//            public void dealWithJson(String address, String json) {
-//                loadingDialog.dismiss();
-//                Gson gson = new Gson();
-//                GetGoodsListResponse getGoodsListResponse = gson.fromJson(json, GetGoodsListResponse.class);
-//                LogUtils.e("getGoodsListResponsenew:" + getGoodsListResponse.toString());
-//                if (getGoodsListResponse.code.equals("0")) {
-//                    if(getGoodsListResponse.dataList.size()>0){
-//
-//                    }
-//                } else {
-//                    DialogUtils.showAlertDialog(GoodListsActivity.this,
-//                            getGoodsListResponse.msg);
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void dealWithError(String address, String error) {
-//                loadingDialog.dismiss();
-//                DialogUtils.showAlertDialog(GoodListsActivity.this, error);
-//            }
-//
-//            @Override
-//            public void dealTokenOverdue() {
-//
-//            }
-//
-//
-//        });
-//    }
+
     private class ConcernInfoPagerAdapter extends PagerAdapter {
         @Override
         public CharSequence getPageTitle(int position) {

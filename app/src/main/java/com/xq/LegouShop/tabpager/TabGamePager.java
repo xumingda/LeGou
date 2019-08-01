@@ -35,7 +35,10 @@ import com.xq.LegouShop.bean.CartBean;
 import com.xq.LegouShop.bean.LoginGameBean;
 import com.xq.LegouShop.bean.OrderBean;
 import com.xq.LegouShop.response.GetUserInfoResponse;
+import com.xq.LegouShop.response.LoginGameResponse;
+import com.xq.LegouShop.response.PlayRoomResponse;
 import com.xq.LegouShop.response.RoomResponse;
+import com.xq.LegouShop.response.ScoreRoomResponse;
 import com.xq.LegouShop.socket.common.Constants;
 import com.xq.LegouShop.socket.service.SocketService;
 import com.xq.LegouShop.socket.service.TcpService;
@@ -58,6 +61,7 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -84,16 +88,17 @@ public class TabGamePager extends TabBasePager implements View.OnClickListener {
     private Dialog loadingDialog;
     private String url;
     private Gson gson;
-    private ImageView iv_200,iv_500,iv_1000,iv_2000;
+    private ImageView iv_200, iv_500, iv_1000, iv_2000;
     private ServiceConnection sc;
     public SocketService socketService;
     public RoomResponse roomResponse;
     public int action;
+
     /**
      * @param context
      */
     public TabGamePager(Context context, FrameLayout mDragLayout,
-                        MyLinearLayout mLinearLayout ) {
+                        MyLinearLayout mLinearLayout) {
         super(context, mDragLayout);
         this.mDragLayout = mDragLayout;
         this.mLinearLayout = mLinearLayout;
@@ -112,75 +117,29 @@ public class TabGamePager extends TabBasePager implements View.OnClickListener {
     }
 
     public void initData() {
-        action =SharedPrefrenceUtils.getInt(UIUtils.getContext(),"action",0);
+        action = SharedPrefrenceUtils.getInt(UIUtils.getContext(), "action", 0);
         gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .disableHtmlEscaping()
                 .create();
 //        loadingDialog = DialogUtils.createLoadDialog(mContext, true);
-        iv_200=(ImageView) view.findViewById(R.id.iv_200);
-        iv_500=(ImageView) view.findViewById(R.id.iv_500);
-        iv_1000=(ImageView) view.findViewById(R.id.iv_1000);
-        iv_2000=(ImageView) view.findViewById(R.id.iv_2000);
-//        tv_todayTurnover=(TextView)view.findViewById(R.id.tv_todayTurnover);
-//        tv_qrPayTurnover=(TextView)view.findViewById(R.id.tv_qrPayTurnover);
-//        tv_todayOrderSucCount=(TextView)view.findViewById(R.id.tv_todayOrderSucCount);
-//        rl_menu=(RelativeLayout)view.findViewById(R.id.rl_menu);
-//        rl_report=(RelativeLayout)view.findViewById(R.id.rl_report);
-//        rl_message=(RelativeLayout)view.findViewById(R.id.rl_message);
-//        rl_member_manager=(RelativeLayout)view.findViewById(R.id.rl_member_manager);
-//        rl_marketing=(RelativeLayout)view.findViewById(R.id.rl_marketing);
-//        rl_order_manager=(RelativeLayout)view.findViewById(R.id.rl_order_manager);
-//        rl_tongji=(RelativeLayout)view.findViewById(R.id.rl_tongji);
-//        rl_set=(RelativeLayout)view.findViewById(R.id.rl_set);
-//        rl_order_manager.setOnClickListener(this);
-//        rl_marketing.setOnClickListener(this);
-//        rl_set.setOnClickListener(this);
-//        rl_message.setOnClickListener(this);
-//        rl_member_manager.setOnClickListener(this);
-//        rl_report.setOnClickListener(this);
-//        rl_menu.setOnClickListener(this);
+        iv_200 = (ImageView) view.findViewById(R.id.iv_200);
+        iv_500 = (ImageView) view.findViewById(R.id.iv_500);
+        iv_1000 = (ImageView) view.findViewById(R.id.iv_1000);
+        iv_2000 = (ImageView) view.findViewById(R.id.iv_2000);
+
         iv_200.setOnClickListener(this);
         iv_500.setOnClickListener(this);
         iv_1000.setOnClickListener(this);
         iv_2000.setOnClickListener(this);
-//        tv_shop_name.setText(merchantBean.getStoreName());
-//        getHome();
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction("com.dessert.mojito.CHANGE_STATUS");
-//        LocalBroadcastManager.getInstance(mContext).registerReceiver(mReceiver, filter);
 
-//        bindSocketService();
-//        ButterKnife.bind(UIUtils.getActivity());
-//        Intent intent = new Intent(mContext, TcpService.class);
-//        UIUtils.getActivity().bindService(intent,connection,BIND_AUTO_CREATE);
-//        LoginGameBean loginGameBean=SPUtils.getBeanFromSp(mContext, "LoginGameBean", "LoginGameBean");
-//        int action =SharedPrefrenceUtils.getInt(UIUtils.getContext(),"action",0);
-//        if(action==2){
-//            Intent intent=new Intent(mContext, GameRoomActivity.class);
-//            intent.putExtra("id",loginGameBean.getScoreId());
-//            if(loginGameBean.getScoreId()==1){
-//                intent.putExtra("type",200);
-//                intent.putExtra("title","200积分专区");
-//            }else  if(loginGameBean.getScoreId()==2){
-//                intent.putExtra("type",500);
-//                intent.putExtra("title","500积分专区");
-//            }else  if(loginGameBean.getScoreId()==3){
-//                intent.putExtra("type",1000);
-//                intent.putExtra("title","1000积分专区");
-//            }else{
-//                intent.putExtra("type",2000);
-//                intent.putExtra("title","2000积分专区");
-//            }
-//            UIUtils.startActivityNextAnim(intent);
-//        }else if(action==3){
-//            Intent intent=new Intent(mContext, GameActivity.class);
-//            UIUtils.startActivityNextAnim(intent);
-//        }else {
         WebSocketHandler.getDefault().addListener(socketListener);
-        addGameLobby();
-//        }
+        LoginGame();
+//        LoginGameBean loginGameBean = SPUtils.getBeanFromSp(mContext, "LoginGameBean", "LoginGameBean");
+//        int action = SharedPrefrenceUtils.getInt(UIUtils.getContext(), "action", 0);
+//
     }
+
     ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -194,14 +153,12 @@ public class TabGamePager extends TabBasePager implements View.OnClickListener {
     };
 
 
-
-
-    private void addGameLobby(){
+    private void addGameLobby() {
         LogUtils.e("roomResponse请求");
-        SharedPrefrenceUtils.setInt(UIUtils.getContext(),"action",1);
-        JSONObject jsonObject=new JSONObject();
+        SharedPrefrenceUtils.setInt(UIUtils.getContext(), "action", 1);
+        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("authorization", SharedPrefrenceUtils.getString(mContext,"token"));
+            jsonObject.put("authorization", SharedPrefrenceUtils.getString(mContext, "token"));
             jsonObject.put("action", "1");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -210,39 +167,42 @@ public class TabGamePager extends TabBasePager implements View.OnClickListener {
     }
 
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_200: {
+                WebSocketHandler.getDefault().removeListener(socketListener);
                 Intent intent = new Intent(mContext, GameRoomActivity.class);
-                intent.putExtra("type",200);
-                intent.putExtra("title",roomResponse.dataList.get(0).title);
-                intent.putExtra("id",1);
+                intent.putExtra("type", 200);
+                intent.putExtra("title","200积分专区");
+                intent.putExtra("id", 1);
                 UIUtils.startActivityNextAnim(intent);
                 break;
             }
             case R.id.iv_500: {
+                WebSocketHandler.getDefault().removeListener(socketListener);
                 Intent intent = new Intent(mContext, GameRoomActivity.class);
-                intent.putExtra("type",500);
-                intent.putExtra("title",roomResponse.dataList.get(1).title);
-                intent.putExtra("id",2);
+                intent.putExtra("type", 500);
+                intent.putExtra("title", "500积分专区");
+                intent.putExtra("id", 2);
                 UIUtils.startActivityNextAnim(intent);
                 break;
             }
             case R.id.iv_1000: {
+                WebSocketHandler.getDefault().removeListener(socketListener);
                 Intent intent = new Intent(mContext, GameRoomActivity.class);
-                intent.putExtra("type",1000);
-                intent.putExtra("title",roomResponse.dataList.get(2).title);
-                intent.putExtra("id",3);
+                intent.putExtra("type", 1000);
+                intent.putExtra("title","1000积分专区");
+                intent.putExtra("id", 3);
                 UIUtils.startActivityNextAnim(intent);
                 break;
             }
             case R.id.iv_2000: {
+                WebSocketHandler.getDefault().removeListener(socketListener);
                 Intent intent = new Intent(mContext, GameRoomActivity.class);
-                intent.putExtra("type",2000);
-                intent.putExtra("title",roomResponse.dataList.get(3).title);
-                intent.putExtra("id",4);
+                intent.putExtra("type", 2000);
+                intent.putExtra("title", "2000积分专区");
+                intent.putExtra("id", 4);
                 UIUtils.startActivityNextAnim(intent);
                 break;
             }
@@ -318,19 +278,60 @@ public class TabGamePager extends TabBasePager implements View.OnClickListener {
 
         @Override
         public <T> void onMessage(String message, T data) {
-//            if( SharedPrefrenceUtils.getInt(UIUtils.getContext(),"action",0)==1) {
-                Gson gson = new Gson();
-                roomResponse = gson.fromJson(message, RoomResponse.class);
-                LogUtils.e("roomResponse:" + roomResponse.toString());
-//            }
+            LogUtils.e("首页返回message2:" + message);
+            Gson gson = new Gson();
+            LoginGameResponse loginGameResponse = gson.fromJson(message, LoginGameResponse.class);
+            if (loginGameResponse.action != 10) {
+
+                if (loginGameResponse.action == 2) {
+                    WebSocketHandler.getDefault().removeListener(socketListener);
+                    ScoreRoomResponse scoreRoomResponse = gson.fromJson(message, ScoreRoomResponse.class);
+                    Intent intent = new Intent(mContext, GameRoomActivity.class);
+                    intent.putExtra("id", scoreRoomResponse.dataList.get(0).scoreId);
+                    intent.putExtra("scoreRoomBeanList",(Serializable)scoreRoomResponse.dataList);
+                    if (scoreRoomResponse.dataList.get(0).scoreId == 1) {
+                        intent.putExtra("type", 200);
+                        intent.putExtra("title", "200积分专区");
+                    } else if (scoreRoomResponse.dataList.get(0).scoreId == 2) {
+                        intent.putExtra("type", 500);
+                        intent.putExtra("title", "500积分专区");
+                    } else if (scoreRoomResponse.dataList.get(0).scoreId == 3) {
+                        intent.putExtra("type", 1000);
+                        intent.putExtra("title", "1000积分专区");
+                    } else {
+                        intent.putExtra("type", 2000);
+                        intent.putExtra("title", "2000积分专区");
+                    }
+                    UIUtils.startActivityNextAnim(intent);
+                } else if (loginGameResponse.action == 3) {
+                    PlayRoomResponse playRoomResponse = gson.fromJson(message, PlayRoomResponse.class);
+                    Intent intent = new Intent(mContext, GameActivity.class);
+                    intent.putExtra("playRoomResponse",playRoomResponse);
+                    UIUtils.startActivityNextAnim(intent);
+                    WebSocketHandler.getDefault().removeListener(socketListener);
+                } else {
+                    roomResponse = gson.fromJson(message, RoomResponse.class);
+                }
+            }
         }
 
         @Override
         public <T> void onMessage(ByteBuffer bytes, T data) {
-            LogUtils.e("message2:"+bytes);
+            LogUtils.e("message2:" + bytes);
 //            appendMsgDisplay("onMessage(ByteBuffer, T):" + bytes);
         }
     };
+
+
+    private void LoginGame() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("authorization", SharedPrefrenceUtils.getString(mContext, "token"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        WebSocketHandler.getDefault().send(jsonObject.toString());
+    }
 
 
 }

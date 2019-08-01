@@ -1,8 +1,14 @@
 package com.xq.LegouShop.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,10 +18,15 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.base.BaseActivity;
 import com.xq.LegouShop.fragment.ControlTabFragment;
+import com.xq.LegouShop.util.LogUtils;
+import com.xq.LegouShop.util.UIUtils;
+
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class MainActivity extends BaseActivity {
     private static final String[] BASIC_PERMISSIONS = new String[]{
@@ -24,7 +35,8 @@ public class MainActivity extends BaseActivity {
             Manifest.permission.CAMERA,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.WRITE_SETTINGS
+            Manifest.permission.WRITE_SETTINGS,
+            Manifest.permission.READ_PHONE_STATE
     };
     private static final int MSG_SET_ALIAS = 1001;
     public static boolean isForeground = false;
@@ -52,6 +64,7 @@ public class MainActivity extends BaseActivity {
         setContentView(rootView);
         initFragment();
         requestBasicPermission();
+
         return rootView;
     }
 
@@ -114,6 +127,36 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ctf.setChecked(0);
+        //支付返回
+        if(requestCode==101){
+            ctf.getShopcarPager().initData();
+        }
     }
+    private LocationManager locationManager;
+    private static final int BAIDU_READ_PHONE_STATE = 100;//定位权限请求
+    private static final int PRIVATE_CODE = 1315;//开启GPS权限
+    static final String[] LOCATIONGPS = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.READ_PHONE_STATE};
+
+
+
+
+
+    /**
+     * Android6.0申请权限的回调方法
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            // requestCode即所声明的权限获取码，在checkSelfPermission时传入
+            case BASIC_PERMISSION_REQUEST_CODE:
+
+                break;
+            default:
+                break;
+        }
+    }
+
 }

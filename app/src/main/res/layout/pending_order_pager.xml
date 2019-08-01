@@ -6,12 +6,10 @@
     android:background="#dce7ed"
     android:orientation="vertical" >
     <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:layout_marginRight="@dimen/dp_19"
-        android:layout_marginLeft="@dimen/dp_19"
         android:background="@color/tab_background"
         android:id="@+id/lv_pending_order"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:divider="#dce7ed"
         android:dividerHeight="@dimen/dp_5"
         />
@@ -19,9 +17,7 @@
         android:visibility="gone"
         android:id="@+id/ll_empty"
         android:orientation="vertical"
-        android:layout_marginRight="@dimen/dp_19"
-        android:layout_marginLeft="@dimen/dp_19"
-        android:background="@drawable/shape_white"
+        android:background="@color/tab_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <View

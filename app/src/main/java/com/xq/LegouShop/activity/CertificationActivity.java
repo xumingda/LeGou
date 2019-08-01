@@ -30,8 +30,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -94,6 +97,7 @@ public class CertificationActivity extends BaseActivity implements View.OnClickL
     private EditText et_name,et_num;
     private Button btn_submit;
     private String realName,idCard,pic1,pic2,pic3;
+    private TextView tv_user_name,tv_idcard;
     private static final String IMAGE_UNSPECIFIED = "image/*";
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
@@ -116,6 +120,8 @@ public class CertificationActivity extends BaseActivity implements View.OnClickL
     private String timepath;
     //0正面，1反面，2手持
     private int type;
+    private LinearLayout ll_fail,ll_success,ll_wait;
+    private ScrollView sv;
     @Override
     protected View initView() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -368,6 +374,10 @@ public class CertificationActivity extends BaseActivity implements View.OnClickL
         imageLoader = ImageLoader.getInstance();
         imageLoader.init((ImageLoaderConfiguration.createDefault(this)));
         loadingDialog = DialogUtils.createLoadDialog(CertificationActivity.this, false);
+        sv=(ScrollView)rootView.findViewById(R.id.sv);
+        ll_fail=(LinearLayout) rootView.findViewById(R.id.ll_fail);
+        ll_success=(LinearLayout) rootView.findViewById(R.id.ll_success);
+        ll_wait=(LinearLayout) rootView.findViewById(R.id.ll_wait);
         rl_main=(RelativeLayout)rootView.findViewById(R.id.rl_main);
         btn_submit = (Button) rootView.findViewById(R.id.btn_submit);
         iv_idcard_font=(ImageView)rootView.findViewById(R.id.iv_idcard_font);
@@ -376,6 +386,8 @@ public class CertificationActivity extends BaseActivity implements View.OnClickL
         iv_idcard_font_add=(ImageView)rootView.findViewById(R.id.iv_idcard_font_add);
         iv_idcard_inhand_add=(ImageView)rootView.findViewById(R.id.iv_idcard_inhan_add);
         iv_idcard_back_add=(ImageView)rootView.findViewById(R.id.iv_idcard_bac_add);
+        tv_user_name=(TextView)rootView.findViewById(R.id.tv_user_name);
+        tv_idcard=(TextView)rootView.findViewById(R.id.tv_idcard);
         view_back=(View)findViewById(R.id.view_back);
         et_name = (EditText) rootView.findViewById(R.id.et_name);
         et_num = (EditText) rootView.findViewById(R.id.et_num);
@@ -487,12 +499,33 @@ public class CertificationActivity extends BaseActivity implements View.OnClickL
                     }
                     et_name.setText(getAuthenticationInfoResponse.data.realName);
                     et_num.setText(getAuthenticationInfoResponse.data.idCard);
-                    if(getAuthenticationInfoResponse.data.status!=2){
-                        btn_submit.setVisibility(View.VISIBLE);
-                    }else{
-                        btn_submit.setVisibility(View.GONE);
+                    if(getAuthenticationInfoResponse.data.status==0){
+                        ll_wait.setVisibility(View.VISIBLE);
+                        ll_success.setVisibility(View.INVISIBLE);
+                        ll_fail.setVisibility(View.INVISIBLE);
+                        sv.setVisibility(View.INVISIBLE);
+                    }else if(getAuthenticationInfoResponse.data.status==1){
+                        ll_wait.setVisibility(View.INVISIBLE);
+                        ll_success.setVisibility(View.VISIBLE);
+                        ll_fail.setVisibility(View.INVISIBLE);
+                        sv.setVisibility(View.INVISIBLE);
+                        tv_idcard.setText("身份证号："+getAuthenticationInfoResponse.data.idCard);
+                        tv_user_name.setText("姓名:"+getAuthenticationInfoResponse.data.realName);
+                    }else if(getAuthenticationInfoResponse.data.status==2){
+                        ll_wait.setVisibility(View.INVISIBLE);
+                        ll_success.setVisibility(View.INVISIBLE);
+                        ll_fail.setVisibility(View.VISIBLE);
+                        sv.setVisibility(View.INVISIBLE);
                     }
-                } else {
+
+                }
+                else if(getAuthenticationInfoResponse.code.equals("-2")){
+                    ll_wait.setVisibility(View.INVISIBLE);
+                    ll_success.setVisibility(View.INVISIBLE);
+                    ll_fail.setVisibility(View.INVISIBLE);
+                    sv.setVisibility(View.VISIBLE);
+                }
+                else {
                     DialogUtils.showAlertDialog(CertificationActivity.this,
                             getAuthenticationInfoResponse.msg);
                 }
@@ -538,18 +571,7 @@ public class CertificationActivity extends BaseActivity implements View.OnClickL
                 GetAuthenticationInfoResponse getAuthenticationInfoResponse = gson.fromJson(json, GetAuthenticationInfoResponse.class);
                 LogUtils.e("getAuthenticationInfoResponse:" + getAuthenticationInfoResponse.toString());
                 if (getAuthenticationInfoResponse.code.equals("0")) {
-                    if(!TextUtils.isEmpty(getAuthenticationInfoResponse.data.pic1)) {
-                        imageLoader.displayImage(getAuthenticationInfoResponse.data.pic1, iv_idcard_font, PictureOption.getSimpleOptions());
-                        imageLoader.displayImage(getAuthenticationInfoResponse.data.pic2, iv_idcard_back, PictureOption.getSimpleOptions());
-                        imageLoader.displayImage(getAuthenticationInfoResponse.data.pic2, iv_idcard_inhand, PictureOption.getSimpleOptions());
-                    }
-                    et_name.setText(getAuthenticationInfoResponse.data.realName);
-                    et_num.setText(getAuthenticationInfoResponse.data.idCard);
-                    if(getAuthenticationInfoResponse.data.status!=2){
-                        btn_submit.setVisibility(View.VISIBLE);
-                    }else{
-                        btn_submit.setVisibility(View.GONE);
-                    }
+                    UIUtils.showToastSafe(getAuthenticationInfoResponse.msg);
                 } else {
                     DialogUtils.showAlertDialog(CertificationActivity.this,
                             getAuthenticationInfoResponse.msg);

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -26,6 +28,7 @@ import com.xq.LegouShop.adapter.SelectShopAdapter;
 import com.xq.LegouShop.bean.GoodInfoBean;
 import com.xq.LegouShop.bean.GoodNumAndPriceBean;
 import com.xq.LegouShop.bean.SpecificationsBean;
+import com.xq.LegouShop.callback.GoodAddCartCallBack;
 import com.xq.LegouShop.callback.GoodNumAndPriceCallBack;
 import com.xq.LegouShop.util.LogUtils;
 import com.xq.LegouShop.util.PictureOption;
@@ -39,17 +42,19 @@ public class SelectGoodsSpecificationuwindow extends PopupWindow implements Good
     private View conentView;
     private Activity context;
     private ListView lv;
-    private ImageView iv_cancle,iv_pic;
+    private ImageView iv_cancle,iv_pic,iv_add,iv_reduce;
     private TextView tv_price,tv_num;
     private GoodSpecificationAdapter goodSpecificationAdapter;
     private ImageLoader imageLoader;
     private Button btn_commit;
+    private String goodsCaseId,buyCount;
+    private EditText et_imput_num;
     /**
      * @param context 上下文
      * @param string 获取到未打开列表时显示的值
       */
     @SuppressLint({"InflateParams", "WrongConstant"})
-    public SelectGoodsSpecificationuwindow(final Activity context, final String string, final GoodInfoBean goodInfoBean,List<SpecificationsBean> specificationsBeanList) {
+    public SelectGoodsSpecificationuwindow(final Activity context, final String string, final GoodInfoBean goodInfoBean, List<SpecificationsBean> specificationsBeanList,final GoodAddCartCallBack goodAddCartCallBack) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context =context;
@@ -83,9 +88,12 @@ public class SelectGoodsSpecificationuwindow extends PopupWindow implements Good
         this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         btn_commit=conentView.findViewById(R.id.btn_commit);
         iv_cancle=conentView.findViewById(R.id.iv_cancle);
+        et_imput_num=conentView.findViewById(R.id.et_imput_num);
         iv_pic=conentView.findViewById(R.id.iv_pic);
         tv_num=conentView.findViewById(R.id.tv_num);
         tv_price=conentView.findViewById(R.id.tv_price);
+        iv_add=conentView.findViewById(R.id.iv_add);
+        iv_reduce=conentView.findViewById(R.id.iv_reduce);
         lv=conentView.findViewById(R.id.lv_spec);
 
         if(goodSpecificationAdapter==null){
@@ -105,7 +113,30 @@ public class SelectGoodsSpecificationuwindow extends PopupWindow implements Good
         btn_commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                buyCount=et_imput_num.getText().toString();
+                goodAddCartCallBack.setData(goodsCaseId,buyCount);
                 dismiss();
+            }
+        });
+        iv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String goods_num = et_imput_num.getText().toString();
+                int num=Integer.parseInt(goods_num);
+                num = num + 1;
+                et_imput_num.setText(String.valueOf(num));
+            }
+        });
+        iv_reduce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String goods_num = et_imput_num.getText().toString();
+                int num=Integer.parseInt(goods_num);
+                num = num - 1;
+                if(num==0){
+                    return;
+                }
+                et_imput_num.setText(String.valueOf(num));
             }
         });
     }
@@ -164,5 +195,10 @@ public class SelectGoodsSpecificationuwindow extends PopupWindow implements Good
     public void setData(GoodNumAndPriceBean goodNumAndPriceBean) {
         tv_price.setText("￥"+goodNumAndPriceBean.salePrice);
         tv_num.setText("库存:"+goodNumAndPriceBean.num);
+        goodsCaseId = goodNumAndPriceBean.goodsCaseId;
+
+        LogUtils.e("goodsCaseId:"+goodsCaseId);
+
     }
+
 }

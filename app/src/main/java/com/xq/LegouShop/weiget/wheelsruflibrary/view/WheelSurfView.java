@@ -135,7 +135,7 @@ public class WheelSurfView extends RelativeLayout {
      */
     public void startRotate(int pisition) {
         if ( mWheelSurfPanView != null ) {
-            mWheelSurfPanView.startRotate(pisition);
+            mWheelSurfPanView.startRotate1(pisition,mStart);
         }
     }
 
@@ -165,8 +165,8 @@ public class WheelSurfView extends RelativeLayout {
                     float w = mStart.getMeasuredWidth();
                     float h = mStart.getMeasuredHeight();
                     //计算新的大小 默认为整个大小最大值的0.17 至于为什么是0.17  我只想说我乐意。。。。
-                    int newW = ( int ) ((( float ) childWidthSize) * 0.17);
-                    int newH = ( int ) ((( float ) childWidthSize) * 0.17 * h / w);
+                    int newW = ( int ) ((( float ) childWidthSize) * 0.4);
+                    int newH = ( int ) ((( float ) childWidthSize) * 0.4 * h / w);
                     ViewGroup.LayoutParams layoutParams = mStart.getLayoutParams();
                     layoutParams.width = newW;
                     layoutParams.height = newH;

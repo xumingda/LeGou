@@ -13,19 +13,28 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.adapter.AccountStatementAdapter;
 import com.xq.LegouShop.adapter.CollectionAdapter;
 import com.xq.LegouShop.base.BaseActivity;
+import com.xq.LegouShop.base.MyVolley;
 import com.xq.LegouShop.bean.OrderBean;
 import com.xq.LegouShop.datepicker.CustomDatePicker;
 import com.xq.LegouShop.datepicker.DateFormatUtils;
+import com.xq.LegouShop.protocol.GetCodeProtocol;
+import com.xq.LegouShop.protocol.GetUserBalanceLogListProtocol;
+import com.xq.LegouShop.request.GetCodeRequest;
+import com.xq.LegouShop.response.GetCodeResponse;
+import com.xq.LegouShop.response.GetUserBalanceLogListResponse;
 import com.xq.LegouShop.util.DateUtils;
 import com.xq.LegouShop.util.DialogUtils;
+import com.xq.LegouShop.util.LogUtils;
 import com.xq.LegouShop.util.UIUtils;
 import com.xq.LegouShop.weiget.SelectPopuwindow;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 //账户流水
@@ -33,7 +42,8 @@ public class AccountStatementActivity extends BaseActivity implements View.OnCli
 
     private LayoutInflater mInflater;
     private View rootView;
-
+    private String year,month;
+    private int type;
     //    private TextView tv_get_code;
     private Dialog loadingDialog;
     private int time = 60;
@@ -48,7 +58,7 @@ public class AccountStatementActivity extends BaseActivity implements View.OnCli
     private List<OrderBean> orderBeanList;
     private SelectPopuwindow selectShopPopuwindow;
     private  List<String> shopList;
-    private TextView tv_select,tv_select_time;
+    private TextView tv_select,tv_select_time,out_money,input_money;
     private RelativeLayout rl_main;
     private String startTime;
     private CustomDatePicker mTimerPicker;
@@ -71,20 +81,29 @@ public class AccountStatementActivity extends BaseActivity implements View.OnCli
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String value = shopList.get(position);
+            type=position+1;
+            LogUtils.e("type:"+type);
             tv_select.setText(value);
             selectShopPopuwindow.dismissPopupWindow();
+            getUserBalanceLogList();
         }
     };
     public void initDate() {
         shopList=new ArrayList<>();
+        //1充值，2提现，3购物，4退款，5转去购物积分，6转去转换积分，7转换积分转来，8拼团中奖
         shopList.add("充值");
         shopList.add("提现");
         shopList.add("购物");
         shopList.add("退款");
-        shopList.add("积分转换");
+        shopList.add("转去购物积分");
+        shopList.add("转去转换积分");
+        shopList.add("转换积分转来");
+        shopList.add("拼团中奖");
         orderBeanList = new ArrayList<>();
         loadingDialog = DialogUtils.createLoadDialog(AccountStatementActivity.this, false);
         tv_select=(TextView) findViewById(R.id.tv_select);
+        out_money=(TextView) findViewById(R.id.out_money);
+        input_money=(TextView) findViewById(R.id.input_money);
         tv_select_time=(TextView) findViewById(R.id.tv_select_time);
         rl_main=(RelativeLayout) findViewById(R.id.rl_main);
         lv_account_statement=(ListView) findViewById(R.id.lv_account_statement);
@@ -103,31 +122,30 @@ public class AccountStatementActivity extends BaseActivity implements View.OnCli
 
 
 
-        orderBeanList.add(null);
-        orderBeanList.add(null);
-        orderBeanList.add(null);
-        if (accountStatementAdapter == null) {
-            accountStatementAdapter = new AccountStatementAdapter(this, orderBeanList);
-            lv_account_statement.setAdapter(accountStatementAdapter);
-        } else {
-            accountStatementAdapter.setDate(orderBeanList);
-            accountStatementAdapter.notifyDataSetChanged();
-        }
+
+
         tv_select_time.setOnClickListener(this);
         tv_select.setOnClickListener(this);
         initTimerPicker();
+        getUserBalanceLogList();
     }
     private void initTimerPicker() {
-        String beginTime = DateFormatUtils.long2Str(System.currentTimeMillis(), true);
+        String beginTime = DateFormatUtils.long2Str((System.currentTimeMillis()-30000*100000L), true);
         String endTime = "2028-10-17 18:00";
-
+        year=beginTime.substring(0,4);
+        month=beginTime.substring(5,7);
         tv_select_time.setText(beginTime.substring(0,10));
+        LogUtils.e("year;"+year+"  month:"+month);
 
         // 通过日期字符串初始化日期，格式请用：yyyy-MM-dd HH:mm
         mTimerPicker = new CustomDatePicker(this, new CustomDatePicker.Callback() {
             @Override
             public void onTimeSelected(long timestamp) {
-                tv_select_time.setText(DateUtils.milliToSimpleDateYear(timestamp));
+                String time=DateUtils.milliToSimpleDateYear(timestamp);
+                tv_select_time.setText(time);
+                year=time.substring(0,4);
+                month=time.substring(5,7);
+                getUserBalanceLogList();
             }
         }, beginTime, endTime);
         // 允许点击屏幕或物理返回键关闭
@@ -154,46 +172,58 @@ public class AccountStatementActivity extends BaseActivity implements View.OnCli
         }
     }
 
-//    //获取验证码
-//    public void runGetGode() {
-//        loadingDialog.show();
-//        GetCodeProtocol getCodeProtocol = new GetCodeProtocol();
-//        GetCodeRequest getCodeRequest = new GetCodeRequest();
-//        String url = getCodeProtocol.getApiFun();
-//        getCodeRequest.map.put("phoneNumber", phoneNumber);
-//        getCodeRequest.map.put("type", "3");
-//        MyVolley.uploadNoFile(MyVolley.POST, url, getCodeRequest.map, new MyVolley.VolleyCallback() {
-//            @Override
-//            public void dealWithJson(String address, String json) {
-//
-//                Gson gson = new Gson();
-//                GetCodeResponse getCodeResponse = gson.fromJson(json, GetCodeResponse.class);
-//                LogUtils.e("appSendMsgResponse:" + getCodeResponse.toString());
-//                if (getCodeResponse.code == 0) {
-//                    tv_get_code.setClickable(false);
-//                    loadingDialog.dismiss();
-//                    Countdowmtimer(60000);
-//                } else {
-//                    loadingDialog.dismiss();
-//                    DialogUtils.showAlertDialog(UpdatePwdActivity.this,
-//                            getCodeResponse.msg);
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void dealWithError(String address, String error) {
-//                loadingDialog.dismiss();
-//                DialogUtils.showAlertDialog(UpdatePwdActivity.this, error);
-//            }
-//
-//            @Override
-//            public void dealTokenOverdue() {
-//
-//            }
-//        });
-//    }
+    //获取验证码
+    public void getUserBalanceLogList() {
+        loadingDialog.show();
+        GetUserBalanceLogListProtocol getUserBalanceLogListProtocol = new GetUserBalanceLogListProtocol();
+        HashMap<String,String> hashMap=new HashMap<>();
+        String url = getUserBalanceLogListProtocol.getApiFun();
+        hashMap.put("pageNo", "1");
+        hashMap.put("pageSize", "999");
+        if(type>0) {
+            hashMap.put("type", String.valueOf(type));// 1充值，2提现，3购物，4退款，5转去购物积分，6转去转换积分，7转换积分转来，8拼团中奖
+        }
+        hashMap.put("year", year);
+        hashMap.put("month", String.valueOf(Integer.parseInt(month)-1));//	月 0到11月，0开始表示1月，不传表示当月
+
+
+        MyVolley.uploadNoFile(MyVolley.POST, url, hashMap, new MyVolley.VolleyCallback() {
+            @Override
+            public void dealWithJson(String address, String json) {
+                loadingDialog.dismiss();
+                Gson gson = new Gson();
+                GetUserBalanceLogListResponse getUserBalanceLogListResponse = gson.fromJson(json, GetUserBalanceLogListResponse.class);
+                LogUtils.e("getUserBalanceLogListResponse:" + getUserBalanceLogListResponse.toString());
+                if (getUserBalanceLogListResponse.code .equals("0")) {
+                    if (accountStatementAdapter == null) {
+                        accountStatementAdapter = new AccountStatementAdapter(AccountStatementActivity.this, getUserBalanceLogListResponse.dataList);
+                        lv_account_statement.setAdapter(accountStatementAdapter);
+                    } else {
+                        accountStatementAdapter.setDate(getUserBalanceLogListResponse.dataList);
+                        accountStatementAdapter.notifyDataSetChanged();
+                    }
+                    input_money.setText("收入：¥"+getUserBalanceLogListResponse.data.incomeMoney);
+                    out_money.setText("支出：¥"+getUserBalanceLogListResponse.data.expenditureMoney);
+                } else {
+                    DialogUtils.showAlertDialog(AccountStatementActivity.this,
+                            getUserBalanceLogListResponse.msg);
+                }
+
+
+            }
+
+            @Override
+            public void dealWithError(String address, String error) {
+                loadingDialog.dismiss();
+                DialogUtils.showAlertDialog(AccountStatementActivity.this, error);
+            }
+
+            @Override
+            public void dealTokenOverdue() {
+
+            }
+        });
+    }
 //
 //    /**
 //     * 计时器

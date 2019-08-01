@@ -34,15 +34,18 @@ public class SwipeListView extends ListView {
     }
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                performActionDown(ev);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                return performActionMove(ev);
-            case MotionEvent.ACTION_UP:
-                return performActionUp(ev);
-//        break;
+        try {
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    performActionDown(ev);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    return performActionMove(ev);
+                case MotionEvent.ACTION_UP:
+                    return performActionUp(ev);
+            }
+
+        }catch (Exception e){
         }
         return super.onTouchEvent(ev);
     }

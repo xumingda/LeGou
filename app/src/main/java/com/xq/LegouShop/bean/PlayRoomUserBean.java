@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class PlayRoomUserBean implements Serializable {
     public String createTime;//	收货地址id
     public int id;//	序号
-    public String num;	//座位号
+    public int num;	//座位号
     public int userId;//	用户id 为0表示没人
     public String nickName;//	用户昵称
     public String headurl;//	用户头像
@@ -19,11 +19,11 @@ public class PlayRoomUserBean implements Serializable {
         this.id = id;
     }
 
-    public String getNum() {
+    public int getNum() {
         return num;
     }
 
-    public void setNum(String num) {
+    public void setNum(int num) {
         this.num = num;
     }
 

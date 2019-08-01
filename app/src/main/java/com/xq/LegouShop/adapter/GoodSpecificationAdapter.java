@@ -54,6 +54,7 @@ public class GoodSpecificationAdapter extends BaseAdapter{
     private String goodsId;
     private String goodsGroupValueId;
     private GoodNumAndPriceCallBack goodNumAndPriceCallBack;
+    List<SpecificationsBean.AttrBean> attrBeanArrayList=new ArrayList<>();
     public GoodSpecificationAdapter(Context context, List<SpecificationsBean> orderBeanList,String goodsId,GoodNumAndPriceCallBack goodNumAndPriceCallBack){
         mContext=context;
         this.orderBeanList=orderBeanList;
@@ -84,7 +85,7 @@ public class GoodSpecificationAdapter extends BaseAdapter{
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public View getView(int pos, View view, ViewGroup arg2) {
+    public View getView(final int pos, View view, ViewGroup arg2) {
         // TODO Auto-generated method stub
         ViewHolder vh;
         if (view == null) {
@@ -97,7 +98,8 @@ public class GoodSpecificationAdapter extends BaseAdapter{
         } else {
             vh = (ViewHolder) view.getTag();
         }
-        final SpecificationsBean specificationsBean=orderBeanList.get(pos);
+        SpecificationsBean specificationsBean=orderBeanList.get(pos);
+        attrBeanArrayList=specificationsBean.attrList;
         List<String> lable = new ArrayList<>();
         for(int i=0;i<specificationsBean.attrList.size();i++){
             lable.add(specificationsBean.attrList.get(i).goodsGroupNameValue);
@@ -105,37 +107,40 @@ public class GoodSpecificationAdapter extends BaseAdapter{
         LogUtils.e("specificationsBeanList:"+lable.toString());
 
         vh.tv_goodsGroupName.setText(specificationsBean.goodsGroupName);
-        if(goodSpecificationItemAdapter==null){
-            goodSpecificationItemAdapter=new GoodSpecificationItemAdapter(mContext,specificationsBean.attrList);
-            vh.gv.setAdapter(goodSpecificationItemAdapter);
-        }else{
-            goodSpecificationItemAdapter.setDate(specificationsBean.attrList);
-            goodSpecificationItemAdapter.notifyDataSetChanged();
-        }
-        vh.gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int postion, long l) {
-                HashMap<Integer,Boolean> hashMap=goodSpecificationItemAdapter.getHashMap();
-                hashMap.put(0,true);
-                for(int i=0;i<hashMap.size();i++){
-                    hashMap.put(i,false);
-                }
-                hashMap.put(postion,true);
-                goodsGroupValueId=specificationsBean.attrList.get(postion).id;
-                getGoodsNumAndPrice();
-                goodSpecificationItemAdapter.setHashMap(hashMap);
-            }
-        });
-        //默认选中第一
-        if(specificationsBean.attrList.size()>0) {
-            HashMap<Integer, Boolean> hashMap = goodSpecificationItemAdapter.getHashMap();
-            hashMap.put(0, true);
-            goodsGroupValueId = specificationsBean.attrList.get(0).id;
-            getGoodsNumAndPrice();
-            goodSpecificationItemAdapter.setHashMap(hashMap);
-        }
-//        //获取选中的标签
-//        selectedLables = vh.lineBreakLayout.getSelectedLables();
+        goodSpecificationItemAdapter=new GoodSpecificationItemAdapter(mContext,attrBeanArrayList,goodsId,goodNumAndPriceCallBack);
+        vh.gv.setAdapter(goodSpecificationItemAdapter);
+
+//        vh.gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int postion, long l) {
+//
+//
+////                HashMap<Integer,Boolean> hashMap=goodSpecificationItemAdapter.getHashMap();
+//////                hashMap.put(0,true);
+////                for(int i=0;i<hashMap.size();i++){
+////                    hashMap.put(i,false);
+////                }
+////                hashMap.put(postion,true);
+////                goodSpecificationItemAdapter.setHashMap(hashMap);
+//                LogUtils.e("wo 点击"+postion+"   specificationsBean.attrList.get(postion).selected:"+attrBeanArrayList.get(postion).selected);
+////                boolean statue=attrBeanArrayList.get(postion).selected;
+////                attrBeanArrayList.get(postion).selected=!statue;
+////                goodSpecificationItemAdapter.setDate(attrBeanArrayList);
+////                goodSpecificationItemAdapter.notifyDataSetChanged();
+//                goodsGroupValueId=attrBeanArrayList.get(postion).id;
+//                getGoodsNumAndPrice();
+//
+//            }
+//        });
+//        //默认选中第一
+//        if(specificationsBean.attrList.size()>0) {
+//            HashMap<Integer, Boolean> hashMap = goodSpecificationItemAdapter.getHashMap();
+//            hashMap.put(0, true);
+//            goodsGroupValueId = specificationsBean.attrList.get(0).id;
+//            getGoodsNumAndPrice();
+//            goodSpecificationItemAdapter.setHashMap(hashMap);
+//        }
+
         return view;
     }
 

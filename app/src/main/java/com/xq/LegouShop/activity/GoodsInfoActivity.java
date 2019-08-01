@@ -3,6 +3,7 @@ package com.xq.LegouShop.activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
@@ -10,6 +11,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,9 @@ import com.xq.LegouShop.R;
 import com.xq.LegouShop.base.BaseActivity;
 import com.xq.LegouShop.base.MyVolley;
 import com.xq.LegouShop.base.ViewTabBasePager;
+import com.xq.LegouShop.bean.CartBean;
+import com.xq.LegouShop.callback.GoodAddCartCallBack;
+import com.xq.LegouShop.protocol.AddUserCartProtocol;
 import com.xq.LegouShop.protocol.CollectionGoodsProtocol;
 import com.xq.LegouShop.protocol.GetCodeProtocol;
 import com.xq.LegouShop.protocol.GetGoodInfoProtocol;
@@ -50,6 +55,7 @@ import com.xq.LegouShop.weiget.SelectGoodsSpecificationuwindow;
 import com.xq.LegouShop.weiget.SelectPopuwindow;
 import com.xq.LegouShop.weiget.TabSlidingIndicator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +64,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 //商品详情
-public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickListener {
+public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickListener , GoodAddCartCallBack {
 
     private LayoutInflater mInflater;
     private View rootView;
@@ -107,7 +113,7 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
     private RelativeLayout rl_main;
     private SelectGoodsSpecificationuwindow selectGoodsSpecificationuwindow;
     private TextView tv_addcar,tv_buy,tv_dec,tv_price,tv_old_price,tv_num,tv_collect;
-    private String goodsId;
+    private String goodsId,goodsCaseId,buyCount;
     private WebView wv_desc;
     //css显示图片样式
     private String CSS_STYPE = "<head><style>img{max-width:340px !important;}</style></head>";
@@ -213,12 +219,40 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
                 break;
             }
             case R.id.tv_buy:{
-                Intent intent=new Intent(this,BuyGoodActivity.class);
-                UIUtils.startActivityNextAnim(intent);
+                if(getGoodInfoResponse.data.isUserSet==1||(getGoodInfoResponse.dataList!=null&&getGoodInfoResponse.dataList.size()>0)){
+                    if (right.isEnabled()) {
+                        right.setEnabled(false);
+                        left.setEnabled(true);
+                        last.setEnabled(true);
+                        wv_desc.setVisibility(View.GONE);
+                        selectGoodsSpecificationuwindow = new SelectGoodsSpecificationuwindow(UIUtils.getActivity(),"筛选条件",getGoodInfoResponse.data,getGoodInfoResponse.dataList,this);
+                        selectGoodsSpecificationuwindow.showPopupWindow(rl_main);
+                    }
+                }else{
+                    Intent intent=new Intent(this,BuyGoodActivity.class);
+                    List<CartBean> orderGoodBeanList = new ArrayList<CartBean>();
+                    CartBean cartBean = new CartBean();
+                    cartBean.setGoodsName(getGoodInfoResponse.data.goodsName);
+                    if(getGoodInfoResponse.dataList!=null&&getGoodInfoResponse.dataList.size()>0){
+                        cartBean.setGoodsGroupValues(getGoodInfoResponse.dataList.get(0).goodsGroupName);
+                    }
+                    cartBean.setPic(getGoodInfoResponse.data.getPic());
+                    cartBean.setGoodsId(Integer.parseInt(getGoodInfoResponse.data.getId()));
+                    cartBean.setBuyCount("1");
+                    cartBean.setSalePrice(getGoodInfoResponse.data.getSalePrice());
+                    orderGoodBeanList.add(cartBean);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("orderGoodBeanList", (Serializable) orderGoodBeanList);
+                    intent.putExtras(bundle);
+                    intent.putExtra("total_price", Double.parseDouble(getGoodInfoResponse.data.getSalePrice()));
+                    UIUtils.startActivityNextAnim(intent);
+                }
+
                 break;
             }
             case R.id.tv_addcar:{
-                selectGoodsSpecificationuwindow = new SelectGoodsSpecificationuwindow(UIUtils.getActivity(),"筛选条件",getGoodInfoResponse.data,getGoodInfoResponse.dataList);
+                selectGoodsSpecificationuwindow = new SelectGoodsSpecificationuwindow(UIUtils.getActivity(),"筛选条件",getGoodInfoResponse.data,getGoodInfoResponse.dataList,this);
                 selectGoodsSpecificationuwindow.showPopupWindow(rl_main);
                 break;
             }
@@ -239,7 +273,7 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
                     left.setEnabled(true);
                     last.setEnabled(true);
                     wv_desc.setVisibility(View.GONE);
-                    selectGoodsSpecificationuwindow = new SelectGoodsSpecificationuwindow(UIUtils.getActivity(),"筛选条件",getGoodInfoResponse.data,getGoodInfoResponse.dataList);
+                    selectGoodsSpecificationuwindow = new SelectGoodsSpecificationuwindow(UIUtils.getActivity(),"筛选条件",getGoodInfoResponse.data,getGoodInfoResponse.dataList,this);
                     selectGoodsSpecificationuwindow.showPopupWindow(rl_main);
                 }
                 break;
@@ -367,6 +401,13 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
             startScrollTask();
             isopen = true;
         }
+    }
+
+    @Override
+    public void setData(String goodsCaseId, String buyCount) {
+        this.goodsCaseId=goodsCaseId;
+        this.buyCount=buyCount;
+        addCart();
     }
 
     /**
@@ -504,32 +545,6 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
                     tv_num.setText("销量："+getGoodInfoResponse.data.getSalesVolume());
                     wv_desc.loadDataWithBaseURL(null, CSS_STYPE + getGoodInfoResponse.data.details, "text/html", "utf-8", null);
                     setImageViews();
-
-//                    pagerTitles = new ArrayList<String>();
-//                    pagerTitles.add("详情");
-//                    pagerTitles.add("规格");
-//                    pagerTitles.add("评价");
-//
-//                    concernBasePagerList = new ArrayList<ViewTabBasePager>();
-//                    DetailsPager detailsPager=new DetailsPager(GoodsInfoActivity.this,getGoodInfoResponse.data.details);
-//                    SpecificationPager specificationPager=new SpecificationPager(GoodsInfoActivity.this,getGoodInfoResponse.data,getGoodInfoResponse.dataList);
-//                    EvaluatePager evaluatePager = new EvaluatePager(GoodsInfoActivity.this);
-//
-//
-//                    concernBasePagerList.add(detailsPager);
-//                    concernBasePagerList.add(specificationPager);
-//                    concernBasePagerList.add(evaluatePager);
-//
-//                    ConcernInfoPagerAdapter concerninfopageradapter = new ConcernInfoPagerAdapter();
-//                    vpContent.setAdapter(concerninfopageradapter);
-//
-//                    titleIndicator.setViewPager(vpContent);
-//                    titleIndicator.setOnPageChangeListener(GoodsInfoActivity.this);
-//                    // 设置指示器缩小部分的比例
-//                    titleIndicator.setScaleRadio(0.0f);
-//                    // 设置indicator的颜色
-//                    titleIndicator.setTextColor(UIUtils.getColor(R.color.text_color_black),
-//                            UIUtils.getColor(R.color.errorColor));
                     loadingDialog.dismiss();
                 } else {
                     loadingDialog.dismiss();
@@ -592,6 +607,48 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
         });
     }
 
+    //加入购物车
+    public void addCart() {
+        loadingDialog.show();
+        AddUserCartProtocol addUserCartProtocol = new AddUserCartProtocol();
+
+        String url = addUserCartProtocol.getApiFun();
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("goodsId", goodsId);
+        if(!TextUtils.isEmpty(goodsCaseId)) {
+            params.put("goodsCaseId", String.valueOf(goodsCaseId));
+        }
+        params.put("buyCount", buyCount);
+        LogUtils.e("addcart:" + params.toString());
+        MyVolley.uploadNoFile(MyVolley.POST, url, params, new MyVolley.VolleyCallback() {
+            @Override
+            public void dealWithJson(String address, String json) {
+
+                Gson gson = new Gson();
+                FindPwdResponse findPwdResponse = gson.fromJson(json, FindPwdResponse.class);
+                LogUtils.e("addcart:" + findPwdResponse.toString());
+                loadingDialog.dismiss();
+                DialogUtils.showAlertDialog(GoodsInfoActivity.this,
+                        findPwdResponse.msg);
+
+
+            }
+
+            @Override
+            public void dealWithError(String address, String error) {
+                loadingDialog.dismiss();
+                DialogUtils.showAlertDialog(GoodsInfoActivity.this, error);
+            }
+
+            @Override
+            public void dealTokenOverdue() {
+                loadingDialog.dismiss();
+                DialogUtils.showAlertToLoginDialog(GoodsInfoActivity.this,
+                        "登录超时，请重新登录！");
+            }
+        });
+    }
 
     public static String[] convertStrToArray(String str) {
         String[] strArray = null;

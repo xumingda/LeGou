@@ -79,20 +79,20 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
         pagerTitles.add("待发货");
         pagerTitles.add("待收货");
         pagerTitles.add("已完成");
-        pagerTitles.add("售后");
+//        pagerTitles.add("售后");
 
         concernBasePagerList = new ArrayList<ViewTabBasePager>();
         PendingOrderPager pendingOrderPager = new PendingOrderPager(this,0);
-        PendingOrderPager pendingOrderPager2=new PendingOrderPager(this,1);
-        PendingOrderPager pendingOrderPager1=new PendingOrderPager(this,-1);
+        PendingOrderPager pendingOrderPager1=new PendingOrderPager(this,1);
+        PendingOrderPager pendingOrderPager2=new PendingOrderPager(this,2);
 
-        PendingOrderPager pendingOrderPager3=new PendingOrderPager(this,1);
-        PendingOrderPager pendingOrderPager4=new PendingOrderPager(this,-1);
-        concernBasePagerList.add(pendingOrderPager2);
+        PendingOrderPager pendingOrderPager3=new PendingOrderPager(this,3);
+//        PendingOrderPager pendingOrderPager4=new PendingOrderPager(this,-1);
         concernBasePagerList.add(pendingOrderPager);
         concernBasePagerList.add(pendingOrderPager1);
+        concernBasePagerList.add(pendingOrderPager2);
         concernBasePagerList.add(pendingOrderPager3);
-        concernBasePagerList.add(pendingOrderPager4);
+//        concernBasePagerList.add(pendingOrderPager4);
 
         ConcernInfoPagerAdapter concerninfopageradapter = new ConcernInfoPagerAdapter();
         vpContent.setAdapter(concerninfopageradapter);

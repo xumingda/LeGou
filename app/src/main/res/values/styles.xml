@@ -1,5 +1,7 @@
 <resources>
-
+    <style name="SampleTheme.Light" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:windowNoTitle">true</item>
+    </style>
     <style name="date_picker_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>

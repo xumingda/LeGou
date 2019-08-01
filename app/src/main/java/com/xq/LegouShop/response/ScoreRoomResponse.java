@@ -4,6 +4,7 @@ package com.xq.LegouShop.response;
 import com.xq.LegouShop.bean.RoomBean;
 import com.xq.LegouShop.bean.ScoreRoomBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  * @更新时间:
  * @更新内容: TODO
  */
-public class ScoreRoomResponse {
+public class ScoreRoomResponse implements Serializable {
 	
 	/** 服务器响应码 */
 	public String code;
@@ -25,6 +26,7 @@ public class ScoreRoomResponse {
 	/** 服务器返回消息 */
 	public String msg;
 	public int action;
+	public int num;
 
 	@Override
 	public String toString() {
@@ -33,6 +35,7 @@ public class ScoreRoomResponse {
 				", dataList=" + dataList +
 				", msg='" + msg + '\'' +
 				", action=" + action +
+				", num=" + num +
 				'}';
 	}
 }
