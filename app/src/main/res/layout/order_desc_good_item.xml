@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_80"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/tab_background"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+
+        <ImageView
+            android:id="@+id/iv_good"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@color/text_color_gray" />
+
+        <TextView
+            android:id="@+id/tv_good_name"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_toRightOf="@id/iv_good"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="商品名称"
+            android:textColor="@color/text_color_black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_good_dec"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_good_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_toRightOf="@id/iv_good"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="颜色：蓝色  尺寸：36码数"
+            android:textColor="@color/text_color_black"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv_good_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_toRightOf="@id/iv_good"
+            android:text="数量：100"
+            android:textColor="@color/text_color_black"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:text="￥ 100"
+            android:textColor="@color/text_color_black"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -127,8 +127,13 @@ public class SwipeListView extends ListView {
      * 变为正常状态
      */
     public void turnToNormal() {
-        mLayoutParams.leftMargin = 0;
-        mPointChild.getChildAt(0).setLayoutParams(mLayoutParams);
+        try {
+            mLayoutParams.leftMargin = 0;
+            mPointChild.getChildAt(0).setLayoutParams(mLayoutParams);
+        }catch (Exception e){
+
+        }
+
     }
     /**
      * 当前是否可点击

@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -92,7 +94,7 @@ public class BuyGoodActivity extends BaseActivity  implements View.OnClickListen
     private OrderGoodsAdapter orderGoodsAdapter;
     private TextView tv_add_address,tv_name,tv_phone,tv_address,tv_commit;
     private View view_select;
-    private RadioButton rb_jifen,rb_zhuanhua,rb_balance,rb_weixin,rb_zhifubao;
+    private CheckBox ch_gouwu,ch_balance,ch_change,ch_weixin,ch_zhifubao;
     @Override
     protected View initView() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -125,11 +127,11 @@ public class BuyGoodActivity extends BaseActivity  implements View.OnClickListen
         tv_address=(TextView)findViewById(R.id.tv_address);
         tv_phone=(TextView)findViewById(R.id.tv_phone);
         tv_total_price.setText("总计：￥" + total_price);
-        rb_jifen=(RadioButton)findViewById(R.id.rb_jifen);
-        rb_zhuanhua=(RadioButton)findViewById(R.id.rb_zhuanhua);
-        rb_balance=(RadioButton)findViewById(R.id.rb_balance);
-        rb_weixin=(RadioButton)findViewById(R.id.rb_weixin);
-        rb_zhifubao=(RadioButton)findViewById(R.id.rb_zhifubao);
+        ch_gouwu=(CheckBox) findViewById(R.id.ch_gouwu);
+        ch_change=(CheckBox)findViewById(R.id.ch_change);
+        ch_balance=(CheckBox)findViewById(R.id.ch_balance);
+        ch_weixin=(CheckBox)findViewById(R.id.ch_weixin);
+        ch_zhifubao=(CheckBox)findViewById(R.id.ch_zhifubao);
 //        rl_clear_new_pwd=(RelativeLayout)findViewById(R.id.rl_clear_new_pwd);
 //        rl_clear_new_pwd_again=(RelativeLayout)findViewById(R.id.rl_clear_new_pwd_again);
 
@@ -154,7 +156,18 @@ public class BuyGoodActivity extends BaseActivity  implements View.OnClickListen
             lv_goods.setAdapter(orderGoodsAdapter);
         }
         getAddressLists();
-
+        ch_weixin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                ch_zhifubao.setChecked(!b);
+            }
+        });
+        ch_zhifubao.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                ch_weixin.setChecked(!b);
+            }
+        });
     }
 
 
@@ -164,27 +177,27 @@ public class BuyGoodActivity extends BaseActivity  implements View.OnClickListen
         switch (view.getId()) {
             case R.id.tv_commit:{
                 buyerMessage=et_buyerMessage.getText().toString();
-                if(rb_balance.isChecked()){
+                if(ch_balance.isChecked()){
                     balancePay=1;
                 }else{
                     balancePay=0;
                 }
-                if(rb_jifen.isChecked()){
+                if(ch_gouwu.isChecked()){
                     buyScorePay=1;
                 }else{
                     buyScorePay=0;
                 }
-                if(rb_zhuanhua.isChecked()){
+                if(ch_change.isChecked()){
                     changeScorePay=1;
                 }else{
                     changeScorePay=0;
                 }
-                if(rb_weixin.isChecked()){
+                if(ch_weixin.isChecked()){
                     weixinPay=1;
                 }else{
                     weixinPay=0;
                 }
-                if(rb_zhifubao.isChecked()){
+                if(ch_zhifubao.isChecked()){
                     zhifubaoPay=1;
                 }else{
                     zhifubaoPay=0;
@@ -309,8 +322,9 @@ public class BuyGoodActivity extends BaseActivity  implements View.OnClickListen
                 if (getCodeResponse.code .equals("0")) {
                     loadingDialog.dismiss();
                     UIUtils.showToastSafe(getCodeResponse.msg);
+                    Intent intent=new Intent(BuyGoodActivity.this,OrderManagerActivity.class);
+                    UIUtils.startActivityNextAnim(intent);
                     finish();
-                    overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
 
                 } else {
                     loadingDialog.dismiss();
@@ -333,83 +347,7 @@ public class BuyGoodActivity extends BaseActivity  implements View.OnClickListen
             }
         });
     }
-//
-//    /**
-//     * 计时器
-//     */
-//    public void Countdowmtimer(long dodate) {
-//        new CountDownTimer(dodate, 1000) {
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//                time = time - 1;
-//                tv_get_code.setText(time + "s后重发");
-//            }
-//
-//            @Override
-//            // 计时结束
-//            public void onFinish() {
-//                time = 60;
-//                tv_get_code.setText("获取验证码");
-//                tv_get_code.setClickable(true);
-//
-//            }
-//        }.start();
-//    }
-//
-//    public void runUpdatePwd() {
-//        loadingDialog.show();
-//        ModifyLoginPwdProtocol modifyLoginPwdProtocol = new ModifyLoginPwdProtocol();
-//
-//        String url = modifyLoginPwdProtocol.getApiFun();
-//        HashMap<String, String> params = new HashMap<String, String>();
-//
-//        params.put("phoneNumber", phoneNumber);
-////        if(salesmanBean!=null){
-////            params.put("type", "0");
-////            params.put("salesmanId",  String.valueOf(salesmanBean.getId()));
-////        }else{
-////            params.put("type", "1");
-////            params.put("businessId",  String.valueOf(merchantBean.getId()));
-////        }
-//
-//        params.put("password",  MD5Utils.MD5(new_password));
-//        params.put("code", code);
-//        MyVolley.uploadNoFile(MyVolley.POST, url, params, new MyVolley.VolleyCallback() {
-//            @Override
-//            public void dealWithJson(String address, String json) {
-//
-//                Gson gson = new Gson();
-//                ModifyLoginPwdResponse modifyLoginPwdResponse = gson.fromJson(json, ModifyLoginPwdResponse.class);
-//                LogUtils.e("modifyLoginPwdResponse:" + modifyLoginPwdResponse.toString());
-//                if (modifyLoginPwdResponse.code.equals("0")) {
-//                    SuccessPopuwindow clockPopuwindow=new SuccessPopuwindow(UpdatePwdActivity.this,UpdatePwdActivity.this,"修改成功");
-//                    clockPopuwindow.showPopupWindow(rl_main);
-//                    loadingDialog.dismiss();
-//
-//                } else {
-//
-//                    loadingDialog.dismiss();
-//                    DialogUtils.showAlertDialog(UpdatePwdActivity.this,
-//                            modifyLoginPwdResponse.msg);
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void dealWithError(String address, String error) {
-//                loadingDialog.dismiss();
-//                DialogUtils.showAlertDialog(UpdatePwdActivity.this, error);
-//            }
-//
-//            @Override
-//            public void dealTokenOverdue() {
-//                loadingDialog.dismiss();
-//                DialogUtils.showAlertToLoginDialog(UpdatePwdActivity.this,
-//                        "登录超时，请重新登录！");
-//            }
-//        });
-//    }
+
 
 
 

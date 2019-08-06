@@ -110,28 +110,7 @@ public class GoodSpecificationAdapter extends BaseAdapter{
         goodSpecificationItemAdapter=new GoodSpecificationItemAdapter(mContext,attrBeanArrayList,goodsId,goodNumAndPriceCallBack);
         vh.gv.setAdapter(goodSpecificationItemAdapter);
 
-//        vh.gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int postion, long l) {
-//
-//
-////                HashMap<Integer,Boolean> hashMap=goodSpecificationItemAdapter.getHashMap();
-//////                hashMap.put(0,true);
-////                for(int i=0;i<hashMap.size();i++){
-////                    hashMap.put(i,false);
-////                }
-////                hashMap.put(postion,true);
-////                goodSpecificationItemAdapter.setHashMap(hashMap);
-//                LogUtils.e("wo 点击"+postion+"   specificationsBean.attrList.get(postion).selected:"+attrBeanArrayList.get(postion).selected);
-////                boolean statue=attrBeanArrayList.get(postion).selected;
-////                attrBeanArrayList.get(postion).selected=!statue;
-////                goodSpecificationItemAdapter.setDate(attrBeanArrayList);
-////                goodSpecificationItemAdapter.notifyDataSetChanged();
-//                goodsGroupValueId=attrBeanArrayList.get(postion).id;
-//                getGoodsNumAndPrice();
-//
-//            }
-//        });
+
 //        //默认选中第一
 //        if(specificationsBean.attrList.size()>0) {
 //            HashMap<Integer, Boolean> hashMap = goodSpecificationItemAdapter.getHashMap();

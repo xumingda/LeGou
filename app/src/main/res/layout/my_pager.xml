@@ -168,7 +168,7 @@
                         android:gravity="center"
                         android:textSize="@dimen/sp_10"
                         android:textColor="@color/tab_background"
-                        android:text="转化积分"
+                        android:text="转换积分"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"

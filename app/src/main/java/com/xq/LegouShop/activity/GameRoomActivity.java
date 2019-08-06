@@ -90,6 +90,7 @@ public class GameRoomActivity extends BaseActivity implements View.OnClickListen
     private List<ScoreRoomBean> scoreRoomBeanList;
     private int scoreRoomId;
     private Button btn_pintuan;
+    private Dialog dialog;
     @Override
     protected View initView() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -263,11 +264,12 @@ public class GameRoomActivity extends BaseActivity implements View.OnClickListen
                 break;
             }
             case R.id.tv_ensure:{
+                dialog.dismiss();
                 outGame();
                 break;
             }
             case R.id.view_back:{
-                Dialog dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameRoomActivity.this);
+                dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameRoomActivity.this);
                 dialog.show();
                 break;
             }
@@ -307,7 +309,7 @@ public class GameRoomActivity extends BaseActivity implements View.OnClickListen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            Dialog dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameRoomActivity.this);
+            dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameRoomActivity.this);
             dialog.show();
             return true;
         }

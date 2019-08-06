@@ -7,6 +7,7 @@
 
 
     <RelativeLayout
+        android:background="@color/tab_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         
@@ -15,7 +16,7 @@
             android:id="@+id/tv_shopName"
             android:layout_marginTop="@dimen/dp_20"
             android:layout_marginLeft="@dimen/dp_16"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_color_black"
             android:textSize="@dimen/sp_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +31,7 @@
             android:singleLine="true"
             android:textColor="@color/text_color_gray"
             android:textSize="@dimen/sp_12"
-            android:layout_width="@dimen/dp_150"
+            android:layout_width="@dimen/dp_160"
             android:layout_height="wrap_content"
             />
         <ImageView
@@ -52,9 +53,8 @@
             android:singleLine="true"
             android:textColor="@color/text_color_gray"
             android:textSize="@dimen/sp_12"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_toRightOf="@id/tv_order_no"
-            android:layout_width="@dimen/dp_150"
+            android:gravity="center_vertical|right"
+            android:layout_width="@dimen/dp_120"
             android:layout_height="wrap_content"
             />
         <TextView
@@ -63,10 +63,13 @@
             android:id="@+id/tv_user_name"
             android:layout_marginLeft="@dimen/dp_16"
             android:layout_below="@id/tv_order_no"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_color_black"
             android:layout_marginRight="@dimen/dp_15"
             android:textSize="@dimen/sp_15"
-            android:layout_width="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_width="@dimen/dp_200"
             android:layout_height="wrap_content"
             />
         <TextView
@@ -104,19 +107,32 @@
             android:layout_below="@id/tv_time"
             />
         <TextView
+            android:text="查看更多商品"
             android:layout_below="@id/iv_pic"
+            android:id="@+id/tv_more"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/dp_21"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_10"
+            android:textColor="@color/text_title_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:text="asda"
+            android:layout_below="@id/tv_more"
             android:id="@+id/tv_price"
             android:gravity="center"
             android:layout_marginLeft="@dimen/dp_21"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_5"
             android:textSize="@dimen/sp_12"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_color_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
         <TextView
             android:layout_marginBottom="@dimen/dp_10"
-            android:padding="@dimen/dp_8"
+            android:padding="@dimen/dp_5"
             android:id="@+id/tv_cancel"
             android:gravity="center"
             android:layout_marginRight="@dimen/dp_21"
@@ -125,14 +141,14 @@
             android:layout_marginTop="@dimen/dp_20"
             android:textSize="@dimen/sp_12"
             android:text="取消"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_color_black"
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_30"
             android:background="@drawable/shape_add_btn"
             />
         <TextView
             android:layout_marginBottom="@dimen/dp_10"
-            android:padding="@dimen/dp_8"
+            android:padding="@dimen/dp_5"
             android:id="@+id/tv_pay"
             android:gravity="center"
             android:layout_marginRight="@dimen/dp_10"
@@ -141,7 +157,7 @@
             android:layout_marginTop="@dimen/dp_20"
             android:textSize="@dimen/sp_12"
             android:text="付款"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_color_black"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_30"
             android:background="@drawable/shape_add_btn"

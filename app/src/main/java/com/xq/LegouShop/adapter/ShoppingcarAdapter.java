@@ -48,7 +48,6 @@ public class ShoppingcarAdapter extends BaseAdapter implements View.OnClickListe
     private String TAG = "ClientListAdapter";
     private List<CartBean> dataLists;
     private Context mContext;
-    private HashMap<Integer, Boolean> hashMap = new HashMap<Integer, Boolean>();
     private int count = 0;
     private Button btn_order;
     private boolean allChecked = true;
@@ -57,7 +56,7 @@ public class ShoppingcarAdapter extends BaseAdapter implements View.OnClickListe
     private Dialog loadingDialog;
     private String userCartIds;
     private int del_item = 0;
-    private HashMap<CartBean, Boolean> isCheckMap = new HashMap<CartBean, Boolean>();
+//    private HashMap<CartBean, Boolean> isCheckMap = new HashMap<CartBean, Boolean>();
     //选择的数量
     private String goods_num;
     private AlertDialog alertDialog;
@@ -83,7 +82,6 @@ public class ShoppingcarAdapter extends BaseAdapter implements View.OnClickListe
 
         for (int i = 0; i < dataLists.size(); i++) {
             dataLists.get(i).setSelected(true);
-            isCheckMap.put(dataLists.get(i), true);
         }
     }
     public void setData( List<CartBean> dataLists){
@@ -149,22 +147,21 @@ public class ShoppingcarAdapter extends BaseAdapter implements View.OnClickListe
                     onCallBackDeleteShopingCart.delSelectItemCallBack(dataLists.get(pos));
                     count--;
                 }
-                isCheckMap.put(dataLists.get(pos), isChecked);
+                CartBean cartBean=dataLists.get(pos);
+                cartBean.setSelected(isChecked);
+                dataLists.set(pos,cartBean);
                 if (count == dataLists.size()) {
                     cb_all_good.setChecked(true);
                 } else if (count == 0) {
                     cb_all_good.setChecked(false);
                 }
-//                LogUtils.e("count:" + count);
             }
         });
 
-        if (isCheckMap.size() > 0) {
-            if (isCheckMap.get(dataLists.get(pos))) {
-                vh.ch_good.setChecked(true);
-            } else {
-                vh.ch_good.setChecked(false);
-            }
+        if (dataLists.get(pos).isSelected()) {
+            vh.ch_good.setChecked(true);
+        } else {
+            vh.ch_good.setChecked(false);
         }
         vh.tv_good_des.setText(dataLists.get(pos).getGoodsGroupValues());
          vh.tv_good_name.setText(dataLists.get(pos).getGoodsName());
@@ -189,20 +186,21 @@ public class ShoppingcarAdapter extends BaseAdapter implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.tv_ensure:{
+                alertDialog.dismiss();
+                runDeleteCart();
+                break;
+            }
         }
     }
 
 
     class ViewHolder {
-        TextView tv_editor;
         TextView tv_del;
         CheckBox ch_good;
-        TextView tv_time;
         TextView tv_good_name;
         TextView tv_good_des;
         TextView tv_good_total_price;
-        TextView tv_good_num;
         ImageView iv_good;
         EditText et_num;
         TextView tv_reduce;
@@ -268,6 +266,8 @@ public class ShoppingcarAdapter extends BaseAdapter implements View.OnClickListe
                     good_num = good_num - 1;
                     if (good_num <= 0) {
                         del_item = position;
+                        userCartIds = dataLists.get(position).getId();
+
                         alertDialog = DialogUtils.showAlertDoubleBtnDialog(mContext,
                                 "确定要删除这个商品吗？", "提示",ShoppingcarAdapter.this);
                     } else {
@@ -286,7 +286,9 @@ public class ShoppingcarAdapter extends BaseAdapter implements View.OnClickListe
     public void setAllChecked(boolean allChecked) {
         this.allChecked = allChecked;
         for (int i = 0; i < dataLists.size(); i++) {
-            isCheckMap.put(dataLists.get(i), allChecked);
+            CartBean cartBean=dataLists.get(i);
+            cartBean.setSelected(allChecked);
+            dataLists.set(i,cartBean);
         }
         notifyDataSetChanged();
     }

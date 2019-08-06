@@ -97,14 +97,17 @@ public class RechargeActivity extends BaseActivity  implements View.OnClickListe
             tv_jifen.setVisibility(View.VISIBLE);
             btn_all_tixian.setVisibility(View.GONE);
             btn_comit.setText("确认充值");
-        }else if(title.equals("转去购物积分")){
-            tv_title.setText("转去购物积分");
-            tv_line_title.setText("将余额转去购物积分");
+        }else if(title.equals("将转换积分转为余额")){
+            tv_title.setText("将转换积分转为余额");
+            tv_line_title.setText("积分转换");
             tv_jifen.setVisibility(View.VISIBLE);
             btn_all_tixian.setVisibility(View.GONE);
             btn_comit.setText("确认转换");
+            tv_banlance.setText("我的转换积分:"+userBean.getChangeScore());
+            tv_jifen.setText("我的余额："+userBean.getBalanceMoney());
+            et_money.setHint("请输入要转换积分");
         }else{
-            tv_title.setText("将转换积分转为余额");
+            tv_title.setText("转去购物积分");
             tv_line_title.setText("积分转换");
             tv_jifen.setVisibility(View.VISIBLE);
             btn_all_tixian.setVisibility(View.GONE);
@@ -119,69 +122,7 @@ public class RechargeActivity extends BaseActivity  implements View.OnClickListe
 
     }
 
-//    //获取验证码
-//    public void runGetGode() {
-//        loadingDialog.show();
-//        GetCodeProtocol getCodeProtocol = new GetCodeProtocol();
-//        GetCodeRequest getCodeRequest = new GetCodeRequest();
-//        String url = getCodeProtocol.getApiFun();
-//        getCodeRequest.map.put("phoneNumber", phoneNumber);
-//        getCodeRequest.map.put("type", "3");
-//        MyVolley.uploadNoFile(MyVolley.POST, url, getCodeRequest.map, new MyVolley.VolleyCallback() {
-//            @Override
-//            public void dealWithJson(String address, String json) {
-//
-//                Gson gson = new Gson();
-//                GetCodeResponse getCodeResponse = gson.fromJson(json, GetCodeResponse.class);
-//                LogUtils.e("appSendMsgResponse:" + getCodeResponse.toString());
-//                if (getCodeResponse.code == 0) {
-//                    tv_get_code.setClickable(false);
-//                    loadingDialog.dismiss();
-//                    Countdowmtimer(60000);
-//                } else {
-//                    loadingDialog.dismiss();
-//                    DialogUtils.showAlertDialog(UpdatePwdActivity.this,
-//                            getCodeResponse.msg);
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void dealWithError(String address, String error) {
-//                loadingDialog.dismiss();
-//                DialogUtils.showAlertDialog(UpdatePwdActivity.this, error);
-//            }
-//
-//            @Override
-//            public void dealTokenOverdue() {
-//
-//            }
-//        });
-//    }
-//
-//    /**
-//     * 计时器
-//     */
-//    public void Countdowmtimer(long dodate) {
-//        new CountDownTimer(dodate, 1000) {
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//                time = time - 1;
-//                tv_get_code.setText(time + "s后重发");
-//            }
-//
-//            @Override
-//            // 计时结束
-//            public void onFinish() {
-//                time = 60;
-//                tv_get_code.setText("获取验证码");
-//                tv_get_code.setClickable(true);
-//
-//            }
-//        }.start();
-//    }
-//
+
     public void balanceToChangeScore() {
         loadingDialog.show();
         BalanceToChangeScoreProtocol balanceToChangeScoreProtocol = new BalanceToChangeScoreProtocol();
@@ -244,8 +185,10 @@ public class RechargeActivity extends BaseActivity  implements View.OnClickListe
 
                 Gson gson = new Gson();
                 GetCodeResponse modifyLoginPwdResponse = gson.fromJson(json, GetCodeResponse.class);
-                LogUtils.e("modifyLoginPwdResponse:" + modifyLoginPwdResponse.toString());
+                LogUtils.e("modifyLoginPwdResponse:" + userBean.getBuyScore()+"   score:"+score);
                 if (modifyLoginPwdResponse.code==0) {
+                    tv_jifen.setText("我的购物积分："+(userBean.getBuyScore()+Integer.parseInt(score)));
+                    tv_banlance.setText("我的余额："+(Double.parseDouble(userBean.getBalanceMoney())-Integer.parseInt(score)));
                     DialogUtils.showAlertDialog(RechargeActivity.this,
                             "操作成功!");
                     loadingDialog.dismiss();
@@ -292,6 +235,8 @@ public class RechargeActivity extends BaseActivity  implements View.OnClickListe
                 GetCodeResponse modifyLoginPwdResponse = gson.fromJson(json, GetCodeResponse.class);
                 LogUtils.e("modifyLoginPwdResponse:" + modifyLoginPwdResponse.toString());
                 if (modifyLoginPwdResponse.code==0) {
+                    tv_jifen.setText("我的余额："+(Double.parseDouble(userBean.getBalanceMoney())+Integer.parseInt(score)));
+                    tv_banlance.setText("我的转换积分："+(userBean.getChangeScore()-Integer.parseInt(score)));
                     DialogUtils.showAlertDialog(RechargeActivity.this,
                             "操作成功!");
                     loadingDialog.dismiss();

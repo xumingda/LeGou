@@ -49,6 +49,8 @@ public class SelectGoodsSpecificationuwindow extends PopupWindow implements Good
     private Button btn_commit;
     private String goodsCaseId,buyCount;
     private EditText et_imput_num;
+    //售价
+    private String salePrice;
     /**
      * @param context 上下文
      * @param string 获取到未打开列表时显示的值
@@ -103,6 +105,7 @@ public class SelectGoodsSpecificationuwindow extends PopupWindow implements Good
             goodSpecificationAdapter.setDate(specificationsBeanList);
             goodSpecificationAdapter.notifyDataSetChanged();
         }
+        tv_price.setText("￥"+goodInfoBean.salePrice);
         imageLoader.displayImage("http://qiniu.lelegou.pro/"+goodInfoBean.pic, iv_pic, PictureOption.getSimpleOptions());
         iv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +128,10 @@ public class SelectGoodsSpecificationuwindow extends PopupWindow implements Good
                 int num=Integer.parseInt(goods_num);
                 num = num + 1;
                 et_imput_num.setText(String.valueOf(num));
+                if(TextUtils.isEmpty(salePrice)){
+                    salePrice=goodInfoBean.getSalePrice();
+                }
+                tv_price.setText("¥"+Double.parseDouble(et_imput_num.getText().toString())*Double.parseDouble(salePrice));
             }
         });
         iv_reduce.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +143,10 @@ public class SelectGoodsSpecificationuwindow extends PopupWindow implements Good
                 if(num==0){
                     return;
                 }
+                if(TextUtils.isEmpty(salePrice)){
+                    salePrice=goodInfoBean.getSalePrice();
+                }
+                tv_price.setText("¥"+Double.parseDouble(et_imput_num.getText().toString())*Double.parseDouble(salePrice));
                 et_imput_num.setText(String.valueOf(num));
             }
         });
@@ -193,7 +204,10 @@ public class SelectGoodsSpecificationuwindow extends PopupWindow implements Good
 
     @Override
     public void setData(GoodNumAndPriceBean goodNumAndPriceBean) {
+
+        imageLoader.displayImage("http://qiniu.lelegou.pro/"+goodNumAndPriceBean.getPic(), iv_pic, PictureOption.getSimpleOptions());
         tv_price.setText("￥"+goodNumAndPriceBean.salePrice);
+        salePrice=goodNumAndPriceBean.salePrice;
         tv_num.setText("库存:"+goodNumAndPriceBean.num);
         goodsCaseId = goodNumAndPriceBean.goodsCaseId;
 

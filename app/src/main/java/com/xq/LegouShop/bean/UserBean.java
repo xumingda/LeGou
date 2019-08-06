@@ -12,8 +12,8 @@ public class UserBean implements Serializable {
     public String sex;//	性别  男/女
     public String email;//	邮箱
     public String balanceMoney;//	余额
-    public String changeScore;//	转换积分
-    public String buyScore;//	购物积分
+    public int changeScore;//	转换积分
+    public int buyScore;//	购物积分
     public String createTime;//	注册时间
 
     public String getId() {
@@ -80,19 +80,19 @@ public class UserBean implements Serializable {
         this.balanceMoney = balanceMoney;
     }
 
-    public String getChangeScore() {
+    public int getChangeScore() {
         return changeScore;
     }
 
-    public void setChangeScore(String changeScore) {
+    public void setChangeScore(int changeScore) {
         this.changeScore = changeScore;
     }
 
-    public String getBuyScore() {
+    public int getBuyScore() {
         return buyScore;
     }
 
-    public void setBuyScore(String buyScore) {
+    public void setBuyScore(int buyScore) {
         this.buyScore = buyScore;
     }
 

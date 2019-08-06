@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -22,6 +23,7 @@ import com.xq.LegouShop.activity.LoginActivity;
 import com.xq.LegouShop.activity.MainActivity;
 import com.xq.LegouShop.activity.MyCollectionActivity;
 import com.xq.LegouShop.activity.OrderManagerActivity;
+import com.xq.LegouShop.activity.PassCardsActivity;
 import com.xq.LegouShop.activity.PersonalInfoActivity;
 import com.xq.LegouShop.activity.PersonalRewardsActivity;
 import com.xq.LegouShop.activity.PersonalSafeActivity;
@@ -46,6 +48,7 @@ import com.xq.LegouShop.util.UIUtils;
 import com.xq.LegouShop.weiget.CircleImageView;
 import com.xq.LegouShop.weiget.MyLinearLayout;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,8 +67,9 @@ public class TabMyselfPager extends TabBasePager implements View.OnClickListener
     private FrameLayout mDragLayout;
     private MyLinearLayout mLinearLayout;
     private RelativeLayout rl_order,rl_integral;
-    private RelativeLayout rl_award,rl_address,rl_info,rl_collect,rl_erial,rl_recharge,rl_tixian,rl_myself_change,rl_gouwu_change,rl_safe,rl_certification,rl_out;
+    private RelativeLayout rl_award,rl_address,rl_info,rl_collect,rl_erial,rl_recharge,rl_tixian,rl_myself_change,rl_gouwu_change,rl_safe,rl_certification,rl_out,rl_passcard;
     private Dialog loadingDialog;
+    private GetUserInfoResponse getUserInfoResponse;
     private CircleImageView iv_myself_img;
     private TextView tv_name,tv_balanceMoney,tv_changeScore,tv_buyScore,tv_pass;
     private AlertDialog alertDialog;
@@ -117,6 +121,7 @@ public class TabMyselfPager extends TabBasePager implements View.OnClickListener
         rl_gouwu_change=(RelativeLayout)view.findViewById(R.id.rl_gouwu_change);
         rl_safe=(RelativeLayout)view.findViewById(R.id.rl_safe);
         rl_out=(RelativeLayout)view.findViewById(R.id.rl_out);
+        rl_passcard=(RelativeLayout)view.findViewById(R.id.rl_passcard);
         rl_gouwu_change.setOnClickListener(this);
         rl_myself_change.setOnClickListener(this);
         rl_tixian.setOnClickListener(this);
@@ -131,6 +136,7 @@ public class TabMyselfPager extends TabBasePager implements View.OnClickListener
         rl_safe.setOnClickListener(this);
         rl_certification.setOnClickListener(this);
         rl_out.setOnClickListener(this);
+        rl_passcard.setOnClickListener(this);
         getUserInfo();
     }
 
@@ -144,6 +150,14 @@ public class TabMyselfPager extends TabBasePager implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.rl_passcard:{
+                Intent intent=new Intent(mContext, PassCardsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("passList", (Serializable) getUserInfoResponse.getDataList());
+                intent.putExtras(bundle);
+                UIUtils.startActivityNextAnim(intent);
+                break;
+            }
             case R.id.tv_ensure:{
                 BaseActivity.finishAll();
                 SharedPrefrenceUtils.setString(mContext,"userphone","");
@@ -170,25 +184,25 @@ public class TabMyselfPager extends TabBasePager implements View.OnClickListener
             case R.id.rl_myself_change:{
                 Intent intent=new Intent(mContext, RechargeActivity.class);
                 intent.putExtra("title","将转换积分转为余额");
-                UIUtils.startActivityNextAnim(intent);
+                UIUtils.startActivityForResultNextAnim(intent,102);
                 break;
             }
             case R.id.rl_gouwu_change:{
                 Intent intent=new Intent(mContext, RechargeActivity.class);
                 intent.putExtra("title","转去购物积分");
-                UIUtils.startActivityNextAnim(intent);
+                UIUtils.startActivityForResultNextAnim(intent,102);
                 break;
             }
             case R.id.rl_recharge:{
                 Intent intent=new Intent(mContext, RechargeActivity.class);
                 intent.putExtra("title","充值");
-                UIUtils.startActivityNextAnim(intent);
+                UIUtils.startActivityForResultNextAnim(intent,102);
                 break;
             }
             case R.id.rl_tixian:{
                 Intent intent=new Intent(mContext, RechargeActivity.class);
                 intent.putExtra("title","提现");
-                UIUtils.startActivityNextAnim(intent);
+                UIUtils.startActivityForResultNextAnim(intent,102);
                 break;
             }
             case R.id.rl_erial:{
@@ -242,13 +256,13 @@ public class TabMyselfPager extends TabBasePager implements View.OnClickListener
                 LogUtils.e("getUserInfoResponse:" + json);
                 loadingDialog.dismiss();
                 Gson gson = new Gson();
-                GetUserInfoResponse getUserInfoResponse = gson.fromJson(json, GetUserInfoResponse.class);
+                getUserInfoResponse = gson.fromJson(json, GetUserInfoResponse.class);
                 LogUtils.e("getUserInfoResponse:" + getUserInfoResponse.toString());
                 if (getUserInfoResponse.code.equals("0")) {
                     tv_name.setText(getUserInfoResponse.data.getNickName());
                     tv_balanceMoney.setText(getUserInfoResponse.data.getBalanceMoney());
-                    tv_changeScore.setText(getUserInfoResponse.data.getChangeScore());
-                    tv_buyScore.setText(getUserInfoResponse.data.getBuyScore());
+                    tv_changeScore.setText(""+getUserInfoResponse.data.getChangeScore());
+                    tv_buyScore.setText(""+getUserInfoResponse.data.getBuyScore());
                     tv_pass.setText(getUserInfoResponse.dataList.size()+"");
                     imageLoader.displayImage("http://qiniu.lelegou.pro/"+getUserInfoResponse.data.getHeadurl(),iv_myself_img, PictureOption.getSimpleOptions());
                     SPUtils.saveBean2Sp(mContext,getUserInfoResponse.data,"userInfo","userInfo");

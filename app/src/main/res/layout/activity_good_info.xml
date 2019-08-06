@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.xq.LegouShop.support.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:calendarview="http://schemas.android.com/tools"
     android:id="@+id/rl_main"
@@ -13,20 +13,67 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <com.xq.LegouShop.support.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_alignParentTop="true"
+                android:background="@color/topBule"
+                android:id="@+id/rl_head"
+                style="@style/tabTitleStyle">
 
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="商品详情"
+                    android:textColor="@color/tab_background"
+                    android:textSize="@dimen/sp_15" />
+                <ImageView
+                    android:visibility="invisible"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/tv_add_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/img_shopcar" />
+
+                <ImageView
+                    android:id="@+id/iv_top_back"
+                    android:layout_width="@dimen/dp_8"
+                    android:layout_height="@dimen/dp_14"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_14"
+                    android:src="@mipmap/white_back"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitCenter" />
+                <View
+                    android:id="@+id/view_back"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"/>
+                <View
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/view_update"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"/>
+            </RelativeLayout>
             <android.support.v4.view.ViewPager
+                android:layout_below="@id/rl_head"
                 android:id="@+id/vp"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/dp_200" />
+                android:layout_height="0dp"
+                app:layout_heightPercent="100%w"/>
 
             <LinearLayout
+                android:layout_below="@id/rl_head"
                 android:id="@+id/ll_pager"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/dp_50"
-                android:layout_marginTop="@dimen/dp_150"
+                android:layout_height="0dp"
+                app:layout_heightPercent="15%w"
+                app:layout_marginTopPercent="85%w"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -60,49 +107,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_alignParentTop="true"
-                android:background="@color/topBule"
-                android:id="@+id/rl_head"
-                style="@style/tabTitleStyle">
 
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="商品详情"
-                    android:textColor="@color/tab_background"
-                    android:textSize="@dimen/sp_15" />
-                <ImageView
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:layout_alignParentRight="true"
-                    android:id="@+id/tv_add_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/img_shopcar" />
-
-                <ImageView
-                    android:id="@+id/iv_top_back"
-                    android:layout_width="@dimen/dp_8"
-                    android:layout_height="@dimen/dp_14"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp_14"
-                    android:src="@mipmap/white_back"
-                    android:gravity="center_vertical"
-                    android:scaleType="fitCenter" />
-                <View
-                    android:id="@+id/view_back"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"/>
-                <View
-                    android:layout_alignParentRight="true"
-                    android:id="@+id/view_update"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"/>
-            </RelativeLayout>
             <TextView
                 android:id="@+id/tv_dec"
                 android:background="@color/tab_background"
@@ -202,7 +207,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
-        </RelativeLayout>
+        </com.xq.LegouShop.support.PercentRelativeLayout>
     </ScrollView>
 
     <LinearLayout
@@ -213,6 +218,7 @@
         android:layout_alignParentBottom="true"
         >
         <TextView
+            android:id="@+id/tv_home"
             android:background="@color/LoginGrayBackground"
             android:gravity="center"
             android:layout_width="0dp"
@@ -250,4 +256,4 @@
             />
     </LinearLayout>
 
-</RelativeLayout>
+</com.xq.LegouShop.support.PercentRelativeLayout>

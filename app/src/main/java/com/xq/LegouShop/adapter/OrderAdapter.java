@@ -103,6 +103,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
             vh.tv_info= (TextView) view.findViewById(R.id.tv_info);
             vh.iv_pic= (ImageView) view.findViewById(R.id.iv_pic);
             vh.tv_pay= (TextView) view.findViewById(R.id.tv_pay);
+            vh.tv_more= (TextView) view.findViewById(R.id.tv_more);
             view.setTag(vh);
         } else {
             vh = (ViewHolder) view.getTag();
@@ -122,11 +123,21 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
         vh.tv_num.setText("X"+orderBean.getOrderGoodsList().get(0).getBuyCount());
         vh.tv_price.setText("合计：¥"+orderBean.getNeedMoney());
         imageLoader.displayImage("http://qiniu.lelegou.pro/"+orderBean.getOrderGoodsList().get(0).getPic(), vh.iv_pic, PictureOption.getSimpleOptions());
-        if(show_type==0||show_type==1){
+        if(orderBean.getOrderGoodsList().size()>1){
+            vh.tv_more.setVisibility(View.VISIBLE);
+        }else{
+            vh.tv_more.setVisibility(View.INVISIBLE);
+        }
+        if(show_type==0){
             vh.tv_pay.setVisibility(View.VISIBLE);
             vh.tv_cancel.setVisibility(View.VISIBLE);
             vh.tv_cancel.setText("取消");
-        }else if(show_type==2){
+        }else if(show_type==1){
+            vh.tv_pay.setVisibility(View.INVISIBLE);
+            vh.tv_cancel.setVisibility(View.VISIBLE);
+            vh.tv_cancel.setText("取消");
+        }
+        else if(show_type==2){
             vh.tv_pay.setVisibility(View.INVISIBLE);
             vh.tv_cancel.setVisibility(View.VISIBLE);
             vh.tv_cancel.setText("确认收货");
@@ -139,7 +150,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
             public void onClick(View view) {
 
                 orderId=orderBean.getId();
-                if(show_type==0){
+                if(show_type==0||show_type==1){
                     type=0;
                     dialog=DialogUtils.showAlertDoubleBtnDialog(mContext,"是否取消订单？","提示", OrderAdapter.this);
                 }else {
@@ -171,6 +182,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
 
+
             case R.id.tv_ensure:{
                 if(type==0) {
                     cancelOrderList();
@@ -197,6 +209,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
         TextView tv_pay;
         TextView tv_info;
         ImageView iv_pic;
+        TextView tv_more;
     }
     //确认订单
     private void finishOrderList() {

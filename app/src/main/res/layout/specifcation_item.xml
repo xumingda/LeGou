@@ -27,7 +27,7 @@
             android:horizontalSpacing="@dimen/dp_5"
             android:divider="@null"
             android:id="@+id/gv_spec"
-            android:numColumns="5"
+            android:numColumns="4"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_10"

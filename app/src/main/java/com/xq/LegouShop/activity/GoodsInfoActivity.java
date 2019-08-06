@@ -112,7 +112,7 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
     private Button left, right,last;
     private RelativeLayout rl_main;
     private SelectGoodsSpecificationuwindow selectGoodsSpecificationuwindow;
-    private TextView tv_addcar,tv_buy,tv_dec,tv_price,tv_old_price,tv_num,tv_collect;
+    private TextView tv_addcar,tv_buy,tv_dec,tv_price,tv_old_price,tv_num,tv_collect,tv_home;
     private String goodsId,goodsCaseId,buyCount;
     private WebView wv_desc;
     //css显示图片样式
@@ -150,7 +150,7 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
         tv_dec=(TextView) findViewById(R.id.tv_dec);
         tv_addcar=(TextView) findViewById(R.id.tv_addcar);
         tv_buy=(TextView)findViewById(R.id.tv_buy);
-
+        tv_home=(TextView)findViewById(R.id.tv_home);
         view_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,8 +162,8 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
         view_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(GoodsInfoActivity.this, UpdatePersonalInfoActivity.class);
-                UIUtils.startActivityNextAnim(intent);
+//                Intent intent=new Intent(GoodsInfoActivity.this, UpdatePersonalInfoActivity.class);
+//                UIUtils.startActivityNextAnim(intent);
             }
         });
         tv_collect.setOnClickListener(this);
@@ -183,7 +183,7 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
 //        titleIndicator=(TabSlidingIndicator)findViewById(R.id.indicator_concern_title);
 //        vpContent=(NoScrollViewPager)findViewById(R.id.vp_goods);
 
-
+        tv_home.setOnClickListener(this);
         left.setOnClickListener(this);
         right.setOnClickListener(this);
         last.setOnClickListener(this);
@@ -214,6 +214,11 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_home:{
+                finish();
+                overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
+                break;
+            }
             case R.id.tv_collect:{
                 collectionGoods();
                 break;
@@ -335,7 +340,7 @@ public class GoodsInfoActivity extends BaseActivity  implements  View.OnClickLis
 //                ViewListener viewListener = new ViewListener(i);
 //                imageView.setOnClickListener(viewListener);
                 imageLoader.displayImage(adsBeanList.get(i), imageView, PictureOption.getSimpleOptions());
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 imageViews.add(imageView);
             }
 

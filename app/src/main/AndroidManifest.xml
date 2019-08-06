@@ -19,7 +19,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/SampleTheme.Light">
         <!-- AK鉴权 -->
@@ -48,6 +48,7 @@
         </activity>
         <service android:name=".socket.service.TcpService">
         </service>
+        <activity android:name=".activity.PassCardsActivity"></activity>
         <activity android:name=".activity.HomeGoodsListActivity"></activity>
         <activity android:name=".activity.ClassifyActivity"></activity>
         <activity android:name=".activity.LogisticsActivity"></activity>
@@ -75,12 +76,23 @@
         <activity android:name=".activity.UpdatePwdActivity"></activity>
         <activity android:name=".activity.DestroyUserActivity"></activity>
         <activity android:name=".activity.CertificationActivity"></activity>
+        <activity android:name=".activity.OrderInfoActivity"
+            android:theme="@style/SampleTheme.Light"
+            ></activity>
         <activity android:name=".activity.GameActivity"
             android:theme="@style/SampleTheme.Light"
             ></activity>
         <activity android:name=".activity.GameRoomActivity"
             android:theme="@style/SampleTheme.Light"
             ></activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
     </application>
 
 </manifest>

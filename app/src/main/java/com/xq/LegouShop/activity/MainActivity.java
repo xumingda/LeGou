@@ -131,6 +131,10 @@ public class MainActivity extends BaseActivity {
         if(requestCode==101){
             ctf.getShopcarPager().initData();
         }
+        //充值提现返回
+        else if(requestCode==102){
+            ctf.getTabMyselfPager().getUserInfo();
+        }
     }
     private LocationManager locationManager;
     private static final int BAIDU_READ_PHONE_STATE = 100;//定位权限请求

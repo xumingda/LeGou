@@ -16,6 +16,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.xq.LegouShop.R;
+import com.xq.LegouShop.activity.OrderInfoActivity;
 import com.xq.LegouShop.adapter.OrderAdapter;
 import com.xq.LegouShop.base.MyVolley;
 import com.xq.LegouShop.base.ViewTabBasePager;
@@ -64,6 +65,7 @@ public class PendingOrderPager extends ViewTabBasePager implements
     public PendingOrderPager(Context context, int status) {
         super(context);
         this.status = status;
+        LogUtils.e("status:"+status);
     }
 
     @Override
@@ -92,11 +94,10 @@ public class PendingOrderPager extends ViewTabBasePager implements
         lv_pending_order.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent=new Intent(mContext,OrderInfoActivity.class);
-//                intent.putExtra("status",orderBeanList.get(i-1).getStatus());
-//                intent.putExtra("eatType",orderBeanList.get(i-1).getEatType());
-//                intent.putExtra("orderId",orderBeanList.get(i-1).getOrderId());
-//                UIUtils.startActivityNextAnim(intent);
+                Intent intent=new Intent(mContext, OrderInfoActivity.class);
+                intent.putExtra("orderId",orderBeanList.get(i-1).getId());
+                intent.putExtra("status",orderBeanList.get(i-1).getPayStatus());
+                UIUtils.startActivityNextAnim(intent);
             }
         });
 
@@ -105,13 +106,9 @@ public class PendingOrderPager extends ViewTabBasePager implements
 
     private void setData() {
         orderBeanList.addAll(getOrderListResponse.dataList);
-        if (orderAdapter == null) {
-            orderAdapter = new OrderAdapter( mContext, orderBeanList,this,status);
-            lv_pending_order.setAdapter(orderAdapter);
-        } else {
-            orderAdapter.setDate(orderBeanList);
-            orderAdapter.notifyDataSetChanged();
-        }
+
+        orderAdapter = new OrderAdapter( mContext, orderBeanList,this,status);
+        lv_pending_order.setAdapter(orderAdapter);
     }
 
     private void getOrderList() {

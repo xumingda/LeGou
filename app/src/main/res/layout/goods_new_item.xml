@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.xq.LegouShop.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <RelativeLayout
+    <com.xq.LegouShop.support.PercentRelativeLayout
         android:id="@+id/rl_left"
         android:layout_marginBottom="@dimen/dp_2"
         android:layout_marginTop="@dimen/dp_2"
@@ -26,7 +26,8 @@
             android:src="@mipmap/img_good"
             android:id="@+id/iv_pic"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_80"
+            android:layout_height="0dp"
+            app:layout_heightPercent="100%w"
             />
 
         <TextView
@@ -81,8 +82,8 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
-    <RelativeLayout
+    </com.xq.LegouShop.support.PercentRelativeLayout>
+    <com.xq.LegouShop.support.PercentRelativeLayout
         android:layout_marginBottom="@dimen/dp_2"
         android:layout_marginTop="@dimen/dp_2"
         android:layout_marginLeft="@dimen/dp_2"
@@ -101,7 +102,8 @@
             android:src="@mipmap/img_good"
             android:id="@+id/iv_pic_middle"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_80"
+            android:layout_height="0dp"
+            app:layout_heightPercent="100%w"
             />
 
         <TextView
@@ -155,8 +157,8 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
-    <RelativeLayout
+    </com.xq.LegouShop.support.PercentRelativeLayout>
+    <com.xq.LegouShop.support.PercentRelativeLayout
         android:layout_marginBottom="@dimen/dp_2"
         android:layout_marginTop="@dimen/dp_2"
         android:layout_marginLeft="@dimen/dp_2"
@@ -175,7 +177,8 @@
             android:src="@mipmap/img_good"
             android:id="@+id/iv_pic_right"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_80"
+            android:layout_height="0dp"
+            app:layout_heightPercent="100%w"
             />
 
         <TextView
@@ -230,5 +233,5 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
-</LinearLayout>
+    </com.xq.LegouShop.support.PercentRelativeLayout>
+</com.xq.LegouShop.support.PercentLinearLayout>

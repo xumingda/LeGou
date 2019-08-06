@@ -6,11 +6,10 @@
     android:background="#dce7ed"
     android:orientation="vertical" >
     <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:background="@color/tab_background"
+        android:background="#dce7ed"
         android:id="@+id/lv_pending_order"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:divider="#dce7ed"
         android:dividerHeight="@dimen/dp_5"
         />
     <LinearLayout

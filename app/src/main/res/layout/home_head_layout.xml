@@ -416,7 +416,7 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <LinearLayout
+    <com.xq.LegouShop.support.PercentLinearLayout
         android:id="@+id/ll_jx_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -427,7 +427,7 @@
         android:layout_marginBottom="@dimen/dp_4"
         android:orientation="horizontal">
 
-        <RelativeLayout
+        <com.xq.LegouShop.support.PercentRelativeLayout
             android:id="@+id/rl_one"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -438,7 +438,8 @@
             <ImageView
                 android:id="@+id/iv_pic_one"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_80"
+                android:layout_height="0dp"
+                app:layout_heightPercent="100%w"
                 android:scaleType="centerCrop" />
 
             <TextView
@@ -495,9 +496,9 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </com.xq.LegouShop.support.PercentRelativeLayout>
 
-        <RelativeLayout
+        <com.xq.LegouShop.support.PercentRelativeLayout
             android:id="@+id/rl_two"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -510,7 +511,8 @@
             <ImageView
                 android:id="@+id/iv_pic_two"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_80"
+                android:layout_height="0dp"
+                app:layout_heightPercent="100%w"
                 android:scaleType="centerCrop" />
 
             <TextView
@@ -569,9 +571,9 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </com.xq.LegouShop.support.PercentRelativeLayout>
 
-        <RelativeLayout
+        <com.xq.LegouShop.support.PercentRelativeLayout
 
             android:id="@+id/rl_three"
             android:layout_width="0dp"
@@ -583,7 +585,8 @@
             <ImageView
                 android:id="@+id/iv_pic_three"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_80"
+                android:layout_height="0dp"
+                app:layout_heightPercent="100%w"
                 android:scaleType="centerCrop" />
 
             <TextView
@@ -641,8 +644,8 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
-    </LinearLayout>
+        </com.xq.LegouShop.support.PercentRelativeLayout>
+    </com.xq.LegouShop.support.PercentLinearLayout>
 
     <RelativeLayout
         android:id="@+id/rl_pinzhi"
@@ -666,7 +669,7 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <LinearLayout
+    <com.xq.LegouShop.support.PercentLinearLayout
         android:id="@+id/ll_pz_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -677,7 +680,7 @@
         android:layout_marginBottom="@dimen/dp_4"
         android:orientation="horizontal">
 
-        <RelativeLayout
+        <com.xq.LegouShop.support.PercentRelativeLayout
             android:id="@+id/rl_four"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -688,7 +691,8 @@
             <ImageView
                 android:id="@+id/iv_pic_four"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_80"
+                android:layout_height="0dp"
+                app:layout_heightPercent="100%w"
                 android:scaleType="centerCrop" />
 
             <TextView
@@ -747,9 +751,9 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </com.xq.LegouShop.support.PercentRelativeLayout>
 
-        <RelativeLayout
+        <com.xq.LegouShop.support.PercentRelativeLayout
             android:id="@+id/rl_five"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -762,7 +766,8 @@
             <ImageView
                 android:id="@+id/iv_pic_five"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_80"
+                android:layout_height="0dp"
+                app:layout_heightPercent="100%w"
                 android:scaleType="centerCrop" />
 
             <TextView
@@ -820,9 +825,9 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </com.xq.LegouShop.support.PercentRelativeLayout>
 
-        <RelativeLayout
+        <com.xq.LegouShop.support.PercentRelativeLayout
             android:id="@+id/rl_six"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -833,7 +838,8 @@
             <ImageView
                 android:id="@+id/iv_pic_six"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_80"
+                android:layout_height="0dp"
+                app:layout_heightPercent="100%w"
                 android:scaleType="centerCrop" />
 
             <TextView
@@ -891,8 +897,8 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
-    </LinearLayout>
+        </com.xq.LegouShop.support.PercentRelativeLayout>
+    </com.xq.LegouShop.support.PercentLinearLayout>
 
     <RelativeLayout
         android:id="@+id/rl_tuijian"

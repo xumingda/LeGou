@@ -24,9 +24,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.base.BaseActivity;
 import com.xq.LegouShop.base.MyVolley;
@@ -57,6 +61,10 @@ import java.net.URL;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
+    // 微信登录
+    private static IWXAPI WXapi;
+    private String WX_APP_ID = "wx177036684b434de9";
+
     private ImageView identifyingCode;
     private String realCode;
     private LayoutInflater mInflater;
@@ -74,10 +82,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private int time = 60;
     private String userphone;
     private String pwd;
-    private Button loginButton;
+    private Button loginButton,loginWeixinButton;
     private String versionName;
     private String downloadUrl;
     public static boolean isForeground = false;
+    /**
+     * 登录微信
+     */
+    private void WXLogin() {
+
+        if ( WXapi== null) {
+            WXapi = WXAPIFactory.createWXAPI(this, WX_APP_ID, true);
+        }
+        if (!WXapi.isWXAppInstalled()) {
+            Toast.makeText(this,"您手机尚未安装微信，请安装后再登录",Toast.LENGTH_LONG).show();
+            return;
+        }
+        WXapi.registerApp(WX_APP_ID);
+        SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "wechat_sdk_xb_live_state";//官方说明：用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），建议第三方带上该参数，可设置为简单的随机数加session进行校验
+        WXapi.sendReq(req);
+
+    }
 
     @Override
     protected View initView() {
@@ -100,6 +127,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         loadingDialog = DialogUtils.createLoadDialog(LoginActivity.this, false);
         loginButton = (Button) rootView.findViewById(R.id.loginButton);
+        loginWeixinButton = (Button) rootView.findViewById(R.id.loginWeixinButton);
         et_login_phone = (EditText) rootView.findViewById(R.id.et_login_phone);
         et_pwd = (EditText) rootView.findViewById(R.id.et_pwd);
         et_code= (EditText) rootView.findViewById(R.id.et_code);
@@ -256,6 +284,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
             }
         });
+        loginWeixinButton.setOnClickListener(this);
         identifyingCode=(ImageView)findViewById(R.id.identifyingcode_image);
         identifyingCode.setOnClickListener(this);
         identifyingCode.setImageBitmap(IdentifyingCode.getInstance().createBitmap());
@@ -307,7 +336,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                     SharedPrefrenceUtils.setString(LoginActivity.this, "userphone", userphone);
                     SharedPrefrenceUtils.setString(LoginActivity.this, "token", loginresponse.getData().getAuthorization());
-                    LoginGame();
+//                    LoginGame();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     UIUtils.startActivityNextAnim(intent);
                     finish();
@@ -546,6 +575,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 identifyingCode.setImageBitmap(IdentifyingCode.getInstance().createBitmap());
                 realCode=IdentifyingCode.getInstance().getCode().toLowerCase();
 
+                break;
+            }
+            case R.id.loginWeixinButton:{
+                WXLogin();
                 break;
             }
         }

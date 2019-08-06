@@ -146,14 +146,24 @@ public class TabShopcarPager extends TabBasePager implements View.OnClickListene
             public void onClick(View v) {
                 boolean isChecked=cb_all_good.isChecked();
                 cb_all_good.setChecked(!isChecked);
-                if(!isChecked){
-                    tv_total_choose.setText("取消全选");
-                }else{
-                    tv_total_choose.setText("全选");
-                }
+
                 if (shoppingcarAdapter != null) {
                     shoppingcarAdapter.setAllChecked(!isChecked);
                 }
+                if(!isChecked){
+                    total_price=0;
+                    for(int i=0;i<getCartListsResponse.dataList.size();i++){
+                        total_price=total_price+(Double.parseDouble(getCartListsResponse.dataList.get(i).getBuyCount())*Double.parseDouble(getCartListsResponse.dataList.get(i).getSalePrice()));
+                    }
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    tv_total_price.setText("￥" + df.format(total_price));
+                    tv_total_choose.setText("取消全选");
+                }else{
+                    total_price=0;
+                    tv_total_price.setText("￥" + 0.00);
+                    tv_total_choose.setText("全选");
+                }
+
             }
         });
         orderBeanList=new ArrayList<>();

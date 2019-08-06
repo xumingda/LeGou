@@ -1,4 +1,14 @@
 <resources>
+
+        <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+
+            <item name="android:button">@drawable/pay_checkb_select</item>
+
+            <item name="android:paddingLeft">@dimen/dp_15</item>
+
+
+        </style>
+
     <style name="SampleTheme.Light" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:windowNoTitle">true</item>
     </style>

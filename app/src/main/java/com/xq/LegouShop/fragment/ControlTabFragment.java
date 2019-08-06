@@ -79,6 +79,15 @@ public class ControlTabFragment extends BaseFragment implements
     private List<TabBasePager> mPagerList;
     private TabHomePager tabHomePager;
     private TabShopcarPager shopcarPager;
+    private  TabMyselfPager tabMyselfPager;
+
+    public TabMyselfPager getTabMyselfPager() {
+        return tabMyselfPager;
+    }
+
+    public void setTabMyselfPager(TabMyselfPager tabMyselfPager) {
+        this.tabMyselfPager = tabMyselfPager;
+    }
 
     public TabShopcarPager getShopcarPager() {
         return shopcarPager;
@@ -106,7 +115,7 @@ public class ControlTabFragment extends BaseFragment implements
                 mLinearLayout);
         TabGamePager gamePager= new TabGamePager(mActivity, mDragLayout,
                 mLinearLayout);
-        TabMyselfPager tabMyselfPager= new TabMyselfPager(mActivity, mDragLayout,
+        tabMyselfPager= new TabMyselfPager(mActivity, mDragLayout,
                 mLinearLayout);
         TabClassifyPager tabClassifyPager= new TabClassifyPager(mActivity, mDragLayout,
                 mLinearLayout);

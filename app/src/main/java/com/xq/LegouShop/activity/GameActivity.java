@@ -102,14 +102,13 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
     private Dialog dialog;
     private Button btn_out_game;
     private ImageView iv_head;
-    private TextView tv_mus,tv_name,tv_num,tv_pass,tv_middle_time,tv_num_one,tv_nick_name_one,tv_num_two,tv_nick_name_two,tv_num_three,tv_nick_name_three,tv_num_four,tv_nick_name_four,tv_num_five,tv_nick_name_five,tv_num_six,tv_nick_name_six,tv_num_sev,tv_nick_name_sev,tv_num_eig,tv_nick_name_eig,tv_num_nine,tv_nick_name_nine,tv_num_ten,tv_nick_name_ten;
+    private TextView tv_title,tv_mus,tv_name,tv_num,tv_pass,tv_middle_time,tv_num_one,tv_nick_name_one,tv_num_two,tv_nick_name_two,tv_num_three,tv_nick_name_three,tv_num_four,tv_nick_name_four,tv_num_five,tv_nick_name_five,tv_num_six,tv_nick_name_six,tv_num_sev,tv_nick_name_sev,tv_num_eig,tv_nick_name_eig,tv_num_nine,tv_nick_name_nine,tv_num_ten,tv_nick_name_ten;
     private CircleImageView iv_head_one,iv_head_two,iv_head_three,iv_head_four,iv_head_five,iv_head_six,iv_head_sev,iv_head_eig,iv_head_nine,iv_head_ten;
     private WheelSurfView wheelSurfView2;
     private PlayRoomResponse playRoomResponse;
     private long leftTime;
     private long middleTime;
     private ImageLoader imageLoader;
-
 
     @Override
     protected View initView() {
@@ -240,11 +239,13 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initDate() {
+
         imageLoader = ImageLoader.getInstance();
         imageLoader.init((ImageLoaderConfiguration.createDefault(this)));
         playRoomResponse=(PlayRoomResponse) getIntent().getSerializableExtra("playRoomResponse");
         loadingDialog = DialogUtils.createLoadDialog(GameActivity.this, false);
         tv_num_one=(TextView)rootView.findViewById(R.id.tv_num_one);
+        tv_title=(TextView)rootView.findViewById(R.id.tv_title);
         tv_nick_name_one =(TextView)rootView.findViewById(R.id.tv_nickName_one);
         iv_head_one=(CircleImageView) rootView.findViewById(R.id.iv_head_one);
         tv_num_three=(TextView)rootView.findViewById(R.id.tv_num_three);
@@ -282,6 +283,16 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
         tv_name=(TextView)findViewById(R.id.tv_name) ;
         tv_middle_time=(TextView)findViewById(R.id.tv_middle_time) ;
         tv_mus= findViewById(R.id.tv_mus);
+        if(playRoomResponse.data.scoreId==1){
+            tv_title.setText("200积分专区("+playRoomResponse.data.roomName+")");
+        }else  if(playRoomResponse.data.scoreId==2){
+            tv_title.setText("500积分专区("+playRoomResponse.data.roomName+")");
+        }else  if(playRoomResponse.data.scoreId==31){
+            tv_title.setText("1000积分专区("+playRoomResponse.data.roomName+")");
+        } else {
+            tv_title.setText("2000积分专区("+playRoomResponse.data.roomName+")");
+        }
+
 
 //        pieView = findViewById(R.id.zpan);
 
@@ -565,6 +576,7 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
                     }
                     UIUtils.startActivityNextAnim(intent);
                     finish();
+
                 }
                 else if(scoreRoomResponse.action==3) {
                     playRoomResponse = gson.fromJson(message, PlayRoomResponse.class);
@@ -679,7 +691,9 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
                     //模拟位置
                     UIUtils.showToastSafe(scoreRoomResponse.msg);
                 }
-
+                else{
+                    UIUtils.showToastSafe(scoreRoomResponse.msg);
+                }
 //            }
             LogUtils.e("play::"+message);
         }
@@ -695,16 +709,17 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.view_back:{
-                Dialog dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameActivity.this);
+                dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameActivity.this);
                 dialog.show();
                 break;
             }
             case R.id.tv_ensure:{
+                dialog.dismiss();
                 outGame();
                 break;
             }
             case R.id.btn_out_game:{
-                Dialog dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameActivity.this);
+                dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameActivity.this);
                 dialog.show();
                 break;
             }
@@ -737,7 +752,7 @@ public class GameActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            Dialog dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameActivity.this);
+            dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否确定要离开？","提示",GameActivity.this);
             dialog.show();
             return true;
         }
