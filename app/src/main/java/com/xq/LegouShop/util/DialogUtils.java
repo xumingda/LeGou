@@ -62,6 +62,34 @@ public class DialogUtils {
 			}
 		});
 	}
+
+	/** 自定义单按钮对话框
+	 *  +点击事件
+	 *  */
+	public static Dialog showAlertDialog(Context ctx, String alertContent,OnClickListener listener) {
+		Builder builder = new Builder(ctx);
+
+		final AlertDialog alertDialog =  builder.create();
+//		final AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
+		alertDialog.show();
+		Window window = alertDialog.getWindow();
+		// *** 主要就是在这里实现这种效果的
+		// 设置窗口的内容页面,alert_dialog_main_title.xml文件中定义view内容
+		View dialogView = View.inflate(ctx, R.layout.alert_dialog_main_title,
+				null);
+		window.setContentView(dialogView);
+
+		// 设置对应提示框内容
+		TextView alert_dialog_content = (TextView) dialogView
+				.findViewById(R.id.alert_dialog_content);
+		alert_dialog_content.setText(alertContent);
+		// 点击空白处不消失
+		alertDialog.setCanceledOnTouchOutside(false);
+		// 为知道了按钮添加事件，执行退出应用操作
+		Button tv_roger = (Button) dialogView.findViewById(R.id.tv_roger);
+		tv_roger.setOnClickListener(listener);
+		return alertDialog;
+	}
 	/** 自定义单按钮对话框
 	 * 	用登陆使用
 	 *  +点击事件

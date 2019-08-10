@@ -88,12 +88,12 @@ public class TabGamePager extends TabBasePager implements View.OnClickListener {
     private Dialog loadingDialog;
     private String url;
     private Gson gson;
-    private ImageView iv_200, iv_500, iv_1000, iv_2000;
+    private ImageView iv_200, iv_500, iv_1000, iv_2000,iv_des,iv_close;
     private ServiceConnection sc;
     public SocketService socketService;
     public RoomResponse roomResponse;
     public int action;
-
+    private RelativeLayout rl_info;
     /**
      * @param context
      */
@@ -127,12 +127,15 @@ public class TabGamePager extends TabBasePager implements View.OnClickListener {
         iv_500 = (ImageView) view.findViewById(R.id.iv_500);
         iv_1000 = (ImageView) view.findViewById(R.id.iv_1000);
         iv_2000 = (ImageView) view.findViewById(R.id.iv_2000);
-
+        iv_des= (ImageView) view.findViewById(R.id.iv_des);
+        iv_close= (ImageView) view.findViewById(R.id.iv_close);
+        rl_info= (RelativeLayout) view.findViewById(R.id.rl_info);
         iv_200.setOnClickListener(this);
         iv_500.setOnClickListener(this);
         iv_1000.setOnClickListener(this);
         iv_2000.setOnClickListener(this);
-
+        iv_close.setOnClickListener(this);
+        iv_des.setOnClickListener(this);
         WebSocketHandler.getDefault().addListener(socketListener);
         LoginGame();
 //        LoginGameBean loginGameBean = SPUtils.getBeanFromSp(mContext, "LoginGameBean", "LoginGameBean");
@@ -206,46 +209,14 @@ public class TabGamePager extends TabBasePager implements View.OnClickListener {
                 UIUtils.startActivityNextAnim(intent);
                 break;
             }
-//            case R.id.rl_menu:{
-//                Intent intent=new Intent(mContext, MenuManagementActivity.class);
-//                com.ciba.wholefinancial.util.UIUtils.startActivityNextAnim(intent);
-//                break;
-//            }
-//            case R.id.rl_report:{
-//                Intent intent=new Intent(mContext, InformationReportActivity.class);
-//                com.ciba.wholefinancial.util.UIUtils.startActivityNextAnim(intent);
-//                break;
-//            }
-//            case R.id.rl_message:{
-//                Intent intent=new Intent(mContext, MessageActivity.class);
-//                com.ciba.wholefinancial.util.UIUtils.startActivityNextAnim(intent);
-//                break;
-//            }
-//            case R.id.rl_set:{
-//                Intent intent=new Intent(mContext,MerchantSettingActivity   .class);
-//                com.ciba.wholefinancial.util.UIUtils.startActivityNextAnim(intent);
-//                break;
-//            }
-//            case R.id.rl_marketing:{
-//                Intent intent=new Intent(mContext,MarketingActivity.class);
-//                com.ciba.wholefinancial.util.UIUtils.startActivityNextAnim(intent);
-//                break;
-//            }
-//            case R.id.rl_order_manager:{
-//                Intent intent=new Intent(mContext,OrderManagerActivity.class);
-//                com.ciba.wholefinancial.util.UIUtils.startActivityNextAnim(intent);
-//                break;
-//            }
-//            case R.id.rl_member_manager:{
-//                if(com.ciba.wholefinancial.util.SharedPrefrenceUtils.getInt(mContext,"master",0)==1){
-//                    Intent intent=new Intent(mContext, MemberManagerActivity.class);
-//                    com.ciba.wholefinancial.util.UIUtils.startActivityNextAnim(intent);
-//                }else{
-//                    com.ciba.wholefinancial.util.DialogUtils.showAlertDialog(mContext, "您没有权限查看！");
-//                }
-//
-//                break;
-//            }
+            case R.id.iv_des:{
+                rl_info.setVisibility(View.VISIBLE);
+                break;
+            }
+            case R.id.iv_close:{
+                rl_info.setVisibility(View.GONE);
+                break;
+            }
         }
     }
 

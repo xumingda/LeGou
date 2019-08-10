@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="top_gray">#6d7377</color>
     <color name="background">#f1f1f1</color>
     <color name="green">#FF34A350</color>
@@ -19,7 +19,9 @@
     <color name="LoginGrayBackground">#f3f2ed</color>
     <color name="text_title_gray">#a8a8a8</color>
     <color name="text_color_black">#656565</color>
-    <color name="text_black">#000000</color>
+    <color name="navpage">#FFE1E8EB</color>
+    <color name="text_black" tools:ignore="MissingDefaultResource">#000000</color>
+    <color name="text_black_bg">#66000000</color>
     <color name="text_green">#54C906</color>
     <color name="line_gray">#f4f4f4</color>
     <color name="errorColor">#FB4A40</color>

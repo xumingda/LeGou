@@ -26,6 +26,9 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.adapter.AddressAdapter;
 import com.xq.LegouShop.adapter.OrderGoodsAdapter;
@@ -36,18 +39,22 @@ import com.xq.LegouShop.bean.CartBean;
 import com.xq.LegouShop.protocol.CreateOrderProtocol;
 import com.xq.LegouShop.protocol.GetCodeProtocol;
 import com.xq.LegouShop.protocol.GetUserReceiveAddressListProtocol;
+import com.xq.LegouShop.protocol.WeixinPayProtocol;
 import com.xq.LegouShop.request.GetCodeRequest;
 import com.xq.LegouShop.request.LoginRequest;
 import com.xq.LegouShop.response.AddAuthenticationInfoResponse;
 import com.xq.LegouShop.response.CreateOrderResponse;
 import com.xq.LegouShop.response.GetCodeResponse;
 import com.xq.LegouShop.response.GetUserReceiveAddressListResponse;
+import com.xq.LegouShop.response.WeixinPayResponse;
 import com.xq.LegouShop.tabpager.DetailsPager;
 import com.xq.LegouShop.tabpager.EvaluatePager;
 import com.xq.LegouShop.tabpager.SpecificationPager;
+import com.xq.LegouShop.util.Constants;
 import com.xq.LegouShop.util.DialogUtils;
 import com.xq.LegouShop.util.LogUtils;
 import com.xq.LegouShop.util.PictureOption;
+import com.xq.LegouShop.util.SharedPrefrenceUtils;
 import com.xq.LegouShop.util.UIUtils;
 import com.xq.LegouShop.weiget.NoScrollViewPager;
 import com.xq.LegouShop.weiget.SelectGoodsSpecificationuwindow;
@@ -69,13 +76,14 @@ public class BuyGoodActivity extends BaseActivity  implements View.OnClickListen
 
     private LayoutInflater mInflater;
     private View rootView;
-
+    private String order_id;
+    private String out_trade_no;
 //    private TextView tv_get_code;
     private Dialog loadingDialog;
     private int time = 60;
     private String new_password;
     private String ensure_password;
-
+    private IWXAPI api;
     private String code;
     private String userReceiveAddressId,buyerMessage;
     private int buyScorePay;//	是否使用购物积分支付 0否1是，不传表示否
@@ -110,6 +118,7 @@ public class BuyGoodActivity extends BaseActivity  implements View.OnClickListen
     }
 
     public void initDate(){
+        api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         cartBeanList = (List<CartBean>) getIntent().getSerializableExtra("orderGoodBeanList");
         total_price = getIntent().getDoubleExtra("total_price", 0);
         imageLoader = ImageLoader.getInstance();
@@ -315,16 +324,33 @@ public class BuyGoodActivity extends BaseActivity  implements View.OnClickListen
         MyVolley.uploadNoFile(MyVolley.POST, url, hashMap, new MyVolley.VolleyCallback() {
             @Override
             public void dealWithJson(String address, String json) {
-                LogUtils.e("appSendMsgResponse:" + json.toString());
                 Gson gson = new Gson();
                 CreateOrderResponse getCodeResponse = gson.fromJson(json, CreateOrderResponse.class);
                 LogUtils.e("appSendMsgResponse:" + getCodeResponse.toString());
                 if (getCodeResponse.code .equals("0")) {
                     loadingDialog.dismiss();
-                    UIUtils.showToastSafe(getCodeResponse.msg);
-                    Intent intent=new Intent(BuyGoodActivity.this,OrderManagerActivity.class);
-                    UIUtils.startActivityNextAnim(intent);
-                    finish();
+                    if(weixinPay==1){
+                        PayReq req = new PayReq();
+                        req.appId = getCodeResponse.data.appid;
+                        req.nonceStr = getCodeResponse.data.noncestr;
+                        req.packageValue = getCodeResponse.data.packageValue;
+                        req.partnerId = getCodeResponse.data.partnerid;
+                        req.prepayId = getCodeResponse.data.prepayid;
+                        req.timeStamp = getCodeResponse.data.timestamp;
+                        req.sign = getCodeResponse.data.sign;
+
+
+                        req.extData = "app data"; // optional
+                        api.registerApp(Constants.APP_ID);
+                        api.sendReq(req);
+
+                    }else{
+                        UIUtils.showToastSafe(getCodeResponse.msg);
+                        Intent intent=new Intent(BuyGoodActivity.this,OrderManagerActivity.class);
+                        UIUtils.startActivityNextAnim(intent);
+                        finish();
+                    }
+
 
                 } else {
                     loadingDialog.dismiss();
@@ -347,7 +373,6 @@ public class BuyGoodActivity extends BaseActivity  implements View.OnClickListen
             }
         });
     }
-
 
 
 

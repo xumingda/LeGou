@@ -9,6 +9,8 @@ import android.util.FloatMath;
  * @描述: 全局常量
  */
 public interface Constants {
+	// 微信APP_ID 替换为你的应用从官方网站申请到的合法appId
+    String APP_ID = "wx177036684b434de9";
 	/**
 	 * 测试连接超时
 	 */

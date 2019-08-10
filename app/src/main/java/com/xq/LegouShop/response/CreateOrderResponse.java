@@ -24,7 +24,26 @@ public class CreateOrderResponse {
 	public String msg;
 
 	public class Data{
+		public String appid;//	选择了微信支付，有值
+		public String partnerid;//	选择了微信支付，有值
+		public String prepayid;//	选择了微信支付，有值
+		public String packageValue;//	选择了微信支付，有值
+		public String noncestr;//	随机字符串
+		public String timestamp;//	时间戳
+		public String sign	;//签名
 
+		@Override
+		public String toString() {
+			return "Data{" +
+					"appid='" + appid + '\'' +
+					", partnerid='" + partnerid + '\'' +
+					", prepayid='" + prepayid + '\'' +
+					", packageValue='" + packageValue + '\'' +
+					", noncestr='" + noncestr + '\'' +
+					", timestamp='" + timestamp + '\'' +
+					", sign='" + sign + '\'' +
+					'}';
+		}
 	}
 
 	@Override

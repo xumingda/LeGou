@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.xq.LegouShop"
-        minSdkVersion 23
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -24,7 +24,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.alibaba:fastjson:1.1.46.android'
 //    implementation 'com.facebook.fresco:fresco:0.11.0'
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
+
     implementation 'me.yatoooon:screenadaptation:1.1.1'
     implementation files('libs/xUtils-2.6.14.jar')
     implementation 'com.android.support:multidex:1.0.3'
@@ -46,4 +47,5 @@ dependencies {
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.superluo:textbannerview:1.0.2'
     implementation project(path: ':websocketlib')
+    implementation files('libs\\wechat-sdk-android-with-mta-1.0.2.jar')
 }

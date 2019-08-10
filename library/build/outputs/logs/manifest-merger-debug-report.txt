@@ -1,39 +1,39 @@
 -- Merging decision tree log ---
 manifest
-ADDED from F:\LegouShop\library\AndroidManifest.xml:2:1-9:12
-INJECTED from F:\LegouShop\library\AndroidManifest.xml:2:1-9:12
-INJECTED from F:\LegouShop\library\AndroidManifest.xml:2:1-9:12
-INJECTED from F:\LegouShop\library\AndroidManifest.xml:2:1-9:12
-INJECTED from F:\LegouShop\library\AndroidManifest.xml:2:1-9:12
-INJECTED from F:\LegouShop\library\AndroidManifest.xml:2:1-9:12
-INJECTED from F:\LegouShop\library\AndroidManifest.xml:2:1-9:12
+ADDED from F:\LegouShop\LeGou\library\AndroidManifest.xml:2:1-9:12
+INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml:2:1-9:12
+INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml:2:1-9:12
+INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml:2:1-9:12
+INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml:2:1-9:12
+INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml:2:1-9:12
+INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml:2:1-9:12
 	package
-		ADDED from F:\LegouShop\library\AndroidManifest.xml:3:5-49
-		INJECTED from F:\LegouShop\library\AndroidManifest.xml
-		INJECTED from F:\LegouShop\library\AndroidManifest.xml
+		ADDED from F:\LegouShop\LeGou\library\AndroidManifest.xml:3:5-49
+		INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
+		INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
 	android:versionName
-		ADDED from F:\LegouShop\library\AndroidManifest.xml:5:5-32
-		INJECTED from F:\LegouShop\library\AndroidManifest.xml
-		INJECTED from F:\LegouShop\library\AndroidManifest.xml
+		ADDED from F:\LegouShop\LeGou\library\AndroidManifest.xml:5:5-32
+		INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
+		INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
 	xmlns:android
-		ADDED from F:\LegouShop\library\AndroidManifest.xml:2:11-69
+		ADDED from F:\LegouShop\LeGou\library\AndroidManifest.xml:2:11-69
 	android:versionCode
-		ADDED from F:\LegouShop\library\AndroidManifest.xml:4:5-31
-		INJECTED from F:\LegouShop\library\AndroidManifest.xml
-		INJECTED from F:\LegouShop\library\AndroidManifest.xml
+		ADDED from F:\LegouShop\LeGou\library\AndroidManifest.xml:4:5-31
+		INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
+		INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
 application
-ADDED from F:\LegouShop\library\AndroidManifest.xml:7:5-20
+ADDED from F:\LegouShop\LeGou\library\AndroidManifest.xml:7:5-20
 uses-sdk
-INJECTED from F:\LegouShop\library\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from F:\LegouShop\library\AndroidManifest.xml
-INJECTED from F:\LegouShop\library\AndroidManifest.xml
-INJECTED from F:\LegouShop\library\AndroidManifest.xml
-INJECTED from F:\LegouShop\library\AndroidManifest.xml
+INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
+INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
+INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
+INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from F:\LegouShop\library\AndroidManifest.xml
-		ADDED from F:\LegouShop\library\AndroidManifest.xml
-		INJECTED from F:\LegouShop\library\AndroidManifest.xml
+		INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
+		ADDED from F:\LegouShop\LeGou\library\AndroidManifest.xml
+		INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from F:\LegouShop\library\AndroidManifest.xml
-		ADDED from F:\LegouShop\library\AndroidManifest.xml
-		INJECTED from F:\LegouShop\library\AndroidManifest.xml
+		INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml
+		ADDED from F:\LegouShop\LeGou\library\AndroidManifest.xml
+		INJECTED from F:\LegouShop\LeGou\library\AndroidManifest.xml

@@ -110,10 +110,10 @@ public class AddAddressActivity extends BaseActivity  implements View.OnClickLis
                 AddAuthenticationInfoResponse addAuthenticationInfoResponse = gson.fromJson(json, AddAuthenticationInfoResponse.class);
                 LogUtils.e("addAuthenticationInfoResponse:" + addAuthenticationInfoResponse.toString());
                 if (addAuthenticationInfoResponse.code.equals("0")) {
-                    DialogUtils.showAlertDialog(AddAddressActivity.this,
-                            "添加成功！");
+                    UIUtils.showToastSafe("添加成功！");
                     loadingDialog.dismiss();
-
+                    finish();
+                    overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
                 } else {
 
                     loadingDialog.dismiss();

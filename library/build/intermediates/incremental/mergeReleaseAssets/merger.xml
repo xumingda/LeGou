@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="F:\LegouShop\library\assets"/><source path="F:\LegouShop\library\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="F:\LegouShop\library\build-types\release\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="F:\LegouShop\LeGou\library\assets"/><source path="F:\LegouShop\LeGou\library\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="F:\LegouShop\LeGou\library\build-types\release\assets"/></dataSet></merger>

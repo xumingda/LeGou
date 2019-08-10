@@ -203,6 +203,7 @@
                         style="@style/MyCheckBox"
                         />
                     <CheckBox
+                        android:visibility="invisible"
                         android:text="支付宝支付"
                         android:id="@+id/ch_zhifubao"
                         android:layout_width="0dp"

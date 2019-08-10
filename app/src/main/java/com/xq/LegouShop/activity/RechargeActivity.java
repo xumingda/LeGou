@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.base.BaseActivity;
 import com.xq.LegouShop.base.MyVolley;
@@ -18,18 +21,24 @@ import com.xq.LegouShop.bean.UserBean;
 import com.xq.LegouShop.protocol.BalanceToBuyScoreProtocol;
 import com.xq.LegouShop.protocol.BalanceToChangeScoreProtocol;
 import com.xq.LegouShop.protocol.ChangeScoreToBalanceProtocol;
+import com.xq.LegouShop.protocol.RechargeProtocol;
+import com.xq.LegouShop.protocol.WithdrawalProtocol;
 import com.xq.LegouShop.response.GetCodeResponse;
+import com.xq.LegouShop.response.RechargeResponse;
+import com.xq.LegouShop.response.WithdrawalResponse;
+import com.xq.LegouShop.util.Constants;
 import com.xq.LegouShop.util.DialogUtils;
 import com.xq.LegouShop.util.LogUtils;
 import com.xq.LegouShop.util.MD5Utils;
 import com.xq.LegouShop.util.SPUtils;
+import com.xq.LegouShop.util.SharedPrefrenceUtils;
 import com.xq.LegouShop.util.UIUtils;
 
 import java.util.HashMap;
 
 //充值
 public class RechargeActivity extends BaseActivity  implements View.OnClickListener {
-
+    private IWXAPI api;
     private LayoutInflater mInflater;
     private View rootView;
     private String score;
@@ -62,6 +71,7 @@ public class RechargeActivity extends BaseActivity  implements View.OnClickListe
     }
 
     public void initDate(){
+        api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         userBean= SPUtils.getBeanFromSp(this,"userInfo","userInfo");
         title=getIntent().getStringExtra("title");
         loadingDialog = DialogUtils.createLoadDialog(RechargeActivity.this, false);
@@ -116,7 +126,7 @@ public class RechargeActivity extends BaseActivity  implements View.OnClickListe
         }
         btn_comit.setOnClickListener(this);
 
-
+        btn_all_tixian.setOnClickListener(this);
 
 
 
@@ -265,14 +275,123 @@ public class RechargeActivity extends BaseActivity  implements View.OnClickListe
             }
         });
     }
+
+    //充值
+    public void recharge() {
+        loadingDialog.show();
+        RechargeProtocol rechargeProtocol = new RechargeProtocol();
+
+        String url = rechargeProtocol.getApiFun();
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("rechargeMoney", score);
+
+        MyVolley.uploadNoFile(MyVolley.POST, url, params, new MyVolley.VolleyCallback() {
+            @Override
+            public void dealWithJson(String address, String json) {
+
+                Gson gson = new Gson();
+                RechargeResponse rechargeResponse = gson.fromJson(json, RechargeResponse.class);
+                LogUtils.e("rechargeResponse:" + rechargeResponse.toString());
+                if (rechargeResponse.code.equals("0")) {
+                    loadingDialog.dismiss();
+                    SharedPrefrenceUtils.setBoolean(RechargeActivity.this, "recharge", true);
+                    PayReq req = new PayReq();
+                    req.appId = rechargeResponse.data.appid;
+                    req.partnerId = rechargeResponse.data.partnerid;
+                    req.prepayId = rechargeResponse.data.prepayid;
+                    req.nonceStr = rechargeResponse.data.noncestr;
+                    req.timeStamp = rechargeResponse.data.timestamp;
+                    req.packageValue = "Sign=WXPay";
+                    req.sign = rechargeResponse.data.sign;
+                    req.extData = "app data"; // optional
+//                    api.registerApp(Constants.APP_ID);
+                    api.sendReq(req);
+                    LogUtils.e("PayReq:"+req.toString());
+                } else {
+                    loadingDialog.dismiss();
+                    DialogUtils.showAlertDialog(RechargeActivity.this,
+                            rechargeResponse.msg);
+                }
+
+
+            }
+
+            @Override
+            public void dealWithError(String address, String error) {
+                loadingDialog.dismiss();
+                DialogUtils.showAlertDialog(RechargeActivity.this, error);
+            }
+
+            @Override
+            public void dealTokenOverdue() {
+                loadingDialog.dismiss();
+                DialogUtils.showAlertToLoginDialog(RechargeActivity.this,
+                        "登录超时，请重新登录！");
+            }
+        });
+    }
+    //提现
+    public void withdrawal() {
+        loadingDialog.show();
+        WithdrawalProtocol withdrawalProtocol = new WithdrawalProtocol();
+
+        String url = withdrawalProtocol.getApiFun();
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("withdrawalMoney", score);
+
+        MyVolley.uploadNoFile(MyVolley.POST, url, params, new MyVolley.VolleyCallback() {
+            @Override
+            public void dealWithJson(String address, String json) {
+
+                Gson gson = new Gson();
+                WithdrawalResponse withdrawalResponse = gson.fromJson(json, WithdrawalResponse.class);
+                LogUtils.e("withdrawalResponse:" + withdrawalResponse.toString());
+                if (withdrawalResponse.code.equals("0")) {
+                    tv_banlance.setText("我的余额："+(Double.parseDouble(userBean.getBalanceMoney())-Integer.parseInt(score)));
+                    DialogUtils.showAlertDialog(RechargeActivity.this,
+                            "操作成功!");
+                    loadingDialog.dismiss();
+
+                } else {
+
+                    loadingDialog.dismiss();
+                    DialogUtils.showAlertDialog(RechargeActivity.this,
+                            withdrawalResponse.msg);
+                }
+
+
+            }
+
+            @Override
+            public void dealWithError(String address, String error) {
+                loadingDialog.dismiss();
+                DialogUtils.showAlertDialog(RechargeActivity.this, error);
+            }
+
+            @Override
+            public void dealTokenOverdue() {
+                loadingDialog.dismiss();
+                DialogUtils.showAlertToLoginDialog(RechargeActivity.this,
+                        "登录超时，请重新登录！");
+            }
+        });
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.btn_all_tixian:{
+                et_money.setText(userBean.getBalanceMoney());
+                break;
+            }
             case R.id.btn_comit:{
                 if(title.equals("提现")){
-
+                    score=et_money.getText().toString();
+                    withdrawal();
                 }else if (title.equals("充值")){
-
+                    score=et_money.getText().toString();
+                    recharge();
                 }else if(title.equals("转去购物积分")){
                     score=et_money.getText().toString();
                     balanceToBuyScore();

@@ -19,6 +19,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.adapter.IogisticsInfoAdapter;
 import com.xq.LegouShop.adapter.OrderAdapter;
@@ -38,18 +41,13 @@ import com.xq.LegouShop.request.LoginRequest;
 import com.xq.LegouShop.response.AddAuthenticationInfoResponse;
 import com.xq.LegouShop.response.CreateOrderResponse;
 import com.xq.LegouShop.response.GetOrderDescResponse;
-import com.xq.LegouShop.response.GetUserReceiveAddressListResponse;
+import com.xq.LegouShop.util.Constants;
 import com.xq.LegouShop.util.DialogUtils;
 import com.xq.LegouShop.util.LogUtils;
 import com.xq.LegouShop.util.UIUtils;
-import com.xq.LegouShop.weiget.MyListView;
 import com.xq.LegouShop.weiget.ScollViewListView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +61,7 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
 
 //    private TextView tv_get_code;
     private Dialog loadingDialog;
+    private IWXAPI api;
     private String userReceiveAddressId,buyerMessage;
     private View view_back,view_update;
     private ImageLoader imageLoader;
@@ -94,6 +93,7 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
     }
 
     public void initDate(){
+        api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         orderId=getIntent().getIntExtra("orderId",0);
         status=getIntent().getIntExtra("status",0);
         imageLoader = ImageLoader.getInstance();
@@ -439,8 +439,23 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
                 CreateOrderResponse getOrderListResponse = gson.fromJson(json, CreateOrderResponse.class);
                 LogUtils.e("cancelOrder:" + getOrderListResponse.toString());
                 if (getOrderListResponse.code .equals("0")) {
-                    UIUtils.showToastSafe(getOrderListResponse.msg);
-                    finish();
+                    if(TextUtils.isEmpty(getOrderListResponse.data.appid)) {
+                        UIUtils.showToastSafe(getOrderListResponse.msg);
+                        finish();
+                    }else{
+                        finish();
+                        PayReq req = new PayReq();
+                        req.appId = getOrderListResponse.data.appid;
+                        req.partnerId = getOrderListResponse.data.partnerid;
+                        req.prepayId = getOrderListResponse.data.prepayid;
+                        req.nonceStr = getOrderListResponse.data.noncestr;
+                        req.timeStamp = getOrderListResponse.data.timestamp;
+                        req.packageValue = "Sign=WXPay";
+                        req.sign = getOrderListResponse.data.sign;
+                        req.extData = "app data"; // optional
+                        api.registerApp(Constants.APP_ID);
+                        api.sendReq(req);
+                    }
                 }else {
                     if(getOrderListResponse.msg.indexOf("此账号在其他地方登陆")!=-1){
 

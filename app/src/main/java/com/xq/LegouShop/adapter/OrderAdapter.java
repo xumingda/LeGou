@@ -16,6 +16,9 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.activity.GameRoomActivity;
 import com.xq.LegouShop.base.MyVolley;
@@ -28,6 +31,7 @@ import com.xq.LegouShop.protocol.PayOrderProtocol;
 import com.xq.LegouShop.response.AddAuthenticationInfoResponse;
 import com.xq.LegouShop.response.CreateOrderResponse;
 import com.xq.LegouShop.response.GetOrderListResponse;
+import com.xq.LegouShop.util.Constants;
 import com.xq.LegouShop.util.DialogUtils;
 import com.xq.LegouShop.util.LogUtils;
 import com.xq.LegouShop.util.PictureOption;
@@ -56,6 +60,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
     //取消0.1付款
     private int type;
     private Dialog dialog;
+    private IWXAPI api;
     //0,1,2,3
     private int show_type;
     private  OrderCallBack orderCallBack;
@@ -68,6 +73,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
         this.orderCallBack=orderCallBack;
         gson = new Gson();
         this.show_type=show_type;
+        api = WXAPIFactory.createWXAPI(context, Constants.APP_ID);
     }
 
     public void setDate(List<OrderBean> orderBeanList){
@@ -319,9 +325,23 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
                 CreateOrderResponse getOrderListResponse = gson.fromJson(json, CreateOrderResponse.class);
                 LogUtils.e("cancelOrder:" + getOrderListResponse.toString());
                 if (getOrderListResponse.code .equals("0")) {
-
-                    UIUtils.showToastSafe(getOrderListResponse.msg);
-                    orderCallBack.updateData();
+                    if(TextUtils.isEmpty(getOrderListResponse.data.appid)) {
+                        UIUtils.showToastSafe(getOrderListResponse.msg);
+                        orderCallBack.updateData();
+                    }else{
+                        orderCallBack.updateData();
+                        PayReq req = new PayReq();
+                        req.appId = getOrderListResponse.data.appid;
+                        req.partnerId = getOrderListResponse.data.partnerid;
+                        req.prepayId = getOrderListResponse.data.prepayid;
+                        req.nonceStr = getOrderListResponse.data.noncestr;
+                        req.timeStamp = getOrderListResponse.data.timestamp;
+                        req.packageValue = "Sign=WXPay";
+                        req.sign = getOrderListResponse.data.sign;
+                        req.extData = "app data"; // optional
+                        api.registerApp(Constants.APP_ID);
+                        api.sendReq(req);
+                    }
                 }else {
                     if(getOrderListResponse.msg.indexOf("此账号在其他地方登陆")!=-1){
 

@@ -1,17 +1,27 @@
 <resources>
 
-        <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+    <style name="NavPage">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <!-- <item name="android:background">@drawable/nav_page</item> -->
+        <item name="android:background">@color/navpage</item>
+    </style>
 
-            <item name="android:button">@drawable/pay_checkb_select</item>
+    <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
 
-            <item name="android:paddingLeft">@dimen/dp_15</item>
+        <item name="android:button">@drawable/pay_checkb_select</item>
+
+        <item name="android:paddingLeft">@dimen/dp_15</item>
 
 
-        </style>
+    </style>
 
     <style name="SampleTheme.Light" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:windowNoTitle">true</item>
     </style>
+
     <style name="date_picker_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
@@ -19,6 +29,7 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/date_picker_bg</item>
     </style>
+
     <style name="main_tab_style">
         <item name="android:layout_width">0dip</item>
         <item name="android:layout_height">wrap_content</item>
@@ -43,6 +54,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="AnimBottom" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
@@ -54,6 +66,7 @@
         <item name="android:background">#1d2556</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+
     <style name="dot_style">
         <item name="android:layout_width">@dimen/dp_8</item>
         <item name="android:layout_height">@dimen/dp_8</item>
@@ -61,6 +74,7 @@
         <item name="android:layout_marginLeft">1.5dip</item>
         <item name="android:layout_marginRight">1.5dip</item>
     </style>
+
     <style name="left">
         <item name="android:textSize">16.0sp</item>
         <item name="android:textColor">@drawable/qq_constact_font</item>
@@ -69,6 +83,7 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_weight">1.0</item>
     </style>
+
     <style name="center">
         <item name="android:textSize">16.0sp</item>
         <item name="android:textColor">@drawable/qq_constact_font</item>
@@ -77,6 +92,7 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_weight">1.0</item>
     </style>
+
     <style name="right">
         <item name="android:textSize">16.0sp</item>
         <item name="android:textColor">@drawable/qq_constact_font</item>
