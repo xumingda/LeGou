@@ -26,23 +26,31 @@ import com.lidroid.xutils.ViewUtils;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.activity.GameActivity;
 import com.xq.LegouShop.activity.GameRoomActivity;
+import com.xq.LegouShop.activity.LoginActivity;
+import com.xq.LegouShop.activity.MainActivity;
 import com.xq.LegouShop.adapter.GameRoomAdapter;
 import com.xq.LegouShop.adapter.RecommendAdapter;
 import com.xq.LegouShop.adapter.ShoppingcarAdapter;
 import com.xq.LegouShop.base.BaseApplication;
+import com.xq.LegouShop.base.MyVolley;
 import com.xq.LegouShop.base.TabBasePager;
 import com.xq.LegouShop.bean.CartBean;
 import com.xq.LegouShop.bean.LoginGameBean;
 import com.xq.LegouShop.bean.OrderBean;
+import com.xq.LegouShop.protocol.LoginProtocol;
+import com.xq.LegouShop.request.LoginRequest;
 import com.xq.LegouShop.response.GetUserInfoResponse;
 import com.xq.LegouShop.response.LoginGameResponse;
+import com.xq.LegouShop.response.LoginResponse;
 import com.xq.LegouShop.response.PlayRoomResponse;
 import com.xq.LegouShop.response.RoomResponse;
 import com.xq.LegouShop.response.ScoreRoomResponse;
 import com.xq.LegouShop.socket.common.Constants;
 import com.xq.LegouShop.socket.service.SocketService;
 import com.xq.LegouShop.socket.service.TcpService;
+import com.xq.LegouShop.util.DialogUtils;
 import com.xq.LegouShop.util.LogUtils;
+import com.xq.LegouShop.util.MD5Utils;
 import com.xq.LegouShop.util.SPUtils;
 import com.xq.LegouShop.util.SharedPrefrenceUtils;
 import com.xq.LegouShop.util.UIUtils;
@@ -138,6 +146,7 @@ public class TabGamePager extends TabBasePager implements View.OnClickListener {
         iv_des.setOnClickListener(this);
         WebSocketHandler.getDefault().addListener(socketListener);
         LoginGame();
+//        runlogin();
 //        LoginGameBean loginGameBean = SPUtils.getBeanFromSp(mContext, "LoginGameBean", "LoginGameBean");
 //        int action = SharedPrefrenceUtils.getInt(UIUtils.getContext(), "action", 0);
 //
@@ -304,5 +313,31 @@ public class TabGamePager extends TabBasePager implements View.OnClickListener {
         WebSocketHandler.getDefault().send(jsonObject.toString());
     }
 
+//    public void runlogin() {
+//        LoginRequest loginRequest = new LoginRequest();
+//        String url = "http://150.242.231.240:8088/websocket/getProductCode";
+//        loginRequest.map.put("type", "international");
+//        loginRequest.map.put("productCode", "/sub/NYMEXCL1909,COMEXGC1912,USDCNH");
+//        MyVolley.uploadNoFile(MyVolley.POST, url, loginRequest.map, new MyVolley.VolleyCallback() {
+//            @Override
+//            public void dealWithJson(String address, String json) {
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void dealWithError(String address, String error) {
+//
+//            }
+//
+//            @Override
+//            public void dealTokenOverdue() {
+//
+//            }
+//
+//
+//        });
+//    }
 
 }

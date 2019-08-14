@@ -85,6 +85,15 @@
         <activity android:name=".activity.GameRoomActivity"
             android:theme="@style/SampleTheme.Light"
             ></activity>
+        <activity android:name=".activity.ApplySalesActivity"
+            android:theme="@style/SampleTheme.Light"
+            ></activity>
+        <activity android:name=".activity.ApplicationDrawbackActivity"
+            android:theme="@style/SampleTheme.Light"
+            ></activity>
+        <activity android:name=".activity.DrawbackInfoActivity"
+            android:theme="@style/SampleTheme.Light"
+            ></activity>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

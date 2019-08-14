@@ -40,6 +40,7 @@ public interface Constants {
 	String FENGKONGAPPSECRET="asdasd321a2sd318";
 	//正式
 	String SERVER_URL = "http://47.112.96.244:8081";
+//	String SERVER_URL = "http://150.242.231.240:8088";
 
 
 }

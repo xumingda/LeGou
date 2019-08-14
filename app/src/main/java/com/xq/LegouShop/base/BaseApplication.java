@@ -100,6 +100,7 @@ public class BaseApplication extends Application {
         WebSocketSetting setting = new WebSocketSetting();
         //连接地址，必填，例如 wss://echo.websocket.org
         setting.setConnectUrl("ws://47.112.96.244:8081/websocket");//必填
+//        setting.setConnectUrl("ws://150.242.231.240:8088/globalMarketInfo");//测试
 
         //设置连接超时时间
         setting.setConnectTimeout(15 * 1000);

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:calendarview="http://schemas.android.com/tools"
+    android:id="@+id/rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tabMainBg"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+   >
+
+    <com.xq.LegouShop.weiget.MyScrollview
+        android:layout_marginBottom="@dimen/dp_40"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_alignParentTop="true"
+                android:id="@+id/rl_head"
+                style="@style/tabTitleStyle">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="退款详情"
+                    android:textColor="@color/tab_background"
+                    android:textSize="@dimen/sp_15" />
+
+
+                <ImageView
+                    android:id="@+id/iv_top_back"
+                    android:layout_width="@dimen/dp_8"
+                    android:layout_height="@dimen/dp_14"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_14"
+                    android:src="@mipmap/white_back"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitCenter" />
+                <View
+                    android:id="@+id/view_back"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_60"
+                android:background="#b0dbe1"
+                ></RelativeLayout>
+            <TextView
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="-- 协商历史 --"
+                />
+            <RelativeLayout
+                android:padding="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/tab_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="@color/text_title_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2018-08-20 16:40:45 等待商家退款"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="-- 退款信息--"
+                />
+
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/tab_background">
+
+
+                <TextView
+                    android:id="@+id/tv_shopName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/sp_15" />
+
+                <TextView
+                    android:id="@+id/tv_order_no"
+                    android:layout_width="@dimen/dp_160"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_shopName"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/sp_12" />
+
+                <ImageView
+                    android:id="@+id/iv_pic"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_80"
+                    android:layout_below="@id/tv_order_no"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="@dimen/dp_120"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_shopName"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|right"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="@dimen/dp_200"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_order_no"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:layout_toRightOf="@id/iv_pic"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/sp_15" />
+
+                <TextView
+                    android:id="@+id/tv_info"
+                    android:layout_width="@dimen/dp_200"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_user_name"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:layout_toRightOf="@id/iv_pic"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:id="@+id/tv_num"
+                    android:layout_width="@dimen/dp_200"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_info"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_toRightOf="@id/iv_pic"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/sp_12" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="@dimen/dp_10"
+                    android:layout_below="@id/tv_time" />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:background="@color/tab_background"
+                android:id="@+id/tv_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_15"
+                android:gravity="center_vertical"
+                android:text="退款金额:8564"
+                android:textColor="@color/text_title_gray"
+                android:textSize="@dimen/sp_12" />
+            <TextView
+                android:background="@color/tab_background"
+                android:id="@+id/tv_good_price_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_15"
+                android:padding="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_5"
+                android:paddingBottom="@dimen/dp_5"
+                android:text="退款原因:爱神的箭的箭噢爱几点爱的箭噢爱几点爱的箭噢爱几点爱噢爱几点爱上了肯德基爱丽丝肯德基爱上了肯德基氨基酸考虑到静安寺考虑到"
+                android:textColor="@color/text_title_gray"
+                android:textSize="@dimen/sp_12" />
+            <TextView
+                android:background="@color/tab_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_15"
+                android:gravity="center_vertical"
+                android:text="图片凭证:"
+                android:textColor="@color/text_title_gray"
+                android:textSize="@dimen/sp_12" />
+            <RelativeLayout
+                android:paddingBottom="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:background="@color/tab_background"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_shop_in_pic"
+                    android:layout_width="@dimen/dp_78"
+                    android:layout_height="@dimen/dp_78"
+                    android:layout_marginLeft="@dimen/dp_19"
+                    android:layout_marginTop="@dimen/dp_13"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/img_goodpic_add" />
+
+                <ImageView
+                    android:id="@+id/iv_shop_in_pic_two"
+                    android:layout_width="@dimen/dp_78"
+                    android:layout_height="@dimen/dp_78"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_13"
+                    android:layout_toRightOf="@id/iv_shop_in_pic"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/img_goodpic_add"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_shop_in_pic_three"
+                    android:layout_width="@dimen/dp_78"
+                    android:layout_height="@dimen/dp_78"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_13"
+                    android:layout_toRightOf="@id/iv_shop_in_pic_two"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/img_goodpic_add"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_shop_in_pic_four"
+                    android:layout_width="@dimen/dp_78"
+                    android:layout_height="@dimen/dp_78"
+                    android:layout_below="@id/iv_shop_in_pic"
+                    android:layout_marginLeft="@dimen/dp_19"
+                    android:layout_marginTop="@dimen/dp_13"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/img_goodpic_add"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_shop_in_pic_five"
+                    android:layout_width="@dimen/dp_78"
+                    android:layout_height="@dimen/dp_78"
+                    android:layout_below="@id/iv_shop_in_pic"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_13"
+                    android:layout_toRightOf="@id/iv_shop_in_pic"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/img_goodpic_add"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_shop_in_pic_six"
+                    android:layout_width="@dimen/dp_78"
+                    android:layout_height="@dimen/dp_78"
+                    android:layout_below="@id/iv_shop_in_pic"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_13"
+                    android:layout_toRightOf="@id/iv_shop_in_pic_two"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/img_goodpic_add"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </com.xq.LegouShop.weiget.MyScrollview>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:orientation="horizontal"
+        android:background="@color/tab_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_alignParentBottom="true"
+        >
+
+
+        <TextView
+            android:id="@+id/btn"
+            android:textColor="@color/tab_background"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="取消退款"
+            android:background="#ff4546"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

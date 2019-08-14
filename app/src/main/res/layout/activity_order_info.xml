@@ -392,6 +392,17 @@
             />
         <TextView
             android:visibility="gone"
+            android:id="@+id/tv_sale"
+            android:textColor="@color/tab_background"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="申请售后"
+            android:background="#ff4546"
+            />
+        <TextView
+            android:visibility="gone"
             android:id="@+id/tv_finish"
             android:textColor="@color/tab_background"
             android:gravity="center"

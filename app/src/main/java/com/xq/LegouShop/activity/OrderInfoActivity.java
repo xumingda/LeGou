@@ -72,10 +72,11 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
     private ScollViewListView lv_wuliu;
     private OrderDescGoodsAdapter orderGoodsAdapter;
     private IogisticsInfoAdapter iogisticsInfoAdapter;
-    private TextView tv_name,tv_phone,tv_address,tv_buyerMessage,tv_order_no,tv_status,tv_createTime,tv_receiveTime,tv_payTime,tv_sendTime,tv_logistics,tv_wuliu_title,tv_logisticsNo,tv_finish,tv_send,tv_cancle,tv_pay;
+    private TextView tv_sale,tv_name,tv_phone,tv_address,tv_buyerMessage,tv_order_no,tv_status,tv_createTime,tv_receiveTime,tv_payTime,tv_sendTime,tv_logistics,tv_wuliu_title,tv_logisticsNo,tv_finish,tv_send,tv_cancle,tv_pay;
     private int orderId;
     private int status;
     private Dialog dialog;
+    private GetOrderDescResponse getOrderDescResponse;
     //1取消，2付款，3完成
     private int type;
     @Override
@@ -107,6 +108,7 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
         lv_wuliu=(ScollViewListView)findViewById(R.id.lv_wuliu);
         tv_buyerMessage=(TextView)findViewById(R.id.tv_buyerMessage);
         view_back=(View)findViewById(R.id.view_back);
+        tv_sale=(TextView)findViewById(R.id.tv_sale);
         tv_name=(TextView)findViewById(R.id.tv_name);
         tv_address=(TextView)findViewById(R.id.tv_address);
         tv_phone=(TextView)findViewById(R.id.tv_phone);
@@ -135,6 +137,7 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
         getOrderDesc();
         switch (status){
             case 0:{
+                tv_sale.setVisibility(View.GONE);
                 tv_pay.setVisibility(View.VISIBLE);
                 tv_cancle.setVisibility(View.VISIBLE);
                 tv_send.setVisibility(View.GONE);
@@ -145,6 +148,7 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
                 break;
             }
             case 1:{
+                tv_sale.setVisibility(View.VISIBLE);
                 tv_pay.setVisibility(View.GONE);
                 tv_cancle.setVisibility(View.GONE);
                 tv_send.setVisibility(View.VISIBLE);
@@ -158,12 +162,14 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
                 tv_pay.setVisibility(View.GONE);
                 tv_cancle.setVisibility(View.GONE);
                 tv_send.setVisibility(View.GONE);
+                tv_sale.setVisibility(View.VISIBLE);
                 tv_finish.setVisibility(View.VISIBLE);
                 ll_wuliu.setVisibility(View.VISIBLE);
                 tv_wuliu_title.setVisibility(View.VISIBLE);
                 lv_wuliu.setVisibility(View.VISIBLE);
                 break;
             } case 3:{
+                tv_sale.setVisibility(View.VISIBLE);
                 tv_pay.setVisibility(View.GONE);
                 tv_cancle.setVisibility(View.GONE);
                 tv_send.setVisibility(View.GONE);
@@ -179,6 +185,7 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
         tv_cancle.setOnClickListener(this);
         tv_pay.setOnClickListener(this);
         tv_finish.setOnClickListener(this);
+        tv_sale.setOnClickListener(this);
     }
 
 
@@ -186,6 +193,19 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_sale:{
+                CartBean cartBean=getOrderDescResponse.data.orderGoodsList.get(0);
+                Intent intent=new Intent(this, ApplySalesActivity.class);
+                intent.putExtra("orderNo",getOrderDescResponse.data.orderNo);
+                intent.putExtra("shopName",getOrderDescResponse.data.shopName);
+                intent.putExtra("time",getOrderDescResponse.data.createTime);
+                intent.putExtra("pic",cartBean.getPic());
+                intent.putExtra("goodName",cartBean.getGoodsName());
+                intent.putExtra("orderMoney",getOrderDescResponse.data.orderMoney);
+                intent.putExtra("bugCount",cartBean.getBuyCount());
+                UIUtils.startActivityForResultNextAnim(intent,101);
+                break;
+            }
             case R.id.tv_finish:{
                 type=3;
                 dialog=DialogUtils.showAlertDoubleBtnDialog(this,"是否完成订单？","提示", OrderInfoActivity.this);
@@ -250,7 +270,7 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
             public void dealWithJson(String address, String json) {
                 LogUtils.e("getOrderDescResponse:" + json);
                 Gson gson = new Gson();
-                GetOrderDescResponse getOrderDescResponse = gson.fromJson(json, GetOrderDescResponse.class);
+                getOrderDescResponse = gson.fromJson(json, GetOrderDescResponse.class);
 
                 if (getOrderDescResponse.code .equals("0")) {
                     loadingDialog.dismiss();
