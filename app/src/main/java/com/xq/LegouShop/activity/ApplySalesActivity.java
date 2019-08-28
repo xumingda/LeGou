@@ -58,7 +58,7 @@ public class ApplySalesActivity extends BaseActivity implements View.OnClickList
     private TextView tv_info;
     private ImageView iv_pic;
     private RelativeLayout rl_tuikuan,rl_tuihuo,rl_huanhuo;
-    private  String orderNo,time,pic,goodName,bugCount,orderMoney,shopName;
+    private  String orderNo,time,pic,goodName,bugCount,orderMoney,shopName,orderId;
     @Override
     protected View initView() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -78,6 +78,7 @@ public class ApplySalesActivity extends BaseActivity implements View.OnClickList
 
     private void initDate() {
         Intent intent=getIntent();
+        orderId=intent.getStringExtra("orderId");
         orderNo=intent.getStringExtra("orderNo");
         shopName=intent.getStringExtra("shopName");
         time=intent.getStringExtra("time");
@@ -186,6 +187,7 @@ public class ApplySalesActivity extends BaseActivity implements View.OnClickList
         switch (view.getId()){
             case R.id.rl_huanhuo:{
                 Intent intent=new Intent(this, ApplicationDrawbackActivity.class);
+                intent.putExtra("orderId",orderId);
                 intent.putExtra("type",3);
                 intent.putExtra("orderNo",orderNo);
                 intent.putExtra("shopName",shopName);
@@ -199,6 +201,7 @@ public class ApplySalesActivity extends BaseActivity implements View.OnClickList
             }
             case R.id.rl_tuihuo:{
                 Intent intent=new Intent(this, ApplicationDrawbackActivity.class);
+                intent.putExtra("orderId",orderId);
                 intent.putExtra("type",2);
                 intent.putExtra("orderNo",orderNo);
                 intent.putExtra("shopName",shopName);
@@ -212,6 +215,7 @@ public class ApplySalesActivity extends BaseActivity implements View.OnClickList
             }
             case R.id.rl_tuikuan:{
                 Intent intent=new Intent(this, ApplicationDrawbackActivity.class);
+                intent.putExtra("orderId",orderId);
                 intent.putExtra("type",1);
                 intent.putExtra("orderNo",orderNo);
                 intent.putExtra("shopName",shopName);

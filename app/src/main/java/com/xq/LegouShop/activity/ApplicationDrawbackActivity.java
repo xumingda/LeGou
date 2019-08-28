@@ -22,9 +22,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,7 +36,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.xq.LegouShop.R;
 import com.xq.LegouShop.base.BaseActivity;
 import com.xq.LegouShop.base.MyVolley;
+import com.xq.LegouShop.protocol.AddAuthenticationInfoProtocol;
 import com.xq.LegouShop.protocol.UpdatePwdProtocol;
+import com.xq.LegouShop.response.GetAuthenticationInfoResponse;
 import com.xq.LegouShop.response.ImageResponse;
 import com.xq.LegouShop.response.UpdatePwdResponse;
 import com.xq.LegouShop.util.BitmapUtils;
@@ -62,6 +66,7 @@ public class ApplicationDrawbackActivity extends BaseActivity implements View.On
     private View rootView;
 
     private ImageLoader imageLoader;
+    private String pics,reason;
     private Dialog loadingDialog;
     private Bitmap new_photo;
     public static boolean isForeground = false;
@@ -73,11 +78,11 @@ public class ApplicationDrawbackActivity extends BaseActivity implements View.On
     private TextView tv_num;
     private TextView tv_price,tv_title;
     private ImageView iv_pic,iv_shop_in_pic,iv_shop_in_pic_two,iv_shop_in_pic_three,iv_shop_in_pic_four,iv_shop_in_pic_five,iv_shop_in_pic_six;
-    private  String orderNo,time,pic,goodName,bugCount,orderMoney,shopName;
+    private  String orderNo,time,pic,goodName,bugCount,orderMoney,shopName,orderId;
     private RelativeLayout rl_main,rl_state,rl_money;
     private File mFile;
     private String timepath;
-    private int type;
+    private int type,returnGoodsStatus;
 
 
     private static final String IMAGE_UNSPECIFIED = "image/*";
@@ -98,7 +103,9 @@ public class ApplicationDrawbackActivity extends BaseActivity implements View.On
     private View root;
     //0-5,总共6张
     private int pic_type;
-    private TextView tv_why_title;
+    private TextView tv_why_title,tv_sale;
+    private EditText et_reason;
+    private RadioButton radio_no_get,radio_get;
     @Override
     protected View initView() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -118,6 +125,7 @@ public class ApplicationDrawbackActivity extends BaseActivity implements View.On
 
     private void initDate() {
         Intent intent=getIntent();
+        orderId=intent.getStringExtra("orderId");
         type=intent.getIntExtra("type",0);
         orderNo=intent.getStringExtra("orderNo");
         shopName=intent.getStringExtra("shopName");
@@ -130,10 +138,14 @@ public class ApplicationDrawbackActivity extends BaseActivity implements View.On
         imageLoader = ImageLoader.getInstance();
         imageLoader.init((ImageLoaderConfiguration.createDefault(this)));
         loadingDialog = DialogUtils.createLoadDialog(ApplicationDrawbackActivity.this, false);
+        radio_no_get=(RadioButton)findViewById(R.id.radio_no_get);
+        radio_get=(RadioButton)findViewById(R.id.radio_get);
+        et_reason=(EditText) findViewById(R.id.et_reason);
         rl_main=(RelativeLayout) findViewById(R.id.rl_main);
         rl_state=(RelativeLayout) findViewById(R.id.rl_state);
         rl_money=(RelativeLayout) findViewById(R.id.rl_money);
         view_back=(View)findViewById(R.id.view_back);
+        tv_sale= (TextView) findViewById(R.id.tv_sale);
         tv_title= (TextView) findViewById(R.id.tv_title);
         tv_why_title= (TextView) findViewById(R.id.tv_why_title);
         tv_shopName = (TextView) findViewById(R.id.tv_shopName);
@@ -156,6 +168,7 @@ public class ApplicationDrawbackActivity extends BaseActivity implements View.On
         iv_shop_in_pic_four.setOnClickListener(this);
         iv_shop_in_pic_five.setOnClickListener(this);
         iv_shop_in_pic_six.setOnClickListener(this);
+        tv_sale.setOnClickListener(this);
         if(type==1){
             rl_state.setVisibility(View.GONE);
             tv_why_title.setText("退款原因");
@@ -296,7 +309,7 @@ public class ApplicationDrawbackActivity extends BaseActivity implements View.On
             switch (msg.what) {
                 case INTERCEPT:
                     addBitmap(new_photo);
-//                    uploadImage();
+                    uploadImage();
                     break;
 
             }
@@ -307,14 +320,14 @@ public class ApplicationDrawbackActivity extends BaseActivity implements View.On
      */
     private void uploadImage() {
         loadingDialog.show();
-        String url = Constants.SERVER_URL + "/common/uploadImg";
+        String url = Constants.SERVER_URL + "/common/uploadFile";
         Map<String, String> paramMap = new HashMap<String, String>();
-        String token = SharedPrefrenceUtils.getString(UIUtils.getContext(), "token");
-        if (!TextUtils.isEmpty(token)) {
-            paramMap.put("authorization", token);
-        }
+//        String token = SharedPrefrenceUtils.getString(UIUtils.getContext(), "token");
+//        if (!TextUtils.isEmpty(token)) {
+//            paramMap.put("authorization", token);
+//        }
         Map<String, String> filesMap = new HashMap<String, String>();
-        filesMap.put("picFile", path);
+        filesMap.put("file", path);
         MyVolley.uploadWithFileWholeUrl(url, paramMap, filesMap, null, new MyVolley.VolleyCallback() {
             @Override
             public void dealWithJson(String address, String json) {
@@ -323,38 +336,37 @@ public class ApplicationDrawbackActivity extends BaseActivity implements View.On
                 ImageResponse imageResponse = gson.fromJson(json, ImageResponse.class);
 
                 LogUtils.e("baseResponsexmd:" + json.toString());
-//                if (imageResponse.code == 0) {
-//                    LogUtils.e("baseResponsexmd:" + pic_type);
-//                    switch (pic_type){
-//
-//                        case 0: {
-//                            licensePic=imageResponse.picUrl;
-//                            break;
-//                        } case 1: {
-//                            doorOutPic=imageResponse.picUrl;
-//                            break;
-//                        }case 2: {
-//                            indoorPic=imageResponse.picUrl;
-//                            doorInPics.add(0,imageResponse.picUrl);
-//                            break;
-//                        }case 3: {
-//                            doorInPics.add(1,imageResponse.picUrl);
-//                            break;
-//                        }
-//                        case 4: {
-//                            doorInPics.add(2,imageResponse.picUrl);
-//                            break;
-//                        }case 5: {
-//                            managerIdcardPic1=imageResponse.picUrl;
-//                            break;
-//                        }
-//                    }
-//                    UIUtils.showToastCenter(ApplicationDrawbackActivity.this, "上传成功");
-//                } else {
-//                    DialogUtils.showAlertDialog(ApplicationDrawbackActivity.this,
-//                            imageResponse.msg);
-//
-//                }
+                if (imageResponse.code == 0) {
+                    LogUtils.e("baseResponsexmd:" + pic_type);
+                    switch (pic_type){
+
+                        case 0: {
+                            pics=imageResponse.getFileKey();
+                            break;
+                        } case 1: {
+                            pics=pics+","+imageResponse.getFileKey();
+                            break;
+                        }case 2: {
+                            pics=pics+","+imageResponse.getFileKey();
+                            break;
+                        }case 3: {
+                            pics=pics+","+imageResponse.getFileKey();
+                            break;
+                        }
+                        case 4: {
+                            pics=pics+","+imageResponse.getFileKey();
+                            break;
+                        }case 5: {
+                            pics=pics+","+imageResponse.getFileKey();
+                            break;
+                        }
+                    }
+                    UIUtils.showToastCenter(ApplicationDrawbackActivity.this, "上传成功");
+                } else {
+                    DialogUtils.showAlertDialog(ApplicationDrawbackActivity.this,
+                            imageResponse.msg);
+
+                }
 
             }
 
@@ -376,6 +388,27 @@ public class ApplicationDrawbackActivity extends BaseActivity implements View.On
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.tv_sale:{
+                reason=et_reason.getText().toString();
+                if(!TextUtils.isEmpty(pics)&&!TextUtils.isEmpty(reason)){
+                    if(type==1) {
+                        applyRefund();
+                    }else if(type==2){
+                        if(radio_no_get.isChecked()){
+                            returnGoodsStatus=0;
+                        }else{
+                            returnGoodsStatus=1;
+                        }
+                        applyReturnGoods();
+                    }else{
+                        applyChangeGoods();
+                    }
+
+                }else{
+                    UIUtils.showToastSafe("请把资料填写完整！");
+                }
+                break;
+            }
             case R.id.iv_shop_in_pic:{
                 pic_type=0;
                 pWindow.setAnimationStyle(R.style.AnimBottom);
@@ -571,5 +604,138 @@ public class ApplicationDrawbackActivity extends BaseActivity implements View.On
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    //申请退款
+    public void applyRefund() {
+        loadingDialog.show();
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("reason",reason);
+        hashMap.put("pics",pics);
+        hashMap.put("orderId",orderId);
+
+        String url = "/user/applyRefund";
+        LogUtils.e("请求:"+hashMap.toString());
+        MyVolley.uploadNoFile(MyVolley.POST, url, hashMap, new MyVolley.VolleyCallback() {
+            @Override
+            public void dealWithJson(String address, String json) {
+                loadingDialog.dismiss();
+                Gson gson = new Gson();
+                GetAuthenticationInfoResponse getAuthenticationInfoResponse = gson.fromJson(json, GetAuthenticationInfoResponse.class);
+                LogUtils.e("getAuthenticationInfoResponse:" + getAuthenticationInfoResponse.toString());
+                if (getAuthenticationInfoResponse.code.equals("0")) {
+                    UIUtils.showToastSafe(getAuthenticationInfoResponse.msg);
+                    finish();
+                    overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
+                } else {
+                    DialogUtils.showAlertDialog(ApplicationDrawbackActivity.this,
+                            getAuthenticationInfoResponse.msg);
+                }
+
+
+            }
+
+            @Override
+            public void dealWithError(String address, String error) {
+                loadingDialog.dismiss();
+                DialogUtils.showAlertDialog(ApplicationDrawbackActivity.this, error);
+            }
+
+            @Override
+            public void dealTokenOverdue() {
+
+            }
+
+
+        });
+    }
+
+    //申请退货
+    public void applyReturnGoods() {
+        loadingDialog.show();
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("reason",reason);
+        hashMap.put("pics",pics);
+        hashMap.put("orderId",orderId);
+        hashMap.put("returnGoodsStatus",String.valueOf(returnGoodsStatus));
+
+        String url = "/user/applyReturnGoods";
+        LogUtils.e("请求:"+hashMap.toString());
+        MyVolley.uploadNoFile(MyVolley.POST, url, hashMap, new MyVolley.VolleyCallback() {
+            @Override
+            public void dealWithJson(String address, String json) {
+                loadingDialog.dismiss();
+                Gson gson = new Gson();
+                GetAuthenticationInfoResponse getAuthenticationInfoResponse = gson.fromJson(json, GetAuthenticationInfoResponse.class);
+                LogUtils.e("getAuthenticationInfoResponse:" + getAuthenticationInfoResponse.toString());
+                if (getAuthenticationInfoResponse.code.equals("0")) {
+                    UIUtils.showToastSafe(getAuthenticationInfoResponse.msg);
+                    finish();
+                    overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
+                } else {
+                    DialogUtils.showAlertDialog(ApplicationDrawbackActivity.this,
+                            getAuthenticationInfoResponse.msg);
+                }
+
+
+            }
+
+            @Override
+            public void dealWithError(String address, String error) {
+                loadingDialog.dismiss();
+                DialogUtils.showAlertDialog(ApplicationDrawbackActivity.this, error);
+            }
+
+            @Override
+            public void dealTokenOverdue() {
+
+            }
+
+
+        });
+    }
+
+    //申请换货
+    public void applyChangeGoods() {
+        loadingDialog.show();
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("reason",reason);
+        hashMap.put("pics",pics);
+        hashMap.put("orderId",orderId);
+
+        String url = "/user/applyChangeGoods";
+        LogUtils.e("请求:"+hashMap.toString());
+        MyVolley.uploadNoFile(MyVolley.POST, url, hashMap, new MyVolley.VolleyCallback() {
+            @Override
+            public void dealWithJson(String address, String json) {
+                loadingDialog.dismiss();
+                Gson gson = new Gson();
+                GetAuthenticationInfoResponse getAuthenticationInfoResponse = gson.fromJson(json, GetAuthenticationInfoResponse.class);
+                LogUtils.e("getAuthenticationInfoResponse:" + getAuthenticationInfoResponse.toString());
+                if (getAuthenticationInfoResponse.code.equals("0")) {
+                    UIUtils.showToastSafe(getAuthenticationInfoResponse.msg);
+                    finish();
+                    overridePendingTransition(R.anim.animprv_in, R.anim.animprv_out);
+                } else {
+                    DialogUtils.showAlertDialog(ApplicationDrawbackActivity.this,
+                            getAuthenticationInfoResponse.msg);
+                }
+
+
+            }
+
+            @Override
+            public void dealWithError(String address, String error) {
+                loadingDialog.dismiss();
+                DialogUtils.showAlertDialog(ApplicationDrawbackActivity.this, error);
+            }
+
+            @Override
+            public void dealTokenOverdue() {
+
+            }
+
+
+        });
     }
 }

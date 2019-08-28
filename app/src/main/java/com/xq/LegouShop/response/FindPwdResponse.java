@@ -14,8 +14,7 @@ public class FindPwdResponse {
 	
 	/** 服务器响应码 */
 	public String code;
-	/**验证码id*/
-	public String auth_code_id;
+
 //	public class RegisterData{
 //		/** 用户token */
 //		public String sid;
@@ -27,7 +26,6 @@ public class FindPwdResponse {
 	public String toString() {
 		return "GetCodeResponse{" +
 				"code=" + code +
-				", auth_code_id='" + auth_code_id + '\'' +
 				", msg='" + msg + '\'' +
 				'}';
 	}

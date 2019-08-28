@@ -236,6 +236,7 @@
                     android:textSize="@dimen/sp_15" />
 
                 <EditText
+                    android:id="@+id/et_reason"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -345,7 +346,7 @@
         android:layout_alignParentBottom="true"
         android:background="#ff4546"
         android:gravity="center"
-        android:text="申请售后"
+        android:text="提交"
         android:textColor="@color/tab_background" />
 </RelativeLayout>
         

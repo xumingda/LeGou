@@ -76,6 +76,9 @@
         <activity android:name=".activity.UpdatePwdActivity"></activity>
         <activity android:name=".activity.DestroyUserActivity"></activity>
         <activity android:name=".activity.CertificationActivity"></activity>
+        <activity android:name=".activity.InputLogisticsActivity"
+            android:theme="@style/SampleTheme.Light"
+            ></activity>
         <activity android:name=".activity.OrderInfoActivity"
             android:theme="@style/SampleTheme.Light"
             ></activity>

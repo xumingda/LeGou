@@ -87,7 +87,7 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
         PendingOrderPager pendingOrderPager2=new PendingOrderPager(this,2);
 
         PendingOrderPager pendingOrderPager3=new PendingOrderPager(this,3);
-        PendingOrderPager pendingOrderPager4=new PendingOrderPager(this,-1);
+        PendingOrderPager pendingOrderPager4=new PendingOrderPager(this,4);
         concernBasePagerList.add(pendingOrderPager);
         concernBasePagerList.add(pendingOrderPager1);
         concernBasePagerList.add(pendingOrderPager2);

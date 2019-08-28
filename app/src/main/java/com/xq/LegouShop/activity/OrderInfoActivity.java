@@ -48,6 +48,7 @@ import com.xq.LegouShop.util.UIUtils;
 import com.xq.LegouShop.weiget.ScollViewListView;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -79,6 +80,7 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
     private GetOrderDescResponse getOrderDescResponse;
     //1取消，2付款，3完成
     private int type;
+    private List<LogisticsInfo> logisticsInfoList;
     @Override
     protected View initView() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -162,7 +164,7 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
                 tv_pay.setVisibility(View.GONE);
                 tv_cancle.setVisibility(View.GONE);
                 tv_send.setVisibility(View.GONE);
-                tv_sale.setVisibility(View.VISIBLE);
+                tv_sale.setVisibility(View.GONE);
                 tv_finish.setVisibility(View.VISIBLE);
                 ll_wuliu.setVisibility(View.VISIBLE);
                 tv_wuliu_title.setVisibility(View.VISIBLE);
@@ -177,7 +179,7 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
                 ll_wuliu.setVisibility(View.VISIBLE);
                 tv_wuliu_title.setVisibility(View.VISIBLE);
                 lv_wuliu.setVisibility(View.VISIBLE);
-                ll_bottom.setVisibility(View.GONE);
+                ll_bottom.setVisibility(View.VISIBLE);
                 break;
             }
         }
@@ -186,6 +188,117 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
         tv_pay.setOnClickListener(this);
         tv_finish.setOnClickListener(this);
         tv_sale.setOnClickListener(this);
+
+        logisticsInfoList=new ArrayList<>();
+        LogisticsInfo logisticsInfo=new LogisticsInfo();
+        logisticsInfo.logistics="shunfeng";
+        logisticsInfo.logisticsNo="顺丰";
+        logisticsInfoList.add(logisticsInfo);
+
+        LogisticsInfo logisticsInfo1=new LogisticsInfo();
+        logisticsInfo1.logistics="shentong";
+        logisticsInfo1.logisticsNo="申通";
+        logisticsInfoList.add(logisticsInfo1);
+
+        LogisticsInfo logisticsInfo2=new LogisticsInfo();
+        logisticsInfo2.logistics="yuantong";
+        logisticsInfo2.logisticsNo="圆通";
+        logisticsInfoList.add(logisticsInfo2);
+
+        LogisticsInfo logisticsInfo3=new LogisticsInfo();
+        logisticsInfo3.logistics="zhongtong";
+        logisticsInfo3.logisticsNo="中通";
+        logisticsInfoList.add(logisticsInfo3);
+
+        LogisticsInfo logisticsInfo4=new LogisticsInfo();
+        logisticsInfo4.logistics="huitongkuaidi";
+        logisticsInfo4.logisticsNo="百世汇通";
+        logisticsInfoList.add(logisticsInfo4);
+
+        LogisticsInfo logisticsInfo5=new LogisticsInfo();
+        logisticsInfo5.logistics="baishiwuliu";
+        logisticsInfo5.logisticsNo="百世物流";
+        logisticsInfoList.add(logisticsInfo5);
+
+        LogisticsInfo logisticsInfo6=new LogisticsInfo();
+        logisticsInfo6.logistics="yunda";
+        logisticsInfo6.logisticsNo="韵达";
+        logisticsInfoList.add(logisticsInfo6);
+
+        LogisticsInfo logisticsInfo7=new LogisticsInfo();
+        logisticsInfo7.logistics="zhaijisong";
+        logisticsInfo7.logisticsNo="宅急送";
+        logisticsInfoList.add(logisticsInfo7);
+
+        LogisticsInfo logisticsInfo8=new LogisticsInfo();
+        logisticsInfo8.logistics="tiantian";
+        logisticsInfo8.logisticsNo="天天";
+        logisticsInfoList.add(logisticsInfo8);
+
+        LogisticsInfo logisticsInfo9=new LogisticsInfo();
+        logisticsInfo9.logistics="debangwuliu";
+        logisticsInfo9.logisticsNo="德邦";
+        logisticsInfoList.add(logisticsInfo9);
+
+        LogisticsInfo logisticsInfo10=new LogisticsInfo();
+        logisticsInfo10.logistics="guotongkuaidi";
+        logisticsInfo10.logisticsNo="国通";
+        logisticsInfoList.add(logisticsInfo10);
+
+        LogisticsInfo logisticsInfo11=new LogisticsInfo();
+        logisticsInfo11.logistics="zengyisudi";
+        logisticsInfo11.logisticsNo="增益";
+        logisticsInfoList.add(logisticsInfo11);
+
+        LogisticsInfo logisticsInfo12=new LogisticsInfo();
+        logisticsInfo12.logistics="suer";
+        logisticsInfo12.logisticsNo="速尔";
+        logisticsInfoList.add(logisticsInfo12);
+
+        LogisticsInfo logisticsInfo13=new LogisticsInfo();
+        logisticsInfo13.logistics="ztky";
+        logisticsInfo13.logisticsNo="中铁物流";
+        logisticsInfoList.add(logisticsInfo13);
+
+        LogisticsInfo logisticsInfo14=new LogisticsInfo();
+        logisticsInfo14.logistics="zhongtiewuliu";
+        logisticsInfo14.logisticsNo="中铁快运";
+        logisticsInfoList.add(logisticsInfo14);
+
+        LogisticsInfo logisticsInfo15=new LogisticsInfo();
+        logisticsInfo15.logistics="ganzhongnengda";
+        logisticsInfo15.logisticsNo="能达";
+        logisticsInfoList.add(logisticsInfo15);
+
+        LogisticsInfo logisticsInfo16=new LogisticsInfo();
+        logisticsInfo16.logistics="youshuwuliu";
+        logisticsInfo16.logisticsNo="优速";
+        logisticsInfoList.add(logisticsInfo16);
+
+        LogisticsInfo logisticsInfo17=new LogisticsInfo();
+        logisticsInfo17.logistics="quanfengkuaidi";
+        logisticsInfo17.logisticsNo="全峰";
+        logisticsInfoList.add(logisticsInfo17);
+
+        LogisticsInfo logisticsInfo18=new LogisticsInfo();
+        logisticsInfo18.logistics="jd";
+        logisticsInfo18.logisticsNo="京东";
+        logisticsInfoList.add(logisticsInfo18);
+
+        LogisticsInfo logisticsInfo19=new LogisticsInfo();
+        logisticsInfo19.logistics="youzhengguonei";
+        logisticsInfo19.logisticsNo="邮政包裹";
+        logisticsInfoList.add(logisticsInfo19);
+
+        LogisticsInfo logisticsInfo20=new LogisticsInfo();
+        logisticsInfo20.logistics="youzhengguoji";
+        logisticsInfo20.logisticsNo="国际包裹";
+        logisticsInfoList.add(logisticsInfo20);
+
+        LogisticsInfo logisticsInfo21=new LogisticsInfo();
+        logisticsInfo21.logistics="ems";
+        logisticsInfo21.logisticsNo="EMS";
+        logisticsInfoList.add(logisticsInfo21);
     }
 
 
@@ -196,6 +309,7 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
             case R.id.tv_sale:{
                 CartBean cartBean=getOrderDescResponse.data.orderGoodsList.get(0);
                 Intent intent=new Intent(this, ApplySalesActivity.class);
+                intent.putExtra("orderId",String.valueOf(orderId));
                 intent.putExtra("orderNo",getOrderDescResponse.data.orderNo);
                 intent.putExtra("shopName",getOrderDescResponse.data.shopName);
                 intent.putExtra("time",getOrderDescResponse.data.createTime);
@@ -312,7 +426,12 @@ public class OrderInfoActivity extends BaseActivity  implements View.OnClickList
                     tv_payTime.setText("付款时间:"+getOrderDescResponse.data.payTime);
                     tv_sendTime.setText("发货时间:"+getOrderDescResponse.data.sendTime);
                     tv_receiveTime.setText("收货时间:"+getOrderDescResponse.data.receiveTime);
-                    tv_logistics.setText("快递公司："+getOrderDescResponse.data.logisticsInfo.logistics);
+                    for(int i=0;i<logisticsInfoList.size();i++){
+                        if(getOrderDescResponse.data.logisticsInfo.logistics.equals(logisticsInfoList.get(i).logistics)){
+                            tv_logistics.setText("快递公司："+logisticsInfoList.get(i).logisticsNo);
+                        }
+                    }
+
                     tv_logisticsNo.setText("快递单号："+getOrderDescResponse.data.logisticsInfo.logisticsNo);
                     if(!TextUtils.isEmpty(getOrderDescResponse.data.logisticsInfo.info)){
                         // TypeToken，它是gson提供的数据类型转换器，可以支持各种数据集合类型转换
